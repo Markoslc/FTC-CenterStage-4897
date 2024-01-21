@@ -1,3 +1,13 @@
+# FTC-CenterStage-4897
+
+Third repository for the 2023-2024 season of FIRST Tech Challenge owned by the team 4897 "Bodacious Bulldawgs"
+
+## About Code
+
+Project built from scratch using inspiration from Team 3543 "Titan Robotics"
+
+# CenterStage FTC SDK
+
 ## NOTICE
 
 This repository contains the public FTC SDK for the CENTERSTAGE (2023-2024) competition season.
