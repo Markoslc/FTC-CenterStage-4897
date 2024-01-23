@@ -8,30 +8,27 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.ARM_REST_POSITION;
 import static org.firstinspires.ftc.teamcode.RobotParameters.ARM_SCORE_BACKDROP_POS;
 import static org.firstinspires.ftc.teamcode.RobotParameters.CLAWS_CLOSED;
 import static org.firstinspires.ftc.teamcode.RobotParameters.CLAWS_FALL;
+import static org.firstinspires.ftc.teamcode.RobotParameters.CLAWS_OPEN;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.RobotParameters;
 
 
-@Autonomous(name = "Blue Short Pos AS")
+@Autonomous(name = "Blue Short Auto AS")
 public class BlueShortPosition extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot =  new Robot();
-
-        waitForStart();
-
+        Robot robot =  new Robot(true, 0.4);
 
         frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        sleep(10);
 
         frontL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -43,47 +40,44 @@ public class BlueShortPosition extends LinearOpMode {
         waitForStart();
 
         // Move forward
-        robot.positionDrive(1360, 1360, 1360, 1360);
-        sleep(20);
+        robot.moveForward(1360);
+        robot.waitForSystem(20, RobotParameters.systems.WHEELS);
 
         // Move backward
-        robot.positionDrive(-360, -360, -360, -360);
-        sleep(20);
+        robot.moveBackward(360);
+        robot.waitForSystem(20, RobotParameters.systems.WHEELS);
 
         // Turn left
-        robot.positionDrive(900, -900, -900, 900);
-
-        sleep(20);
+        robot.turnLeft(900);
+        robot.waitForSystem(20, RobotParameters.systems.WHEELS);
 
         // Move forward
-        robot.positionDrive(1550, 1550, 1550, 1550);
-        sleep(20);
+        robot.moveForward(1550);
+        robot.waitForSystem(20, RobotParameters.systems.WHEELS);
 
         // Move arm to placing position
         robot.moveArm(ARM_SCORE_BACKDROP_POS);
-        sleep(500);
+        robot.waitForSystem(500, RobotParameters.systems.ARM);
 
         // Open claws
         robot.moveClaws(true, true, CLAWS_FALL);
-        sleep(500);
+        robot.waitForSystem(500, RobotParameters.systems.CLAWS);
 
         // Move arm to rest position
         robot.moveArm(ARM_REST_POSITION);
-        sleep(1600);
+        robot.waitForSystem(500, RobotParameters.systems.ARM);
 
-        // Close claws
+        // Move backward and close claws
+        robot.moveBackward(150);
         robot.moveClaws(true, true, CLAWS_CLOSED);
-        sleep(20);
-
-        // Move backward
-        robot.positionDrive(-150, -150, -150, -150);
-        sleep(20);
+        robot.waitForSystem(20, RobotParameters.systems.WHEELS, RobotParameters.systems.CLAWS);
 
         // Crabwalk right
-        robot.positionDrive(1600, -1600, -1600, 1600);
-        sleep(20);
+        robot.moveRight(1600);
+        robot.waitForSystem(20, RobotParameters.systems.WHEELS);
 
         // Move forward
-        robot.positionDrive(700, 700, 700, 700);
+        robot.moveForward(700);
+        robot.waitForSystem(0, RobotParameters.systems.WHEELS);
     }
 }

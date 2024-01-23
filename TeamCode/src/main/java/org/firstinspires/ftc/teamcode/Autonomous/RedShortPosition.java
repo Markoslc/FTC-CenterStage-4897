@@ -10,14 +10,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Robot;
 
 
-@Autonomous(name = "Red Short Pos AS")
+@Autonomous(name = "Red Short Auto AS")
 public class RedShortPosition extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot =  new Robot();
-
-        waitForStart();
+        Robot robot =  new Robot(true, 0.4);
 
         frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -34,53 +32,44 @@ public class RedShortPosition extends LinearOpMode {
         waitForStart();
 
         // Move forward
-        robot.positionDrive(1360, 1360, 1360, 1360);
-        robot.waitForSystem(WHEELS_SYSTEM_STR);
-        sleep(20);
+        robot.moveForward(1360);
+        robot.waitForSystem(20, systems.WHEELS);
 
         // Move backward
-        robot.positionDrive(-360, -360, -360, -360);
-        robot.waitForSystem(WHEELS_SYSTEM_STR);
-        sleep(20);
+        robot.moveBackward(360);
+        robot.waitForSystem(20, systems.WHEELS);
 
         // Turn right
-        robot.positionDrive(-900, 900, 900, -900);
-        robot.waitForSystem(WHEELS_SYSTEM_STR);
-        sleep(20);
+        robot.turnRight(900);
+        robot.waitForSystem(20, systems.WHEELS);
 
         // Move forward
-        robot.positionDrive(1550, 1550, 1550, 1550);
-        robot.waitForSystem(WHEELS_SYSTEM_STR);
-        sleep(20);
+        robot.moveForward(1550);
+        robot.waitForSystem(20, systems.WHEELS);
 
         // Move arm to placing position
         robot.moveArm(ARM_SCORE_BACKDROP_POS);
-        robot.waitForSystem(ARM_SYSTEM_STR);
-        sleep(500);
+        robot.waitForSystem(500, systems.ARM);
 
         // Open claws
         robot.moveClaws(true, true, CLAWS_FALL);
-        robot.waitForSystem(CLAWS_SYSTEM_STR);
-        sleep(500);
+        robot.waitForSystem(500, systems.CLAWS);
 
         // Move arm to rest position
         robot.moveArm(ARM_REST_POSITION);
-        robot.waitForSystem(ARM_SYSTEM_STR);
-        sleep(500);
+        robot.waitForSystem(500, systems.ARM);
 
-        // Move forward and close claws
-        robot.positionDrive(-150, -150, -150, -150);
+        // Move backward and close claws
+        robot.moveBackward(150);
         robot.moveClaws(true, true, CLAWS_CLOSED);
-        robot.waitForSystem(WHEELS_SYSTEM_STR, CLAWS_SYSTEM_STR);
-        sleep(20);
+        robot.waitForSystem(20, systems.WHEELS, systems.CLAWS);
 
         // Crabwalk left
-        robot.positionDrive(-1600, 1600, 1600, -1600);
-        robot.waitForSystem(WHEELS_SYSTEM_STR);
-        sleep(20);
+        robot.moveLeft(1600);
+        robot.waitForSystem(20, systems.WHEELS);
 
         // Move forward
-        robot.positionDrive(700, 700, 700, 700);
-        robot.waitForSystem(WHEELS_SYSTEM_STR);
+        robot.moveForward(700);
+        robot.waitForSystem(0, systems.WHEELS);
     }
 }

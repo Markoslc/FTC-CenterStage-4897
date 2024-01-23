@@ -5,68 +5,79 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 public class Robot {
+    // Robot
+    public static DriveMode robotDriveMode;
+
     // Wheels
-    public static DcMotor frontL;
-    public static DcMotor frontR;
-    public static DcMotor backL;
-    public static DcMotor backR;
-    public boolean wheelsBusy = false;
+    public static DcMotorEx frontL;
+    public static DcMotorEx frontR;
+    public static DcMotorEx backL;
+    public static DcMotorEx backR;
+    public static boolean wheelsBusy = false;
 
     // Arm
-    public static DcMotor arm;
-    public boolean armBusy = false;
+    public static DcMotorEx arm;
+    public static boolean armBusy = false;
 
     // Claws
     public static Servo leftClaw;
     public static Servo rightClaw;
-    public double leftClawTargetPos;
-    public double rightClawTargetPos;
-    public boolean clawsBusy = false;
+    public static double leftClawTargetPos;
+    public static double rightClawTargetPos;
+    public static boolean clawsBusy = false;
 
-    public Robot() {
+    // Systems
+    public static IMU imu;
+
+    public Robot(boolean resetIMUYaw, double wheelPower) {
+        // Robot
+        setDriveMode(DEFAULT_DRIVE_MODE);
+
         // Wheels
-        frontL = hardwareMap.get(DcMotor.class, FRONT_LEFT_STR);
-        frontR = hardwareMap.get(DcMotor.class, FRONT_RIGHT_STR);
-        backL = hardwareMap.get(DcMotor.class, BACK_LEFT_STR);
-        backR = hardwareMap.get(DcMotor.class, BACK_RIGHT_STR);
+        frontL = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_STR);
+        frontR = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_STR);
+        backL = hardwareMap.get(DcMotorEx.class, BACK_LEFT_STR);
+        backR = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_STR);
 
-        frontL.setDirection(FRONT_LEFT_REVERSED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
-        frontR.setDirection(FRONT_RIGHT_REVERSED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
-        backR.setDirection(BACK_LEFT_REVERSED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
-        backL.setDirection(BACK_RIGHT_REVERSED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+        frontL.setDirection(FRONT_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+        frontR.setDirection(FRONT_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+        backR.setDirection(BACK_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+        backL.setDirection(BACK_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
         frontL.setTargetPosition(0);
         frontR.setTargetPosition(0);
         backL.setTargetPosition(0);
         backR.setTargetPosition(0);
 
-        frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        backL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        backR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-        frontL.setPower(0.4);
-        frontR.setPower(0.4);
-        backL.setPower(0.4);
-        backR.setPower(0.4);
+        frontL.setPower(wheelPower);
+        frontR.setPower(wheelPower);
+        backL.setPower(wheelPower);
+        backR.setPower(wheelPower);
 
         // Arm
-        arm = hardwareMap.get(DcMotor.class, ARM_STR);
+        arm = hardwareMap.get(DcMotorEx.class, ARM_STR);
 
-        arm.setDirection(ARM_REVERSED ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+        arm.setDirection(ARM_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         arm.setTargetPosition(0);
 
@@ -79,6 +90,15 @@ public class Robot {
         leftClaw.setDirection(LEFT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
         rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
 
+        // Systems
+        imu = hardwareMap.get(IMU.class, IMU_STR);
+        imu.initialize(IMU_DEFAULT_PARAMS);
+        if(resetIMUYaw) imu.resetYaw();
+    }
+
+    // Robot
+    public void setDriveMode(DriveMode driveMode){
+        robotDriveMode = driveMode;
     }
 
     //Wheels
@@ -87,6 +107,103 @@ public class Robot {
         int frontRTargetPos = frontR.getCurrentPosition() + frontRRot;
         int backLTargetPos = backL.getCurrentPosition() + backLRot;
         int backRTargetPos = backR.getCurrentPosition() + backRRot;
+
+        frontL.setTargetPosition(frontLTargetPos);
+        frontR.setTargetPosition(frontRTargetPos);
+        backL.setTargetPosition(backLTargetPos);
+        backR.setTargetPosition(backRTargetPos);
+
+        wheelsBusy = true;
+    }
+    public void drive(double forwardPower, double sidePower, double rotationPower){
+        switch (robotDriveMode){
+            case ROBOT:
+
+                double frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
+                double frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
+                double backLPower = Range.clip(forwardPower - sidePower + rotationPower, -1, 1);
+                double backRPower = Range.clip(forwardPower + sidePower - rotationPower, -1, 1);
+
+                frontL.setVelocity(WHEEL_PPS * frontLPower);
+                frontR.setVelocity(WHEEL_PPS * frontRPower);
+                backL.setVelocity(WHEEL_PPS * backLPower);
+                backR.setVelocity(WHEEL_PPS * backRPower);
+
+                break;
+            case FIELD:
+                break;
+        }
+    }
+    public void moveForward(int rotation){
+        int frontLTargetPos = frontL.getCurrentPosition() + rotation;
+        int frontRTargetPos = frontR.getCurrentPosition() + rotation;
+        int backLTargetPos = backL.getCurrentPosition() + rotation;
+        int backRTargetPos = backR.getCurrentPosition() + rotation;
+
+        frontL.setTargetPosition(frontLTargetPos);
+        frontR.setTargetPosition(frontRTargetPos);
+        backL.setTargetPosition(backLTargetPos);
+        backR.setTargetPosition(backRTargetPos);
+
+        wheelsBusy = true;
+    }
+    public void moveBackward(int rotation){
+        int frontLTargetPos = frontL.getCurrentPosition() - rotation;
+        int frontRTargetPos = frontR.getCurrentPosition() - rotation;
+        int backLTargetPos = backL.getCurrentPosition() - rotation;
+        int backRTargetPos = backR.getCurrentPosition() - rotation;
+
+        frontL.setTargetPosition(frontLTargetPos);
+        frontR.setTargetPosition(frontRTargetPos);
+        backL.setTargetPosition(backLTargetPos);
+        backR.setTargetPosition(backRTargetPos);
+
+        wheelsBusy = true;
+    }
+    public void moveLeft(int rotation){
+        int frontLTargetPos = frontL.getCurrentPosition() - rotation;
+        int frontRTargetPos = frontR.getCurrentPosition() + rotation;
+        int backLTargetPos = backL.getCurrentPosition() + rotation;
+        int backRTargetPos = backR.getCurrentPosition() - rotation;
+
+        frontL.setTargetPosition(frontLTargetPos);
+        frontR.setTargetPosition(frontRTargetPos);
+        backL.setTargetPosition(backLTargetPos);
+        backR.setTargetPosition(backRTargetPos);
+
+        wheelsBusy = true;
+    }
+    public void moveRight(int rotation){
+        int frontLTargetPos = frontL.getCurrentPosition() + rotation;
+        int frontRTargetPos = frontR.getCurrentPosition() - rotation;
+        int backLTargetPos = backL.getCurrentPosition() - rotation;
+        int backRTargetPos = backR.getCurrentPosition() + rotation;
+
+        frontL.setTargetPosition(frontLTargetPos);
+        frontR.setTargetPosition(frontRTargetPos);
+        backL.setTargetPosition(backLTargetPos);
+        backR.setTargetPosition(backRTargetPos);
+
+        wheelsBusy = true;
+    }
+    public void turnLeft(int rotation){
+        int frontLTargetPos = frontL.getCurrentPosition() - rotation;
+        int frontRTargetPos = frontR.getCurrentPosition() + rotation;
+        int backLTargetPos = backL.getCurrentPosition() - rotation;
+        int backRTargetPos = backR.getCurrentPosition() + rotation;
+
+        frontL.setTargetPosition(frontLTargetPos);
+        frontR.setTargetPosition(frontRTargetPos);
+        backL.setTargetPosition(backLTargetPos);
+        backR.setTargetPosition(backRTargetPos);
+
+        wheelsBusy = true;
+    }
+    public void turnRight(int rotation){
+        int frontLTargetPos = frontL.getCurrentPosition() + rotation;
+        int frontRTargetPos = frontR.getCurrentPosition() - rotation;
+        int backLTargetPos = backL.getCurrentPosition() + rotation;
+        int backRTargetPos = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -105,11 +222,11 @@ public class Robot {
             wheelsBusy = frontLBusy && frontRBusy && backLBusy && backRBusy;
         }
     }
-    public void resetWheelEncoders(DcMotor.RunMode nextMode){
-        frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    public void resetWheelEncoders(DcMotorEx.RunMode nextMode){
+        frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         frontL.setMode(nextMode);
         frontR.setMode(nextMode);
@@ -148,18 +265,24 @@ public class Robot {
     }
 
     // Systems
-    public void waitForSystem(String... systems){
-        for (String system : systems) {
+    public void waitForSystem(int extraTime, systems... systems){
+        for (systems system : systems) {
             switch (system){
-                case "Wheels":
+                case WHEELS:
                     waitForWheels();
                     break;
-                case "Arm":
+                case ARM:
                     waitForArm();
                     break;
-                case "Claws":
+                case CLAWS:
                     waitForClaws();
             }
+        }
+
+        try {
+            sleep(extraTime);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
