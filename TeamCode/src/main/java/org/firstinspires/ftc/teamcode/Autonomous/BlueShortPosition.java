@@ -15,7 +15,7 @@ public class BlueShortPosition extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot =  new Robot(true, 0.4);
+        Robot robot =  new Robot(true, 0.4, this);
 
         frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

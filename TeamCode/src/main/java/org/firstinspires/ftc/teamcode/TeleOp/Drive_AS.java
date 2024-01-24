@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.RobotParameters;
 public class Drive_AS extends LinearOpMode {
     @Override
     public void runOpMode(){
-        Robot robot =  new Robot(false, 1);
+        Robot robot =  new Robot(false, 1, this);
 
         waitForStart();
         while(opModeIsActive()){

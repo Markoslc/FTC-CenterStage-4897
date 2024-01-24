@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
@@ -9,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
@@ -47,7 +47,7 @@ public class Robot {
     //
     public static IMU imu;
 
-    public Robot(boolean resetIMUYaw, double wheelPower) {
+    public Robot(boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
         // Robot
         //
@@ -56,10 +56,10 @@ public class Robot {
         //
         // Wheels
         //
-        frontL = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_STR);
-        frontR = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_STR);
-        backL = hardwareMap.get(DcMotorEx.class, BACK_LEFT_STR);
-        backR = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_STR);
+        frontL = opMode.hardwareMap.get(DcMotorEx.class, FRONT_LEFT_STR);
+        frontR = opMode.hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_STR);
+        backL = opMode.hardwareMap.get(DcMotorEx.class, BACK_LEFT_STR);
+        backR = opMode.hardwareMap.get(DcMotorEx.class, BACK_RIGHT_STR);
 
         frontL.setDirection(FRONT_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
         frontR.setDirection(FRONT_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
@@ -89,7 +89,7 @@ public class Robot {
         //
         // Arm
         //
-        arm = hardwareMap.get(DcMotorEx.class, ARM_STR);
+        arm = opMode.hardwareMap.get(DcMotorEx.class, ARM_STR);
 
         arm.setDirection(ARM_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
@@ -104,8 +104,8 @@ public class Robot {
         //
         // Claws
         //
-        leftClaw = hardwareMap.get(Servo.class, LEFT_CLAW_STR);
-        rightClaw = hardwareMap.get(Servo.class, RIGHT_CLAW_STR);
+        leftClaw = opMode.hardwareMap.get(Servo.class, LEFT_CLAW_STR);
+        rightClaw = opMode.hardwareMap.get(Servo.class, RIGHT_CLAW_STR);
 
         leftClaw.setDirection(LEFT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
         rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
@@ -113,7 +113,7 @@ public class Robot {
         //
         // Systems
         //
-        imu = hardwareMap.get(IMU.class, IMU_STR);
+        imu = opMode.hardwareMap.get(IMU.class, IMU_STR);
         imu.initialize(IMU_DEFAULT_PARAMS);
         if(resetIMUYaw) imu.resetYaw();
     }
