@@ -10,36 +10,52 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-public class Robot {
-    // Robot
-    public static DriveMode robotDriveMode;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+public class Robot {
+    //
+    // Robot
+    //
+    public static DriveMode driveMode;
+
+    //
     // Wheels
+    //
     public static DcMotorEx frontL;
     public static DcMotorEx frontR;
     public static DcMotorEx backL;
     public static DcMotorEx backR;
     public static boolean wheelsBusy = false;
 
+    //
     // Arm
+    //
     public static DcMotorEx arm;
     public static boolean armBusy = false;
 
+    //
     // Claws
+    //
     public static Servo leftClaw;
     public static Servo rightClaw;
     public static double leftClawTargetPos;
     public static double rightClawTargetPos;
     public static boolean clawsBusy = false;
 
+    //
     // Systems
+    //
     public static IMU imu;
 
     public Robot(boolean resetIMUYaw, double wheelPower) {
+        //
         // Robot
+        //
         setDriveMode(DEFAULT_DRIVE_MODE);
 
+        //
         // Wheels
+        //
         frontL = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_STR);
         frontR = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_STR);
         backL = hardwareMap.get(DcMotorEx.class, BACK_LEFT_STR);
@@ -70,7 +86,9 @@ public class Robot {
         backL.setPower(wheelPower);
         backR.setPower(wheelPower);
 
+        //
         // Arm
+        //
         arm = hardwareMap.get(DcMotorEx.class, ARM_STR);
 
         arm.setDirection(ARM_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
@@ -83,25 +101,33 @@ public class Robot {
 
         arm.setPower(0.4);
 
+        //
         // Claws
+        //
         leftClaw = hardwareMap.get(Servo.class, LEFT_CLAW_STR);
         rightClaw = hardwareMap.get(Servo.class, RIGHT_CLAW_STR);
 
         leftClaw.setDirection(LEFT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
         rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
 
+        //
         // Systems
+        //
         imu = hardwareMap.get(IMU.class, IMU_STR);
         imu.initialize(IMU_DEFAULT_PARAMS);
         if(resetIMUYaw) imu.resetYaw();
     }
 
+    //
     // Robot
+    //
     public void setDriveMode(DriveMode driveMode){
-        robotDriveMode = driveMode;
+        Robot.driveMode = driveMode;
     }
 
-    //Wheels
+    //
+    // Wheels
+    //
     public void positionDrive(int frontLRot, int frontRRot, int backLRot, int backRRot){
         int frontLTargetPos = frontL.getCurrentPosition() + frontLRot;
         int frontRTargetPos = frontR.getCurrentPosition() + frontRRot;
@@ -116,21 +142,37 @@ public class Robot {
         wheelsBusy = true;
     }
     public void drive(double forwardPower, double sidePower, double rotationPower){
-        switch (robotDriveMode){
+        double frontLPower;
+        double frontRPower;
+        double backLPower;
+        double backRPower;
+        switch (driveMode){
             case ROBOT:
+                frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
+                frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
+                backLPower = Range.clip(forwardPower - sidePower + rotationPower, -1, 1);
+                backRPower = Range.clip(forwardPower + sidePower - rotationPower, -1, 1);
 
-                double frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
-                double frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
-                double backLPower = Range.clip(forwardPower - sidePower + rotationPower, -1, 1);
-                double backRPower = Range.clip(forwardPower + sidePower - rotationPower, -1, 1);
-
-                frontL.setVelocity(WHEEL_PPS * frontLPower);
-                frontR.setVelocity(WHEEL_PPS * frontRPower);
-                backL.setVelocity(WHEEL_PPS * backLPower);
-                backR.setVelocity(WHEEL_PPS * backRPower);
+                frontL.setVelocity(WHEEL_DEGREES_PER_SECOND * frontLPower, AngleUnit.DEGREES);
+                frontR.setVelocity(WHEEL_DEGREES_PER_SECOND * frontRPower, AngleUnit.DEGREES);
+                backL.setVelocity(WHEEL_DEGREES_PER_SECOND * backLPower, AngleUnit.DEGREES);
+                backR.setVelocity(WHEEL_DEGREES_PER_SECOND * backRPower, AngleUnit.DEGREES);
 
                 break;
             case FIELD:
+                double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+                forwardPower *= Math.sin(angle);
+                sidePower *= Math.cos(angle);
+
+                frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
+                frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
+                backLPower = Range.clip(forwardPower - sidePower + rotationPower, -1, 1);
+                backRPower = Range.clip(forwardPower + sidePower - rotationPower, -1, 1);
+
+                frontL.setVelocity(WHEEL_DEGREES_PER_SECOND * frontLPower, AngleUnit.DEGREES);
+                frontR.setVelocity(WHEEL_DEGREES_PER_SECOND * frontRPower, AngleUnit.DEGREES);
+                backL.setVelocity(WHEEL_DEGREES_PER_SECOND * backLPower, AngleUnit.DEGREES);
+                backR.setVelocity(WHEEL_DEGREES_PER_SECOND * backRPower, AngleUnit.DEGREES);
                 break;
         }
     }
@@ -234,7 +276,9 @@ public class Robot {
         backR.setMode(nextMode);
     }
 
+    //
     // Arm
+    //
     public void moveArm(int targetPos){
         arm.setTargetPosition(targetPos);
 
@@ -246,10 +290,12 @@ public class Robot {
         }
     }
 
+    //
     // Claws
-    public void moveClaws(boolean moveLeft, boolean moveRight, int positionIndex){
-        leftClawTargetPos = LEFT_CLAW_POS[positionIndex];
-        rightClawTargetPos = RIGHT_CLAW_POS[positionIndex];
+    //
+    public void moveClaws(boolean moveLeft, boolean moveRight, ClawPositions clawPos){
+        leftClawTargetPos = ClawPositions.leftClaw(clawPos);
+        rightClawTargetPos = ClawPositions.leftClaw(clawPos);
         
         leftClaw.setPosition(moveLeft ? leftClawTargetPos : leftClaw.getPosition());
         rightClaw.setPosition(moveRight ? rightClawTargetPos : rightClaw.getPosition());
@@ -264,9 +310,11 @@ public class Robot {
         }
     }
 
+    //
     // Systems
-    public void waitForSystem(int extraTime, systems... systems){
-        for (systems system : systems) {
+    //
+    public void waitForSystem(int extraTime, Systems... systems){
+        for (Systems system : systems) {
             switch (system){
                 case WHEELS:
                     waitForWheels();

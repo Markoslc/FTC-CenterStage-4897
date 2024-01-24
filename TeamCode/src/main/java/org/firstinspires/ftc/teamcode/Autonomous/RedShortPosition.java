@@ -27,49 +27,49 @@ public class RedShortPosition extends LinearOpMode {
         backR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.moveClaws(true, true, CLAWS_CLOSED);
+        robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
 
         waitForStart();
 
         // Move forward
         robot.moveForward(1360);
-        robot.waitForSystem(20, systems.WHEELS);
+        robot.waitForSystem(20, Systems.WHEELS);
 
         // Move backward
         robot.moveBackward(360);
-        robot.waitForSystem(20, systems.WHEELS);
+        robot.waitForSystem(20, Systems.WHEELS);
 
         // Turn right
         robot.turnRight(900);
-        robot.waitForSystem(20, systems.WHEELS);
+        robot.waitForSystem(20, Systems.WHEELS);
 
         // Move forward
         robot.moveForward(1550);
-        robot.waitForSystem(20, systems.WHEELS);
+        robot.waitForSystem(20, Systems.WHEELS);
 
         // Move arm to placing position
         robot.moveArm(ARM_SCORE_BACKDROP_POS);
-        robot.waitForSystem(500, systems.ARM);
+        robot.waitForSystem(500, Systems.ARM);
 
         // Open claws
-        robot.moveClaws(true, true, CLAWS_FALL);
-        robot.waitForSystem(500, systems.CLAWS);
+        robot.moveClaws(true, true, ClawPositions.CLAWS_FALL);
+        robot.waitForSystem(500, Systems.CLAWS);
 
         // Move arm to rest position
         robot.moveArm(ARM_REST_POSITION);
-        robot.waitForSystem(500, systems.ARM);
+        robot.waitForSystem(500, Systems.ARM);
 
         // Move backward and close claws
         robot.moveBackward(150);
-        robot.moveClaws(true, true, CLAWS_CLOSED);
-        robot.waitForSystem(20, systems.WHEELS, systems.CLAWS);
+        robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
 
         // Crabwalk left
         robot.moveLeft(1600);
-        robot.waitForSystem(20, systems.WHEELS);
+        robot.waitForSystem(20, Systems.WHEELS);
 
         // Move forward
         robot.moveForward(700);
-        robot.waitForSystem(0, systems.WHEELS);
+        robot.waitForSystem(0, Systems.WHEELS);
     }
 }
