@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,6 +33,13 @@ public class Robot {
     //
     public static DcMotorEx arm;
     public static boolean armBusy = false;
+    public static int armPosIndex = 0;
+
+    //
+    // Lift
+    //
+    public static DcMotorEx lift;
+    public static boolean liftBusy;
 
     //
     // Claws
@@ -99,7 +107,20 @@ public class Robot {
 
         arm.setTargetPosition(0);
 
-        arm.setPower(0.4);
+        arm.setPower(DEFAULT_ARM_POWER);
+
+        //
+        // Lift
+        //
+        lift = opMode.hardwareMap.get(DcMotorEx.class, LIFT_STR);
+
+        lift.setDirection(LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+
+        lift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+        lift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        lift.setPower(0);
 
         //
         // Claws
@@ -124,6 +145,12 @@ public class Robot {
     public void setDriveMode(DriveMode driveMode){
         Robot.driveMode = driveMode;
     }
+    public void updateStates(){
+        wheelsBusy = false;
+        armBusy = false;
+        liftBusy = false;
+        clawsBusy = false;
+    }
 
     //
     // Wheels
@@ -146,6 +173,8 @@ public class Robot {
         double frontRPower;
         double backLPower;
         double backRPower;
+
+        wheelsBusy = false;
         switch (driveMode){
             case ROBOT:
                 frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
@@ -174,7 +203,13 @@ public class Robot {
                 backL.setVelocity(WHEEL_DEGREES_PER_SECOND * backLPower, AngleUnit.DEGREES);
                 backR.setVelocity(WHEEL_DEGREES_PER_SECOND * backRPower, AngleUnit.DEGREES);
                 break;
+            default:
+                frontL.setVelocity(0);
+                frontR.setVelocity(0);
+                backL.setVelocity(0);
+                backR.setVelocity(0);
         }
+        if(forwardPower != 0 || sidePower != 0 || rotationPower != 0) wheelsBusy = true;
     }
     public void moveForward(int rotation){
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
@@ -284,6 +319,20 @@ public class Robot {
 
         armBusy = true;
     }
+    public void nextArmPos(){
+        armPosIndex++;
+
+        armPosIndex = Math.min(armPosIndex, ArmPositions.length - 1);
+
+        moveArm(ArmPositions[armPosIndex]);
+    }
+    public void prevArmPos(){
+        armPosIndex--;
+
+        armPosIndex = Math.max(armPosIndex, 0);
+
+        moveArm(ArmPositions[armPosIndex]);
+    }
     public void waitForArm(){
         while(armBusy){
             armBusy = arm.isBusy();
@@ -306,6 +355,7 @@ public class Robot {
         while(clawsBusy){
             boolean leftClawBusy = leftClaw.getPosition() != leftClawTargetPos;
             boolean rightClawBusy = rightClaw.getPosition() != rightClawTargetPos;
+
             clawsBusy = leftClawBusy && rightClawBusy;
         }
     }

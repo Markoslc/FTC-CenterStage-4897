@@ -48,7 +48,7 @@ public class BlueShortPosition extends LinearOpMode {
         robot.waitForSystem(20, Systems.WHEELS);
 
         // Move arm to placing position
-        robot.moveArm(ARM_SCORE_BACKDROP_POS);
+        robot.moveArm(ARM_SCORE_POS);
         robot.waitForSystem(500, Systems.ARM);
 
         // Open claws
@@ -56,7 +56,7 @@ public class BlueShortPosition extends LinearOpMode {
         robot.waitForSystem(500, Systems.CLAWS);
 
         // Move arm to rest position
-        robot.moveArm(ARM_REST_POSITION);
+        robot.moveArm(ARM_REST_POS);
         robot.waitForSystem(500, Systems.ARM);
 
         // Move backward and close claws
