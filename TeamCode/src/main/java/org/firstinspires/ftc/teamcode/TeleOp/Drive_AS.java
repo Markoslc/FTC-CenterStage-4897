@@ -33,6 +33,7 @@ public class Drive_AS extends LinearOpMode {
             if(gamepad1.dpad_up) robot.nextArmPos();
             if(gamepad1.dpad_down) robot.prevArmPos();
 
+            robot.telemetrySystems(this, Systems.ALL);
         }
     }
 }

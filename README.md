@@ -8,8 +8,6 @@ Project built from scratch using inspiration from Team 3543 "Titan Robotics"
 
 # CenterStage FTC SDK
 
-## NOTICE
-
 This repository contains the public FTC SDK for the CENTERSTAGE (2023-2024) competition season.
 
 ## Welcome!

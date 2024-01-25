@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.RobotParameters.Systems;
 
 import static java.lang.Thread.sleep;
 
@@ -101,11 +102,11 @@ public class Robot {
 
         arm.setDirection(ARM_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
+        arm.setTargetPosition(DEFAULT_ARM_POS);
+
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        arm.setTargetPosition(0);
 
         arm.setPower(DEFAULT_ARM_POWER);
 
@@ -340,6 +341,27 @@ public class Robot {
     }
 
     //
+    // Lift
+    //
+    public void moveLift(LiftDirections direction){
+        switch (direction){
+            case UP:
+                lift.setPower(1);
+                liftBusy = true;
+                break;
+            case DOWN:
+                lift.setPower(-1);
+                liftBusy = true;
+                break;
+        }
+    }
+    public void waitForLift(){
+        while(liftBusy){
+            liftBusy = lift.isBusy();
+        }
+    }
+
+    //
     // Claws
     //
     public void moveClaws(boolean moveLeft, boolean moveRight, ClawPositions clawPos){
@@ -372,6 +394,9 @@ public class Robot {
                 case ARM:
                     waitForArm();
                     break;
+                case LIFT:
+                    waitForLift();
+                    break;
                 case CLAWS:
                     waitForClaws();
             }
@@ -382,5 +407,28 @@ public class Robot {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void telemetrySystems(LinearOpMode opMode, Systems... systems){
+        for (Systems system : systems){
+            switch (system) {
+                case WHEELS:
+                    opMode.telemetry.addData("Wheels busy: ", wheelsBusy);
+                    break;
+                case ARM:
+                    opMode.telemetry.addData("Arm busy: ", armBusy);
+                    break;
+                case LIFT:
+                    opMode.telemetry.addData("Lift busy: ", liftBusy);
+                    break;
+                case CLAWS:
+                    opMode.telemetry.addData("Claws busy:", clawsBusy);
+                    break;
+                case IMU:
+                    opMode.telemetry.addData("IMU rotation:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+                case ALL:
+                    telemetrySystems(opMode, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
+            }
+        }
+        opMode.telemetry.update();
     }
 }

@@ -42,12 +42,16 @@ public class RobotParameters {
     public static int[] ArmPositions                       = new int[]{
       ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS
     };
+    public static final int DEFAULT_ARM_POS                = ARM_REST_POS;
 
     //
     // Lift
     //
     public static final String LIFT_STR                    = "lift";
     public static final boolean LIFT_REVERSED              = false;
+    public static enum LiftDirections{
+        UP, DOWN
+    }
 
     //
     // Claws
@@ -103,7 +107,7 @@ public class RobotParameters {
     // Systems
     //
     public static enum Systems {
-        WHEELS, ARM, CLAWS
+        WHEELS, ARM, LIFT, CLAWS, IMU, ALL
     }
     public static final String IMU_STR                     = "imu";
     public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION = RevHubOrientationOnRobot.LogoFacingDirection.UP;
