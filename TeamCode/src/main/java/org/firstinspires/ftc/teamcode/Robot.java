@@ -189,7 +189,6 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
     }
-
     /**
      * Moves the robot depending on the current drive mode
      * @param forwardPower The multiplier of the movement in the forward/backward direction. Ranges from -1 to 1
@@ -317,21 +316,32 @@ public class Robot {
 
         if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
+    public void turnAngleLeft(double angle, boolean... individualWait){
+        double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
+        if(imuAngle + angle > 180){
+            angle %=
+        }
+
+        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+    }
     public void waitForWheels(){
         while(frontL.isBusy() || frontR.isBusy() || backL.isBusy() || backR.isBusy()){
             currOpMode.sleep(1);
         }
     }
-    public void resetWheelEncoders(DcMotorEx.RunMode nextMode){
+    public void resetWheelEncoders(DcMotorEx.RunMode... nextMode){
+        if(nextMode[0] == null) nextMode[0] = frontL.getMode();
+
         frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontL.setMode(nextMode);
-        frontR.setMode(nextMode);
-        backL.setMode(nextMode);
-        backR.setMode(nextMode);
+        frontL.setMode(nextMode[0]);
+        frontR.setMode(nextMode[0]);
+        backL.setMode(nextMode[0]);
+        backR.setMode(nextMode[0]);
     }
 
     //

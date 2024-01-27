@@ -164,21 +164,21 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.turnLeft(900, true);
 
-        robot.moveForward(900, true);
+        robot.moveForward(700, true);
 
-        robot.moveRight(750, true);
+        robot.moveRight(1000, true);
 
-        robot.moveForward(300, true);
+        robot.moveForward(420, true);
 
         robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-        robot.moveBackward(100, true);
+        robot.moveBackward(300, true);
 
-        robot.moveRight(1000);
+        robot.moveRight(1250);
         robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
 
-        robot.moveForward(200, true);
+        robot.moveForward(700, true);
     }/*
 
     public void initWheels(){
