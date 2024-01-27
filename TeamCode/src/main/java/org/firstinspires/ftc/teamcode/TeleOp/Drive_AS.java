@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.*;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
@@ -29,6 +30,14 @@ public class Drive_AS extends LinearOpMode {
 
             if(gamepad1.dpad_up) robot.nextArmPos();
             if(gamepad1.dpad_down) robot.prevArmPos();
+
+            if(gamepad1.a){
+                if(currLiftDirection == LiftDirections.REST) {
+                    currLiftDirection = nextLiftDirection;
+                    nextLiftDirection = nextLiftDirection == LiftDirections.UP ? LiftDirections.DOWN : nextLiftDirection;
+                }
+            } else currLiftDirection = LiftDirections.REST;
+            robot.moveLift(currLiftDirection);
 
             robot.update();
         }

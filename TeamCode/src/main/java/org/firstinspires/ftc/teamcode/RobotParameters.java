@@ -50,7 +50,7 @@ public class RobotParameters {
     public static final String LIFT_STR                    = "lift";
     public static final boolean LIFT_REVERSED              = false;
     public static enum LiftDirections{
-        UP, DOWN
+        UP, DOWN, REST
     }
 
     //
