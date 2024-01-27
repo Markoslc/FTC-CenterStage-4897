@@ -2,11 +2,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import static org.firstinspires.ftc.teamcode.Robot.*;
+
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.RobotParameters;
 
 @TeleOp(name = "Drive AS")
 public class Drive_AS extends LinearOpMode {
@@ -16,11 +15,9 @@ public class Drive_AS extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            robot.updateStates();
-
             double forwardPower = -gamepad1.left_stick_y;
             double sidePower = gamepad1.left_stick_x;
-            double rotationPower = gamepad1.right_stick_x / 3;
+            double rotationPower = gamepad1.right_stick_x;
 
             robot.drive(forwardPower, sidePower, rotationPower);
 
@@ -33,6 +30,7 @@ public class Drive_AS extends LinearOpMode {
             if(gamepad1.dpad_up) robot.nextArmPos();
             if(gamepad1.dpad_down) robot.prevArmPos();
 
+            robot.update();
         }
     }
 }

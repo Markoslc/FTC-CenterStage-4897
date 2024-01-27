@@ -3,11 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -24,21 +20,10 @@ import java.util.List;
 
 @Autonomous(name = "Auto Guided Blue Short AS")
 public class AutoGuidedDriveBlueShort extends LinearOpMode {
-
-    private DcMotor backright;
-    private DcMotor backleft;
-    private DcMotor frontleft;
-    private DcMotor frontright;
-    private DcMotor arm;
-    private Servo leftClaw;
-    private Servo rightClaw;
     private DriveModes mode;
     public Robot robot;
     public DriveModes.PixelPos pixelPos = DriveModes.PixelPos.UNKNOWN;
-
-
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
     private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
@@ -61,27 +46,27 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(true, 1, this);
+        Robot robot = new Robot(true, 1, this);/*
         initClaws();
         initWheels();
-        initArm();
+        initArm();*/
         initTfod();
-        rightClaw = hardwareMap.get(Servo.class, "rightClaw");
-        leftClaw = hardwareMap.get(Servo.class, "leftClaw");
-
 
         waitForStart();
         
-        robot.moveArm(ARM_LOAD_POS + 100);
-        robot.waitForSystem(1000, Systems.ARM);
+        robot.moveArm(ARM_LOAD_POS);
+        robot.waitForSystem(500, Systems.ARM);
+
         pixelPos = getPixelPos();
         telemetry.addData("Pixel position = ", pixelPos.toString());
         telemetry.update();
-        robot.moveArm(ARM_SCORE_POS);
+
+        robot.moveArm(ARM_SCORE_POS, true);
+
         if (pixelPos == DriveModes.PixelPos.UNKNOWN){
             pixelPos = searchPixel();
         } else{
-            wheelsLinear(200);
+            robot.moveForward(200, true);
         }
         switch (pixelPos){
             case RIGHT:
@@ -100,71 +85,101 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
     private void useRightMode() {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
-        wheelsRotate(300);
-        robot.moveRight(ARM_LOAD_POS);
-        robot.waitForSystem(0, Systems.ARM);
 
-        robot.moveClaws(false, true, ClawPositions.CLAWS_FALL);
-        robot.waitForSystem(0, Systems.CLAWS);
+        robot.turnRight(300);
+        robot.moveRight(ARM_LOAD_POS);
+        robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+
+        robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
         robot.moveArm(ARM_SCORE_POS);
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-        sleep(400);
-        wheelsRotate(-1200);
-        wheelsLinear(500);
-        leftClaw.setPosition(RobotParameters.LEFT_CLAW_FALL_POSITION);
-        wheelsLinear(-100);
-        leftClaw.setPosition(RobotParameters.LEFT_CLAW_CLOSED_POSITION);
-        wheelsCrabWalk(-900);
-        wheelsLinear(200);
+        robot.waitForSystem(50, Systems.ARM, Systems.CLAWS);
+
+        robot.turnLeft(1200, true);
+
+        robot.moveForward(500, true);
+
+        robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveBackward(100);
+        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
+
+        robot.moveLeft(900, true);
+
+        robot.moveForward(200, true);
     }
 
     private void useLeftMode() {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
-        wheelsRotate(-300);
-        arm.setTargetPosition(RobotParameters.ARM_LOAD_POS);
-        sleep(400);
-        rightClaw.setPosition(RobotParameters.RIGHT_CLAW_FALL_POSITION);
-        sleep(50);
-        arm.setTargetPosition(RobotParameters.ARM_SCORE_BACKDROP_POS);
-        rightClaw.setPosition(RobotParameters.RIGHT_CLAW_CLOSED_POSITION);
-        sleep(400);
-        wheelsRotate(-600);
-        wheelsCrabWalk(500);
-        wheelsLinear(400);
-        wheelsCrabWalk(-100);
-        wheelsLinear(100);
-        leftClaw.setPosition(RobotParameters.LEFT_CLAW_FALL_POSITION);
-        wheelsLinear(-100);
-        leftClaw.setPosition(RobotParameters.LEFT_CLAW_CLOSED_POSITION);
-        wheelsCrabWalk(-900);
-        wheelsLinear(200);
+
+        robot.turnLeft(300);
+        robot.moveArm(ARM_LOAD_POS);
+        robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+
+        robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveArm(ARM_SCORE_POS);
+        robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(50, Systems.ARM, Systems.CLAWS);
+
+        robot.turnLeft(600, true);
+
+        robot.moveRight(500, true);
+
+        robot.moveForward(400, true);
+
+        robot.moveLeft(100, true);
+
+        robot.moveForward(100, true);
+
+        robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveBackward(100, true);
+
+        robot.moveLeft(900);
+        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
+
+        robot.moveForward(200, true);
     }
 
     private void useCenterMode() {
         telemetry.addLine("Mode: CenterMode");
         telemetry.update();
-        wheelsLinear(480); //go to centered blue line.
-        arm.setTargetPosition(RobotParameters.ARM_LOAD_POS); //set the arm down
-        sleep(400); //wait till it's down.
-        rightClaw.setPosition(RobotParameters.RIGHT_CLAW_FALL_POSITION); //open the right claw
-        sleep(100); //wait till the claw is fully open
-        arm.setTargetPosition(RobotParameters.ARM_SCORE_BACKDROP_POS); //set the arm up from the groud
-        rightClaw.setPosition(RobotParameters.RIGHT_CLAW_CLOSED_POSITION); //close the claw again
-        //sleep(400); // we might not even need that. (maybe we do.  TODO: lets try tomorrow...)
-        wheelsCrabWalk(-800); //walk a little bit to the side so we don't hit something before rotating
-        wheelsRotate(-900); //about 90 degrees turn. TODO: Maybe add gyro-support to make it actual 90 degrees
-        wheelsLinear(900); // go to the board
-        wheelsCrabWalk(750); //walk to the right to stand in front of the board
-        wheelsLinear(300); //set the arm to the board
-        leftClaw.setPosition(RobotParameters.LEFT_CLAW_FALL_POSITION); // drop the second pixel in the middle of the board
-        sleep(100); //wait till the claw is open
-        wheelsLinear(-100); // go back a little bit
-        leftClaw.setPosition(RobotParameters.LEFT_CLAW_CLOSED_POSITION); //close the claw again so nothing breaks
-        wheelsCrabWalk(1000); //move to the corner (experimental) TODO: add the end position, maybe an end rotation, depending on the mode to get a second Pixel and adjust the value for the parking
-        wheelsLinear(200); //go forward to move into the blue parking field. TODO: adjust the value.
-    }
+
+        robot.moveForward(480, true);
+
+        robot.moveArm(ARM_LOAD_POS, true);
+
+        robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveArm(ARM_SCORE_POS);
+        robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.ARM, Systems.CLAWS);
+
+        robot.moveLeft(800, true);
+
+        robot.turnLeft(900, true);
+
+        robot.moveForward(900, true);
+
+        robot.moveRight(750, true);
+
+        robot.moveForward(300, true);
+
+        robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveBackward(100, true);
+
+        robot.moveRight(1000);
+        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
+
+        robot.moveForward(200, true);
+    }/*
 
     public void initWheels(){
         backright = hardwareMap.get(DcMotor.class, "backRight");
@@ -241,10 +256,8 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         sleep(taskTime+50);
     }
 
-    /**
      * Rotates the bot by setting the position of the wheels to a difference. a positive value results in a right rotation, a negative one in a left rotation
      * @param position sets the position difference of the wheels
-     */
     public void wheelsRotate(int position){
         double rotations = position/537.7;
         int taskTime = Math.abs((int) (1000*(rotations/(312/60))));
@@ -255,10 +268,8 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         sleep(taskTime+50);
     }
 
-    /**
      * Crab walks to a certain position by setting the position of the wheels t oa difference. positive values to the right negative ones to the left.
      * @param position sets the position difference of the wheels
-     */
     public void wheelsCrabWalk(int position){
         double rotations = position/537.7;
         int taskTime = Math.abs((int) (1000*(rotations/(312/60))));
@@ -267,32 +278,36 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         frontleft.setTargetPosition(frontleft.getCurrentPosition() + position);
         frontright.setTargetPosition(frontright.getCurrentPosition() - position);
         sleep(taskTime+50);
-    }
+    }*/
 
     public DriveModes.PixelPos searchPixel(){
-        wheelsLinear(350);
-        arm.setTargetPosition(RobotParameters.ARM_LOAD_POS);
-        sleep(2000);
-        if (isPixelInView()){
+        robot.moveForward(350);
+        robot.moveArm(ARM_LOAD_POS);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
+
+        if (pixelInView()){
             telemetry.speak("I work! I found the pixel in the center. i just don't care about how computers and logic work");
             telemetry.addLine("I found it");
             return DriveModes.PixelPos.CENTER;
         }
         telemetry.addLine("I didn't find it");
 
-        arm.setTargetPosition(RobotParameters.ARM_SCORE_BACKDROP_POS);
-        sleep(400);
-        wheelsRotate(-200);
-        arm.setTargetPosition(RobotParameters.ARM_LOAD_POS);
-        sleep(400);
-        if (isPixelInView()){
-            arm.setTargetPosition(RobotParameters.ARM_SCORE_BACKDROP_POS);
-            wheelsRotate(200);
+        robot.moveArm(ARM_SCORE_POS, true);
+
+        robot.turnLeft(200, true);
+
+        robot.moveArm(ARM_LOAD_POS, true);
+
+        if (pixelInView()){
+            robot.moveRight(200);
+            robot.moveArm(ARM_SCORE_POS);
+            robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
             return DriveModes.PixelPos.LEFT;
 
         }else{
-            arm.setTargetPosition(RobotParameters.ARM_SCORE_BACKDROP_POS);
-            wheelsRotate(200);
+            robot.moveRight(200);
+            robot.moveArm(ARM_SCORE_POS);
+            robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
             return DriveModes.PixelPos.RIGHT;
         }
 
@@ -367,7 +382,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
     } //initTfod
 
-    public boolean isPixelInView(){
+    public boolean pixelInView(){
         int i = 0;
         boolean result;
         while (i<500){

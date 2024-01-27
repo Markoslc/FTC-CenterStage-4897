@@ -29,6 +29,7 @@ public class RobotParameters {
     public static final double WHEEL_DEGREES_PER_SECOND    = WHEEL_RPS * 360;
     public static final double WHEEL_PPM                   = WHEEL_PPR * WHEEL_RPM;
     public static final double WHEEL_PPS                   = WHEEL_PPM * 60;
+    public static final double ROTATION_POWER_MULTIPLIER   = (double) 1 / 3;
 
     //
     // Arm
@@ -48,6 +49,9 @@ public class RobotParameters {
     //
     public static final String LIFT_STR                    = "lift";
     public static final boolean LIFT_REVERSED              = false;
+    public static enum LiftDirections{
+        UP, DOWN
+    }
 
     //
     // Claws
@@ -103,7 +107,7 @@ public class RobotParameters {
     // Systems
     //
     public static enum Systems {
-        WHEELS, ARM, CLAWS
+        WHEELS, ARM, CLAWS, LIFT, IMU
     }
     public static final String IMU_STR                     = "imu";
     public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION = RevHubOrientationOnRobot.LogoFacingDirection.UP;
