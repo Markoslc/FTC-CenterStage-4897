@@ -20,7 +20,6 @@ import java.util.List;
 
 @Autonomous(name = "Auto Guided Blue Short AS")
 public class AutoGuidedDriveBlueShort extends LinearOpMode {
-    private DriveModes mode;
     public Robot robot;
     public DriveModes.PixelPos pixelPos = DriveModes.PixelPos.UNKNOWN;
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -74,7 +73,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
 
-        robot.turnRight(300);
+        robot.turnAngleRight(30);
         robot.moveRight(ARM_LOAD_POS);
         robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
 
@@ -84,7 +83,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(50, Systems.ARM, Systems.CLAWS);
 
-        robot.turnLeft(1200, true);
+        robot.turnAngleRight(120, true);
 
         robot.moveForward(500, true);
 
@@ -103,7 +102,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
 
-        robot.turnLeft(300);
+        robot.turnAngleLeft(30);
         robot.moveArm(ARM_LOAD_POS);
         robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
 
@@ -113,7 +112,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(50, Systems.ARM, Systems.CLAWS);
 
-        robot.turnLeft(600, true);
+        robot.turnAngleLeft(60, true);
 
         robot.moveRight(500, true);
 
@@ -150,7 +149,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveLeft(800, true);
 
-        robot.turnLeft(900, true);
+        robot.turnAngleLeft(90, true);
 
         robot.moveForward(700, true);
 

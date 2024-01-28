@@ -37,6 +37,8 @@ public class Robot {
     // Lift
     //
     public static DcMotorEx lift;
+    public static LiftDirections currLiftDirection = LiftDirections.REST;
+    public static LiftDirections nextLiftDirection = LiftDirections.UP;
 
     //
     // Claws
@@ -51,6 +53,7 @@ public class Robot {
     // Systems
     //
     public static IMU imu;
+    public static double currImuTargetAngle;
 
     public Robot(boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
@@ -161,6 +164,16 @@ public class Robot {
                     break;
                 case LIFT:
                     currOpMode.telemetry.addData("Lift busy:", lift.isBusy());
+                    switch (currLiftDirection){
+                        case UP:
+                            currOpMode.telemetry.addLine("Lift direction: Up");
+                            break;
+                        case DOWN:
+                            currOpMode.telemetry.addLine("Lift direction: Down");
+                            break;
+                        default:
+                            currOpMode.telemetry.addLine("Lift direction: Rest");
+                    }
                     break;
                 case CLAWS:
                     currOpMode.telemetry.addData("Claws busy", clawsBusy);
@@ -320,10 +333,30 @@ public class Robot {
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
         if(imuAngle + angle > 180){
-            angle %=
+            angle %= 180;
+            currImuTargetAngle = -180 + ((imuAngle + angle) % 180);
         }
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        frontL.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        frontR.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        backL.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        backR.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+
+        if(individualWait[0]) waitForSystem(20, Systems.IMU);
+    }
+    public void turnAngleRight(double angle, boolean... individualWait){
+        double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
+        if(imuAngle - angle < -180){
+            currImuTargetAngle = 180 - Math.abs((imuAngle - angle) % 180);
+        }
+
+        frontL.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        frontR.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        backL.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        backR.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+
+        if(individualWait[0]) waitForSystem(20, Systems.IMU);
     }
     public void waitForWheels(){
         while(frontL.isBusy() || frontR.isBusy() || backL.isBusy() || backR.isBusy()){
@@ -382,6 +415,9 @@ public class Robot {
                 break;
             case DOWN:
                 lift.setPower(-1);
+                break;
+            case REST:
+                lift.setPower(0);
         }
     }
     public void waitForLift(){
@@ -416,6 +452,16 @@ public class Robot {
     //
     // Systems
     //
+    private void waitForImu(){
+        while(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) != currImuTargetAngle){
+            currOpMode.sleep(1);
+        }
+
+        frontL.setVelocity(0, AngleUnit.DEGREES);
+        frontR.setVelocity(0, AngleUnit.DEGREES);
+        backL.setVelocity(0, AngleUnit.DEGREES);
+        backR.setVelocity(0, AngleUnit.DEGREES);
+    }
     public void waitForSystem(int extraTime, Systems... systems){
         for (Systems system : systems) {
             switch (system){
@@ -430,6 +476,9 @@ public class Robot {
                     break;
                 case CLAWS:
                     waitForClaws();
+                    break;
+                case IMU:
+                    waitForImu();
                     break;
                 default:
                     waitForSystem(20, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS);

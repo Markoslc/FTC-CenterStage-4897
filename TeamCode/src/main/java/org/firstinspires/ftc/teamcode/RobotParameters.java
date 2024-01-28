@@ -12,7 +12,6 @@ public class RobotParameters {
     public static enum DriveMode {
         FIELD, ROBOT
     }
-
     public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.FIELD;
 
     //
@@ -50,11 +49,10 @@ public class RobotParameters {
     //
     // Lift
     //
-    public static final String  LIFT_STR      = "lift";
-    public static final boolean LIFT_REVERSED = false;
-
-    public static enum LiftDirections {
-        UP, DOWN
+    public static final String LIFT_STR                    = "lift";
+    public static final boolean LIFT_REVERSED              = false;
+    public static enum LiftDirections{
+        UP, DOWN, REST
     }
 
     //
@@ -91,11 +89,8 @@ public class RobotParameters {
                     break;
             }
             return targetPos;
-        }
-
-        ;
-
-        public static double rightClaw(ClawPositions clawPos) {
+        };
+        public static double rightClaw(ClawPositions clawPos){
             double targetPos = 0;
             switch (clawPos) {
                 case CLAWS_CLOSED:
@@ -109,9 +104,7 @@ public class RobotParameters {
                     break;
             }
             return targetPos;
-        }
-
-        ;
+        };
     }
 
     //
