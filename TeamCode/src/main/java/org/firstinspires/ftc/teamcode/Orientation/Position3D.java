@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.Orientation;
 
 import androidx.annotation.NonNull;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.*;
-
 import java.util.Locale;
 
 public class Position3D {
@@ -35,6 +33,10 @@ public class Position3D {
         this.roll = roll;
     }   //RobotPos
 
+    /**
+     * this method returns the Position3D string
+     * @return the Position3D string
+     */
     @NonNull
     @Override
     public String toString()
@@ -99,5 +101,13 @@ public class Position3D {
                     Math.abs(pose.roll - roll) <= tolerance;
         }
     }   //similar
+
+    /**
+     * gives a 2D representation of this object
+     * @return 2D representation of this object
+     */
+    public Position2D toPosition2D(){
+        return new Position2D(this.x, this.y, this.yaw);
+    }
 
 }

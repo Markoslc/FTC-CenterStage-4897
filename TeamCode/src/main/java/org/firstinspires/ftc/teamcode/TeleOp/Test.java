@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.*;
-
 import org.firstinspires.ftc.teamcode.Orientation.AprilTagRecognition;
 import org.firstinspires.ftc.teamcode.Orientation.Position2D;
 import org.firstinspires.ftc.teamcode.Robot;

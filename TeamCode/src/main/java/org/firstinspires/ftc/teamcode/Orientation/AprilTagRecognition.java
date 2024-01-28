@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Orientation;
 
-import android.annotation.SuppressLint;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -17,9 +16,7 @@ import java.util.List;
 
 
 public class AprilTagRecognition {
-    public Position3D position;
     private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
     public static LinearOpMode currOpMode;
 
 
@@ -59,7 +56,7 @@ public class AprilTagRecognition {
         builder.addProcessor(aprilTag);
 
         // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
+        VisionPortal visionPortal = builder.build();
 
 
         // Disable or re-enable the processor at any time.
@@ -68,31 +65,6 @@ public class AprilTagRecognition {
 
 
     }   // end method initAprilTag()
-// @SuppressLint("DefaultLocale")
-// public Position3D getRobotPosition() {
-//
-//     List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-//     int count = currentDetections.size();
-//     Position2D[] positions = new Position2D[]{};
-//
-//     for (AprilTagDetection detection : currentDetections) {
-//         if (detection.metadata != null) {
-//             Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
-//             double x = inchToCentimeter(detection.ftcPose.x);
-//             double y = inchToCentimeter(detection.ftcPose.y);
-//             double yaw = detection.ftcPose.yaw;
-//
-//
-//
-//         } else {
-//             int id = detection.id;
-//             double centerx = detection.center.x;
-//             double centery = detection.center.y;
-//         }
-//
-//     }
-//
-// }   // end method getRobotPosition()
 
     /**
      * this should return the 2D position of the robot in relation to the april tag (in cm and degrees)
@@ -109,14 +81,14 @@ public class AprilTagRecognition {
             Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
 
 
-            double xbot = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
-            double ybot = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
+            double xBot = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
+            double yBot = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
             double angle = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
 
-            sumX += xbot;
-            sumY += ybot;
+            sumX += xBot;
+            sumY += yBot;
             sumAngle += angle;
-            if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", xbot, ybot, angle));
+            if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", xBot, yBot, angle));
 
         }
         double averageX = sumX / count;
