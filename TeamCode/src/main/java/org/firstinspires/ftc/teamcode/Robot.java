@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.opencv.core.Mat;
 
 public class Robot {
     //
@@ -233,8 +234,9 @@ public class Robot {
                 double stickAngle = Math.atan2(forwardPower, sidePower);
                 double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) - stickAngle;
 
-                forwardPower *= Math.cos(Math.toRadians(angle));
-                sidePower *= Math.sin(Math.toRadians(angle));
+                double stickMagnitude = Math.sqrt(Math.pow(forwardPower, 2) + Math.pow(sidePower, 2));
+                forwardPower = stickMagnitude * Math.cos(Math.toRadians(angle));
+                sidePower = stickMagnitude * Math.sin(Math.toRadians(angle));
 
                 frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
                 frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
