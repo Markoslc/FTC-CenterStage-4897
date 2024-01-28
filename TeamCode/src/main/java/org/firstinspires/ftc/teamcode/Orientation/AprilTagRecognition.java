@@ -12,6 +12,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
+import java.util.Locale;
 import java.util.List;
 
 
@@ -63,35 +64,35 @@ public class AprilTagRecognition {
 
         // Disable or re-enable the processor at any time.
         visionPortal.setProcessorEnabled(aprilTag, true);
+        if(VERBOSE >= 4) currOpMode.telemetry.addLine("AprilTagRecognition initialized");
+
 
     }   // end method initAprilTag()
-
-/*
-    @SuppressLint("DefaultLocale")
-    public Position3D getRobotPosition() {
-
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        int count = currentDetections.size();
-        Position2D[] positions = new Position2D[]{};
-
-        for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
-                Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
-                double x = inchToCentimeter(detection.ftcPose.x);
-                double y = inchToCentimeter(detection.ftcPose.y);
-                double yaw = detection.ftcPose.yaw;
-
-
-
-            } else {
-                int id = detection.id;
-                double centerx = detection.center.x;
-                double centery = detection.center.y;
-            }
-
-        }
-
-    }   // end method getRobotPosition()*/
+// @SuppressLint("DefaultLocale")
+// public Position3D getRobotPosition() {
+//
+//     List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+//     int count = currentDetections.size();
+//     Position2D[] positions = new Position2D[]{};
+//
+//     for (AprilTagDetection detection : currentDetections) {
+//         if (detection.metadata != null) {
+//             Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
+//             double x = inchToCentimeter(detection.ftcPose.x);
+//             double y = inchToCentimeter(detection.ftcPose.y);
+//             double yaw = detection.ftcPose.yaw;
+//
+//
+//
+//         } else {
+//             int id = detection.id;
+//             double centerx = detection.center.x;
+//             double centery = detection.center.y;
+//         }
+//
+//     }
+//
+// }   // end method getRobotPosition()
 
     /**
      * this should return the 2D position of the robot in relation to the april tag (in cm and degrees)
@@ -100,6 +101,7 @@ public class AprilTagRecognition {
     public Position2D getRobotPosition() {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         int count = currentDetections.size();
+        if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "found %d aprilTags", count));
         if (count == 0) return null;
 
         double sumX = 0, sumY = 0, sumAngle = 0;
@@ -114,8 +116,9 @@ public class AprilTagRecognition {
             sumX += xbot;
             sumY += ybot;
             sumAngle += angle;
-        }
+            if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", xbot, ybot, angle));
 
+        }
         double averageX = sumX / count;
         double averageY = sumY / count;
         double averageAngle = sumAngle / count; //TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
