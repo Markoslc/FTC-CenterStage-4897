@@ -21,7 +21,7 @@ public class Test extends LinearOpMode {
         while(opModeIsActive()){
             tags = new AprilTagRecognition(this);
             botPosition = tags.getRobotPosition();
-            telemetry.addLine(botPosition.toString());
+            if (botPosition != null) telemetry.addLine(botPosition.toString());
 
             robot.update();
         }

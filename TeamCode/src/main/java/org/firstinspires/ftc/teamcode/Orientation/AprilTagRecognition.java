@@ -109,19 +109,45 @@ public class AprilTagRecognition {
             Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
 
 
-            double xbot = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
-            double ybot = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
+            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
+            double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
             double angle = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
 
-            sumX += xbot;
-            sumY += ybot;
+            sumX += robotX;
+            sumY += robotY;
             sumAngle += angle;
-            if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", xbot, ybot, angle));
+            if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", robotX, robotY, angle));
 
         }
         double averageX = sumX / count;
         double averageY = sumY / count;
         double averageAngle = sumAngle / count; //TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
+        return new Position2D(averageX, averageY, averageAngle);
+    }
+    public Position2D getOtherRobotPosition() {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        int count = currentDetections.size();
+        if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "found %d aprilTags", count));
+        if (count == 0) return null;
+
+        double sumX = 0, sumY = 0, sumAngle = 0;
+        for (AprilTagDetection detection : currentDetections) {
+            Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
+
+
+            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.yaw - detection.ftcPose.bearing + aprilTagPose.angle));
+            double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.yaw - detection.ftcPose.bearing + aprilTagPose.angle));
+            double angle = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
+
+            sumX += robotX;
+            sumY += robotY;
+            sumAngle += angle;
+            if (VERBOSE >= 4) currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", robotX, robotY, angle));
+
+        }
+        double averageX = sumX / count;
+        double averageY = sumY / count;
+        double averageAngle = sumAngle / count; // TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
         return new Position2D(averageX, averageY, averageAngle);
     }
 
