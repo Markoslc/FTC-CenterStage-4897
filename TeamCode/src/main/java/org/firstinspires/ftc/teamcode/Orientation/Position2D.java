@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode.Orientation;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.POSITION_TOLERANCE;
-
 import androidx.annotation.NonNull;
-
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 
 import java.util.Locale;
 
@@ -12,9 +8,6 @@ public class Position2D {
     public double x;
     public double y;
     public double angle;
-
-    private double data[];
-
 
 
     /**
@@ -31,6 +24,10 @@ public class Position2D {
         this.angle = angle;
     }   //Position2D
 
+    /**
+     * this method returns the Position2D string
+     * @return the Position2D string
+     */
     @NonNull
     @Override
     public String toString()
@@ -41,7 +38,7 @@ public class Position2D {
 
     /**
      * This method compares this pose with the specified pose for equality.
-     *
+     * @param o the Position2D object that should be compared.
      * @return true if equal, false otherwise.
      */
     @Override

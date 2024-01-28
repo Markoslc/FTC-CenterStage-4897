@@ -378,7 +378,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
             result = currentRecognitions.size() > 0;
             if (result){
-                return result;
+                return true;
             }
         }
         List<Recognition> currentRecognitions = tfod.getRecognitions();

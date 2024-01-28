@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import static org.firstinspires.ftc.teamcode.RobotParameters.*;
+
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -46,26 +48,14 @@ public class DriveModes {
     }
 
     private final HardwareMap hardwareMap;
-    public PixelPos pixelPos = PixelPos.UNKNOWN;
+    public PixelPos pixelPos;
     public Servo leftClaw;
     public Servo rightClaw;
 
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
-    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
-    // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
-    // Define the labels recognized in the model for TFOD (must be in training order!)
-    private static final String[] LABELS = {
-            "Pixel",
-    };
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
-    private TfodProcessor tfod;
+    private TfodProcessor Tfod;
 
     /**
      * The variable to store our instance of the vision portal.
@@ -86,7 +76,7 @@ public class DriveModes {
             initTfod();
         }
         visionPortal.stopStreaming();
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        List<Recognition> currentRecognitions = Tfod.getRecognitions();
         if (!currentRecognitions.isEmpty()) {
             Recognition highestConfidenceRecognition = null;
             double maxConfidence = 0.0;
@@ -121,7 +111,7 @@ public class DriveModes {
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
-        tfod = new TfodProcessor.Builder().build();
+        Tfod = new TfodProcessor.Builder().build();
 
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
@@ -143,7 +133,7 @@ public class DriveModes {
     } //initTfod
 
     public boolean isPixelInView(){
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        List<Recognition> currentRecognitions = Tfod.getRecognitions();
         return currentRecognitions.size() > 0;
     }
 
