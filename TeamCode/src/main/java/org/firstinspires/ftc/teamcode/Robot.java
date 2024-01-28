@@ -230,9 +230,11 @@ public class Robot {
 
                 break;
             case FIELD:
-                double currAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                forwardPower *= Math.sin(currAngle);
-                sidePower *= Math.cos(currAngle);
+                double stickAngle = Math.atan2(forwardPower, sidePower);
+                double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) - stickAngle;
+
+                forwardPower *= Math.cos(Math.toRadians(angle));
+                sidePower *= Math.sin(Math.toRadians(angle));
 
                 frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
                 frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
