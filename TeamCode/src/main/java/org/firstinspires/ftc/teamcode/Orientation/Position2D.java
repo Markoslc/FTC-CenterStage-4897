@@ -25,8 +25,7 @@ public class Position2D {
     }   //Position2D
 
     /**
-     * this method returns the Position2D string
-     * @return the Position2D string
+     * @return A Position2D string
      */
     @NonNull
     @Override
@@ -37,18 +36,18 @@ public class Position2D {
     }   //toString
 
     /**
-     * This method compares this pose with the specified pose for equality.
-     * @param o the Position2D object that should be compared.
+     * Compares this pose with the specified pose for equality.
+     * @param obj the Position2D object that should be compared.
      * @return true if equal, false otherwise.
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
-        } else if (o == null || getClass() != o.getClass()) {
+        } else if (obj == null || getClass() != obj.getClass()) {
             return false;
         } else {
-            Position2D pose = (Position2D) o;
+            Position2D pose = (Position2D) obj;
             return Math.abs(pose.x - x) == 0.0 &&
                     Math.abs(pose.y - y) == 0.0 &&
                     Math.abs(pose.angle - angle) == 0.0;
@@ -56,17 +55,18 @@ public class Position2D {
     }   //equals
 
     /**
-     * This method compares this pose with the specified pose if they are similar to each other true if the difference is withing the tolerance..
-     *
-     * @return true if similar, false otherwise.
+     * Compares the pose with the specified pose.
+     * @param obj The Position2D object that should be compared.
+     * @param tolerance The tolerance for the similarity of the poses (in cm).
+     * @return True if similar, false otherwise.
      */
-    public boolean similar(Object o, double tolerance) {
-        if (this == o) {
+    public boolean similar(Object obj, double tolerance) {
+        if (this == obj) {
             return true;
-        } else if (o == null || getClass() != o.getClass()) {
+        } else if (obj == null || getClass() != obj.getClass()) {
             return false;
         } else {
-            Position2D pose = (Position2D) o;
+            Position2D pose = (Position2D) obj;
             return Math.abs(pose.x - x) <= tolerance &&
                     Math.abs(pose.y - y) <= tolerance &&
                     Math.abs(pose.angle - angle) <= tolerance;

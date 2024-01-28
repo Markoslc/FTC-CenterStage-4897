@@ -4,6 +4,8 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
 
+import androidx.annotation.Nullable;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,7 +13,6 @@ import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.opencv.core.Mat;
 
 public class Robot {
     //
@@ -151,42 +152,42 @@ public class Robot {
     * Update telemetry. Leave blank for update of all systems
     * @param systems The systems that will be updated in the telemetry
      */
-    public void update(Systems... systems){
-        for(Systems system : systems){
-            switch (system){
-                case WHEELS:
-                    currOpMode.telemetry.addData("FL busy:", frontL.isBusy());
-                    currOpMode.telemetry.addData("FR busy:", frontR.isBusy());
-                    currOpMode.telemetry.addData("BL busy:", backL.isBusy());
-                    currOpMode.telemetry.addData("BR busy:", backR.isBusy());
-                    break;
-                case ARM:
-                    currOpMode.telemetry.addData("Arm busy:", arm.isBusy());
-                    break;
-                case LIFT:
-                    currOpMode.telemetry.addData("Lift busy:", lift.isBusy());
-                    switch (currLiftDirection){
-                        case UP:
-                            currOpMode.telemetry.addLine("Lift direction: Up");
-                            break;
-                        case DOWN:
-                            currOpMode.telemetry.addLine("Lift direction: Down");
-                            break;
-                        default:
-                            currOpMode.telemetry.addLine("Lift direction: Rest");
-                    }
-                    break;
-                case CLAWS:
-                    currOpMode.telemetry.addData("Claws busy", clawsBusy);
-                    clawsBusy = false;
-                    break;
-                case IMU:
-                    currOpMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-                    break;
-                default:
-                    update(Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
+    public void update(@Nullable Systems... systems){
+        if (systems != null) {
+            for(Systems system : systems){
+                switch (system){
+                    case WHEELS:
+                        currOpMode.telemetry.addData("FL busy:", frontL.isBusy());
+                        currOpMode.telemetry.addData("FR busy:", frontR.isBusy());
+                        currOpMode.telemetry.addData("BL busy:", backL.isBusy());
+                        currOpMode.telemetry.addData("BR busy:", backR.isBusy());
+                        break;
+                    case ARM:
+                        currOpMode.telemetry.addData("Arm busy:", arm.isBusy());
+                        break;
+                    case LIFT:
+                        currOpMode.telemetry.addData("Lift busy:", lift.isBusy());
+                        switch (currLiftDirection){
+                            case UP:
+                                currOpMode.telemetry.addLine("Lift direction: Up");
+                                break;
+                            case DOWN:
+                                currOpMode.telemetry.addLine("Lift direction: Down");
+                                break;
+                            default:
+                                currOpMode.telemetry.addLine("Lift direction: Rest");
+                        }
+                        break;
+                    case CLAWS:
+                        currOpMode.telemetry.addData("Claws busy", clawsBusy);
+                        clawsBusy = false;
+                        break;
+                    case IMU:
+                        currOpMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+                        break;
+                }
             }
-        }
+        } else update(Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
     }
 
     //
@@ -255,7 +256,7 @@ public class Robot {
                 backR.setVelocity(0);
         }
     }
-    public void moveForward(int rotation, boolean... individualWait){
+    public void moveForward(int rotation, @Nullable boolean... individualWait){
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
         int backLTargetPos = backL.getCurrentPosition() + rotation;
@@ -266,9 +267,9 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
-    public void moveBackward(int rotation, boolean... individualWait){
+    public void moveBackward(int rotation, @Nullable boolean... individualWait){
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
         int backLTargetPos = backL.getCurrentPosition() - rotation;
@@ -279,9 +280,9 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
-    public void moveLeft(int rotation, boolean... individualWait){
+    public void moveLeft(int rotation, @Nullable boolean... individualWait){
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
         int backLTargetPos = backL.getCurrentPosition() + rotation;
@@ -292,9 +293,9 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
-    public void moveRight(int rotation, boolean... individualWait){
+    public void moveRight(int rotation, @Nullable boolean... individualWait){
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
         int backLTargetPos = backL.getCurrentPosition() - rotation;
@@ -305,9 +306,9 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
-    public void turnLeft(int rotation, boolean... individualWait){
+    public void turnLeft(int rotation, @Nullable boolean... individualWait){
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
         int backLTargetPos = backL.getCurrentPosition() - rotation;
@@ -318,9 +319,9 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
-    public void turnRight(int rotation, boolean... individualWait){
+    public void turnRight(int rotation, @Nullable boolean... individualWait){
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
         int backLTargetPos = backL.getCurrentPosition() + rotation;
@@ -331,9 +332,9 @@ public class Robot {
         backL.setTargetPosition(backLTargetPos);
         backR.setTargetPosition(backRTargetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.WHEELS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.WHEELS);
     }
-    public void turnAngleLeft(double angle, boolean... individualWait){
+    public void turnAngleLeft(double angle, @Nullable boolean... individualWait){
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
         if(imuAngle + angle > 180){
@@ -346,9 +347,9 @@ public class Robot {
         backL.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
         backR.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
 
-        if(individualWait[0]) waitForSystem(20, Systems.IMU);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.IMU);
     }
-    public void turnAngleRight(double angle, boolean... individualWait){
+    public void turnAngleRight(double angle, @Nullable boolean... individualWait){
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
         if(imuAngle - angle < -180){
@@ -360,15 +361,20 @@ public class Robot {
         backL.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
         backR.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
 
-        if(individualWait[0]) waitForSystem(20, Systems.IMU);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.IMU);
     }
     public void waitForWheels(){
         while(frontL.isBusy() || frontR.isBusy() || backL.isBusy() || backR.isBusy()){
             currOpMode.sleep(1);
         }
     }
-    public void resetWheelEncoders(DcMotorEx.RunMode... nextMode){
-        if(nextMode[0] == null) nextMode[0] = frontL.getMode();
+
+    /**
+     * Resets the wheels' encoders
+     * @param nextMode Sets the next mode for the wheels. Leave blank for same mode as before the reset
+     */
+    public void resetWheelEncoders(@Nullable DcMotorEx.RunMode... nextMode){
+        if(nextMode == null) nextMode = new DcMotorEx.RunMode[]{frontL.getMode()};
 
         frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -384,10 +390,10 @@ public class Robot {
     //
     // Arm
     //
-    public void moveArm(int targetPos, boolean... individualWait){
+    public void moveArm(int targetPos, @Nullable boolean... individualWait){
         arm.setTargetPosition(targetPos);
 
-        if(individualWait[0]) waitForSystem(20, Systems.ARM);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.ARM);
     }
     public void nextArmPos(){
         armPosIndex++;
@@ -433,16 +439,16 @@ public class Robot {
     //
     // Claws
     //
-    public void moveClaws(boolean moveLeft, boolean moveRight, ClawPositions clawPos, boolean... individualWait){
+    public void moveClaws(boolean moveLeft, boolean moveRight, ClawPositions clawPos, @Nullable boolean... individualWait){
         leftClawTargetPos = ClawPositions.leftClaw(clawPos);
-        rightClawTargetPos = ClawPositions.leftClaw(clawPos);
+        rightClawTargetPos = ClawPositions.rightClaw(clawPos);
         
         leftClaw.setPosition(moveLeft ? leftClawTargetPos : leftClaw.getPosition());
         rightClaw.setPosition(moveRight ? rightClawTargetPos : rightClaw.getPosition());
 
         clawsBusy = true;
 
-        if(individualWait[0]) waitForSystem(20, Systems.CLAWS);
+        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.CLAWS);
     }
     public void waitForClaws(){
         while(clawsBusy){

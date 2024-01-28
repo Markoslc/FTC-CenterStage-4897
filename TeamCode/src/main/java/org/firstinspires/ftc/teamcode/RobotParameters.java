@@ -68,9 +68,6 @@ public class RobotParameters {
     public static final double  RIGHT_CLAW_CLOSED_POS = 0.75;
     public static final double  RIGHT_CLAW_OPEN_POS   = 0.5;
     public static final double  RIGHT_CLAW_FALL_POS   = 0.1;
-    public static final int     CLAWS_CLOSED          = 0;
-    public static final int     CLAWS_OPEN            = 1;
-    public static final int     CLAWS_FALL            = 2;
 
     public enum ClawPositions {
         CLAWS_CLOSED, CLAWS_OPEN, CLAWS_FALL;
