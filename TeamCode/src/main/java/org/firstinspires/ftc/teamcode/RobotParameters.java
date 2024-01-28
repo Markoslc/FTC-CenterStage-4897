@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.teamcode.Orientation.Position2D;
+
 public class RobotParameters {
     //
     // Robot
@@ -107,12 +109,50 @@ public class RobotParameters {
     // Systems
     //
     public static enum Systems {
-        WHEELS, ARM, CLAWS, LIFT, IMU
+        WHEELS, ARM, CLAWS, LIFT, IMU, CAMERA
     }
     public static final String IMU_STR                     = "imu";
     public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION = RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static final RevHubOrientationOnRobot.UsbFacingDirection USB_DIRECTION = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
     public static RevHubOrientationOnRobot ORIENTATION_ON_ROBOT= new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);
     public static IMU.Parameters IMU_DEFAULT_PARAMS  = new IMU.Parameters(ORIENTATION_ON_ROBOT);
+    public static final int VERBOSE = 3;
+    /**
+     * 0: NOTHING
+     * 1: ERRORS ONLY
+     * 2: WARNINGS AND MALFUNCTIONS
+     * 3: INFORMATION
+     */
+
+    //
+    //Position Settings
+    //
+    public static double POSITION_TOLERANCE = 0.1;
+    public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{
+            new Position2D(29.845, 77.7, 90.0),    // TagId 1
+            new Position2D(29.845, 92.94, 90.0),   // TagId 2
+            new Position2D(29.845, 108.18, 90.0),  // TagId 3
+            new Position2D(29.845, 257.58, 90.0),  // TagId 4
+            new Position2D(29.845, 272.82, 90.0),  // TagId 5
+            new Position2D(29.845, 288.1, 90.0),   // TagId 6
+            new Position2D(365.76, 286.08, 270.0), // TagId 7
+            new Position2D(365.76, 272.11, 270.0), // TagId 8
+            new Position2D(365.76, 93.65, 270.0),  // TagId 9
+            new Position2D(365.76, 79.68, 270.0)   // TagId 10
+    };
+
+
+
+
+    //
+    // Camera Settings
+    //
+    public static int CAMERA_WIDTH                                  = 1280;
+    public static int CAMERA_HEIGHT                                 = 720;
+    public static boolean USE_WEBCAM                                = true;
+    public static boolean ENABLE_LIVE_VIEW                          = true;
+
+
+
 }
 

@@ -24,19 +24,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
     public Robot robot;
     public DriveModes.PixelPos pixelPos = DriveModes.PixelPos.UNKNOWN;
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
-    // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
-    // Define the labels recognized in the model for TFOD (must be in training order!)
-    private static final String[] LABELS = {
-            "Pixel",
-    };
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
+
     private TfodProcessor tfod;
 
     /**
@@ -334,7 +322,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
             AngleUnit unit = AngleUnit.DEGREES;
             assert highestConfidenceRecognition != null;
-            double degrees = highestConfidenceRecognition.estimateAngleToObject(unit);
+            double degrees = highestConfidenceRecognition.estimateAngleToObject(unit); //TODO: this is interesting for the pickup assistant
             double x = (highestConfidenceRecognition.getLeft() + highestConfidenceRecognition.getRight()) / 2 ;
             double y = (highestConfidenceRecognition.getTop()  + highestConfidenceRecognition.getBottom()) / 2 ;
             telemetry.addData(""," ");
