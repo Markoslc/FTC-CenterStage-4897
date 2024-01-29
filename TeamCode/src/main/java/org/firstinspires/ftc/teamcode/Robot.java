@@ -4,6 +4,8 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
 
+import android.sax.StartElementListener;
+
 import androidx.annotation.Nullable;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -77,15 +79,15 @@ public class Robot {
         backR.setDirection(BACK_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
         backL.setDirection(BACK_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
-        frontL.setTargetPosition(0);
-        frontR.setTargetPosition(0);
-        backL.setTargetPosition(0);
-        backR.setTargetPosition(0);
-
         frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontL.setTargetPosition(0);
+        frontR.setTargetPosition(0);
+        backL.setTargetPosition(0);
+        backR.setTargetPosition(0);
 
         frontL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -106,9 +108,9 @@ public class Robot {
 
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        arm.setTargetPosition(ARM_REST_POS);
 
-        arm.setTargetPosition(0);
+        arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         arm.setPower(DEFAULT_ARM_POWER);
 
@@ -153,7 +155,7 @@ public class Robot {
     * @param systems The systems that will be updated in the telemetry
      */
     public void update(@Nullable Systems... systems){
-        if (systems != null) {
+        if (systems != null && systems.length > 0) {
             for(Systems system : systems){
                 switch (system){
                     case WHEELS:
@@ -200,6 +202,9 @@ public class Robot {
                         break;
                     case CLAWS:
                         currOpMode.telemetry.addData("Claws busy", clawsBusy);
+                        currOpMode.telemetry.addData("LeftClaw Position: ", leftClaw.getPosition());
+                        currOpMode.telemetry.addData("RightClaw Position: ", rightClaw.getPosition());
+
                         clawsBusy = false;
                         break;
                     case IMU:
@@ -208,6 +213,7 @@ public class Robot {
                 }
             }
         } else update(Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
+        currOpMode.telemetry.update();
     }
 
     //
@@ -413,7 +419,9 @@ public class Robot {
     public void moveArm(int targetPos, @Nullable boolean... individualWait){
         arm.setTargetPosition(targetPos);
 
-        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.ARM);
+        if(individualWait != null && individualWait.length > 0 && individualWait[0]) {
+            waitForSystem(20, Systems.ARM);
+        }
     }
     public void nextArmPos(){
         armPosIndex++;
@@ -468,7 +476,9 @@ public class Robot {
 
         clawsBusy = true;
 
-        if(individualWait != null && individualWait[0]) waitForSystem(20, Systems.CLAWS);
+        if(individualWait != null && individualWait.length > 0 && individualWait[0]) {
+            waitForSystem(20, Systems.CLAWS);
+        }
     }
     public void waitForClaws(){
         while(clawsBusy){

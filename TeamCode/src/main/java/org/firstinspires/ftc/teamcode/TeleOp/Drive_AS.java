@@ -16,6 +16,7 @@ public class Drive_AS extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
+
             double forwardPower = -gamepad1.left_stick_y;
             double sidePower = gamepad1.left_stick_x;
             double rotationPower = gamepad1.right_stick_x;
