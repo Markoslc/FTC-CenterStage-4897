@@ -161,12 +161,31 @@ public class Robot {
                         currOpMode.telemetry.addData("FR busy:", frontR.isBusy());
                         currOpMode.telemetry.addData("BL busy:", backL.isBusy());
                         currOpMode.telemetry.addData("BR busy:", backR.isBusy());
+
+                        currOpMode.telemetry.addData("FL velocity:", frontL.getVelocity(AngleUnit.DEGREES));
+                        currOpMode.telemetry.addData("FR velocity:", frontR.getVelocity(AngleUnit.DEGREES));
+                        currOpMode.telemetry.addData("BL velocity:", backL.getVelocity(AngleUnit.DEGREES));
+                        currOpMode.telemetry.addData("BR velocity:", backR.getVelocity(AngleUnit.DEGREES));
                         break;
                     case ARM:
                         currOpMode.telemetry.addData("Arm busy:", arm.isBusy());
+                        currOpMode.telemetry.addData("Arm position:", arm.getCurrentPosition());
+
+                        switch (armPosIndex){
+                            case 0:
+                                currOpMode.telemetry.addLine("Arm target position: Rest");
+                                break;
+                            case 1:
+                                currOpMode.telemetry.addLine("Arm target position: Score");
+                                break;
+                            case 2:
+                                currOpMode.telemetry.addLine("Arm target position: Load");
+                                break;
+                        }
                         break;
                     case LIFT:
                         currOpMode.telemetry.addData("Lift busy:", lift.isBusy());
+                        currOpMode.telemetry.addData("Lift power:", lift.getPower());
                         switch (currLiftDirection){
                             case UP:
                                 currOpMode.telemetry.addLine("Lift direction: Up");
@@ -174,8 +193,9 @@ public class Robot {
                             case DOWN:
                                 currOpMode.telemetry.addLine("Lift direction: Down");
                                 break;
-                            default:
+                            case REST:
                                 currOpMode.telemetry.addLine("Lift direction: Rest");
+                                break;
                         }
                         break;
                     case CLAWS:
