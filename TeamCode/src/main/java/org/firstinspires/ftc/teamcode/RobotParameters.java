@@ -40,7 +40,7 @@ public class RobotParameters {
     public static final boolean ARM_REVERSED      = false;
     public static final double  DEFAULT_ARM_POWER = 0.4;
     public static final int     ARM_LOAD_POS      = -1800;
-    public static final int     ARM_REST_POS      = 0;
+    public static final int     ARM_REST_POS      = -5;
     public static final int     ARM_SCORE_POS     = -1100;
     public static       int[]   ArmPositions      = new int[]{
             ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS

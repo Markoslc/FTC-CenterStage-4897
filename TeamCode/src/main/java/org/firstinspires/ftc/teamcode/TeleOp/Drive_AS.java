@@ -13,6 +13,10 @@ public class Drive_AS extends LinearOpMode {
     @Override
     public void runOpMode(){
         Robot robot =  new Robot(false, 1, this);
+        boolean dpadUpWasPressed = false;
+        boolean dpadUpPressed = false;
+        boolean dpadDownWasPressed = false;
+        boolean dpadDownPressed = false;
 
         waitForStart();
         while(opModeIsActive()){
@@ -25,12 +29,25 @@ public class Drive_AS extends LinearOpMode {
 
             if(gamepad1.left_bumper) robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
             else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+            // TODO: Set the right values for the position
 
             if(gamepad1.right_bumper) robot.moveClaws(false, true, ClawPositions.CLAWS_OPEN);
             else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+            // TODO: Set the right values for the position
 
-            if(gamepad1.dpad_up) robot.nextArmPos();
-            if(gamepad1.dpad_down) robot.prevArmPos();
+            dpadUpWasPressed = dpadUpPressed;
+            dpadUpPressed = false;
+            if(gamepad1.dpad_up){
+                dpadUpPressed = true;
+                if(!dpadUpWasPressed) robot.nextArmPos();
+            }
+
+            dpadDownWasPressed = dpadDownPressed;
+            dpadDownPressed = false;
+            if(gamepad1.dpad_down){
+                dpadDownPressed = true;
+                if(!dpadDownWasPressed) robot.prevArmPos();
+            }
 
             if(gamepad1.a){
                 if(currLiftDirection == LiftDirections.REST) {
