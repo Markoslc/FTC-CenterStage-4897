@@ -16,15 +16,14 @@ public class Position3D {
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param x specifies the x component of the pose.
-     * @param y specifies the y component of the pose.
-     * @param z specifies the z component of the pose.
-     * @param yaw specifies the yaw angle.
+     * @param x     specifies the x component of the pose.
+     * @param y     specifies the y component of the pose.
+     * @param z     specifies the z component of the pose.
+     * @param yaw   specifies the yaw angle.
      * @param pitch specifies the pitch angle.
-     * @param roll specifies the roll angle.
+     * @param roll  specifies the roll angle.
      */
-    public Position3D(double x, double y, double z, double yaw, double pitch, double roll)
-    {
+    public Position3D(double x, double y, double z, double yaw, double pitch, double roll) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -35,22 +34,22 @@ public class Position3D {
 
     /**
      * this method returns the Position3D string
+     *
      * @return the Position3D string
      */
     @NonNull
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
                 Locale.US, "(x=%.1f,y=%.1f,z=%.1f,yaw=%.1f,pitch=%.1f,roll=%.1f)", x, y, z, yaw, pitch, roll);
     }   //toString
+
     /**
      * This method sets this pose to be the same as the given pose.
      *
      * @param pose specifies the pose to make this pose equal to.
      */
-    public void setAs(Position3D pose)
-    {
+    public void setAs(Position3D pose) {
         this.x = pose.x;
         this.y = pose.y;
         this.z = pose.z;
@@ -104,9 +103,10 @@ public class Position3D {
 
     /**
      * gives a 2D representation of this object
+     *
      * @return 2D representation of this object
      */
-    public Position2D toPosition2D(){
+    public Position2D toPosition2D() {
         return new Position2D(this.x, this.y, this.yaw);
     }
 

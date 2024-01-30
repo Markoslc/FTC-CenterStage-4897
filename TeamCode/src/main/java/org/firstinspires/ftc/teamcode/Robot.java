@@ -4,15 +4,10 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
 
-import android.sax.StartElementListener;
-
 import androidx.annotation.Nullable;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -94,7 +89,6 @@ public class Robot {
         frontR.setPower(0);
         backL.setPower(0);
         backR.setPower(0);
-
 
 
         //
@@ -251,6 +245,8 @@ public class Robot {
 
         switch (driveMode) {
             case ROBOT:
+                sidePower *= SIDE_POWER_PERFECTION_MULTIPLIER;
+
                 frontLPower = forwardPower + sidePower + rotationPower;
                 frontRPower = forwardPower - sidePower - rotationPower;
                 backLPower = forwardPower - sidePower + rotationPower;
@@ -268,6 +264,7 @@ public class Robot {
 
                 forwardPower = sidePower * Math.cos(-robotRotation) - forwardPower * Math.sin(-robotRotation);
                 sidePower = sidePower * Math.sin(-robotRotation) + forwardPower * Math.cos(-robotRotation);
+                sidePower *= SIDE_POWER_PERFECTION_MULTIPLIER;
 
                 frontLPower = forwardPower + sidePower + rotationPower;
                 frontRPower = forwardPower - sidePower - rotationPower;
