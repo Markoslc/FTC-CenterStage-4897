@@ -10,14 +10,15 @@ import org.firstinspires.ftc.teamcode.Robot;
 @TeleOp(name = "Test", group = "Test")
 public class Test extends LinearOpMode {
     AprilTagRecognition tags;
-    Position2D botPosition;
+    Position2D          botPosition;
+
     @Override
-    public void runOpMode(){
-        Robot robot =  new Robot(false, this);
+    public void runOpMode() {
+        Robot robot = new Robot(false, this);
         tags = new AprilTagRecognition(this);
 
         waitForStart();
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             botPosition = tags.getRobotPosition();
             if (botPosition != null) telemetry.addLine(botPosition.toString());
             robot.update();

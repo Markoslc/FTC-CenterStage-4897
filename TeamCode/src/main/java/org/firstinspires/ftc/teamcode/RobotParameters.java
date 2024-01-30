@@ -12,26 +12,28 @@ public class RobotParameters {
     public enum DriveMode {
         FIELD, ROBOT
     }
+
     public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.FIELD;
 
     //
     // Wheels
     //
-    public static final String  FRONT_LEFT_STR            = "frontLeft";
-    public static final String  FRONT_RIGHT_STR           = "frontRight";
-    public static final String  BACK_LEFT_STR             = "backLeft";
-    public static final String  BACK_RIGHT_STR            = "backRight";
-    public static final boolean FRONT_LEFT_REVERSED       = true;
-    public static final boolean FRONT_RIGHT_REVERSED      = false;
-    public static final boolean BACK_LEFT_REVERSED        = false;
-    public static final boolean BACK_RIGHT_REVERSED       = true;
-    public static final double  WHEEL_PPR                 = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
-    public static final int     WHEEL_RPM                 = 312;
-    public static final double  WHEEL_RPS                 = (double) WHEEL_RPM / 60;
-    public static final double  WHEEL_DEGREES_PER_SECOND  = WHEEL_RPS * 360;
-    public static final double  WHEEL_PPM                 = WHEEL_PPR * WHEEL_RPM;
-    public static final double  WHEEL_PPS                 = WHEEL_PPM * 60;
-    public static final double  ROTATION_POWER_MULTIPLIER = (double) 1 / 3;
+    public static final String  FRONT_LEFT_STR                   = "frontLeft";
+    public static final String  FRONT_RIGHT_STR                  = "frontRight";
+    public static final String  BACK_LEFT_STR                    = "backLeft";
+    public static final String  BACK_RIGHT_STR                   = "backRight";
+    public static final boolean FRONT_LEFT_REVERSED              = true;
+    public static final boolean FRONT_RIGHT_REVERSED             = false;
+    public static final boolean BACK_LEFT_REVERSED               = false;
+    public static final boolean BACK_RIGHT_REVERSED              = true;
+    public static final double  WHEEL_PPR                        = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
+    public static final int     WHEEL_RPM                        = 312;
+    public static final double  WHEEL_RPS                        = (double) WHEEL_RPM / 60;
+    public static final double  WHEEL_DEGREES_PER_SECOND         = WHEEL_RPS * 360;
+    public static final double  WHEEL_PPM                        = WHEEL_PPR * WHEEL_RPM;
+    public static final double  WHEEL_PPS                        = WHEEL_PPM * 60;
+    public static final double  ROTATION_POWER_MULTIPLIER        = (double) 1 / 3;
+    public static final double  SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
 
     //
     // Arm
@@ -49,9 +51,10 @@ public class RobotParameters {
     //
     // Lift
     //
-    public static final String LIFT_STR                    = "lift";
-    public static final boolean LIFT_REVERSED              = false;
-    public enum LiftDirections{
+    public static final String  LIFT_STR      = "lift";
+    public static final boolean LIFT_REVERSED = false;
+
+    public enum LiftDirections {
         UP, DOWN, REST
     }
 
@@ -87,7 +90,8 @@ public class RobotParameters {
             }
             return targetPos;
         }
-        public static double rightClaw(ClawPositions clawPos){
+
+        public static double rightClaw(ClawPositions clawPos) {
             double targetPos = 0;
             switch (clawPos) {
                 case CLAWS_CLOSED:

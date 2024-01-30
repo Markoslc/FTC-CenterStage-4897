@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 
@@ -20,9 +21,9 @@ import java.util.List;
 
 @Autonomous(name = "Auto Guided Blue Short AS")
 public class AutoGuidedDriveBlueShort extends LinearOpMode {
-    public Robot robot;
-    public DriveModes.PixelPos pixelPos = DriveModes.PixelPos.UNKNOWN;
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+    public               Robot               robot;
+    public               DriveModes.PixelPos pixelPos   = DriveModes.PixelPos.UNKNOWN;
+    private static final boolean             USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     private TfodProcessor tfod;
 
@@ -33,14 +34,14 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(true, 1, this);/*
+        Robot robot = new Robot(true, this);/*
         initClaws();
         initWheels();
         initArm();*/
         initTfod();
 
         waitForStart();
-        
+
         robot.moveArm(ARM_LOAD_POS);
         robot.waitForSystem(500, Systems.ARM);
 
@@ -50,12 +51,12 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveArm(ARM_SCORE_POS, true);
 
-        if (pixelPos == DriveModes.PixelPos.UNKNOWN){
+        if (pixelPos == DriveModes.PixelPos.UNKNOWN) {
             pixelPos = searchPixel();
-        } else{
+        } else {
             robot.moveForward(200, true);
         }
-        switch (pixelPos){
+        switch (pixelPos) {
             case RIGHT:
                 useRightMode();
                 break;
@@ -267,12 +268,12 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         sleep(taskTime+50);
     }*/
 
-    public DriveModes.PixelPos searchPixel(){
+    public DriveModes.PixelPos searchPixel() {
         robot.moveForward(350);
         robot.moveArm(ARM_LOAD_POS);
         robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
 
-        if (pixelInView()){
+        if (pixelInView()) {
             telemetry.speak("I work! I found the pixel in the center. i just don't care about how computers and logic work");
             telemetry.addLine("I found it");
             return DriveModes.PixelPos.CENTER;
@@ -285,13 +286,13 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveArm(ARM_LOAD_POS, true);
 
-        if (pixelInView()){
+        if (pixelInView()) {
             robot.moveRight(200);
             robot.moveArm(ARM_SCORE_POS);
             robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
             return DriveModes.PixelPos.LEFT;
 
-        }else{
+        } else {
             robot.moveRight(200);
             robot.moveArm(ARM_SCORE_POS);
             robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
@@ -300,15 +301,15 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
     }
 
-    public DriveModes.PixelPos getPixelPos(){
-        if (visionPortal == null){
+    public DriveModes.PixelPos getPixelPos() {
+        if (visionPortal == null) {
             initTfod();
         }
         //visionPortal.stopStreaming();
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         if (!currentRecognitions.isEmpty()) {
             Recognition highestConfidenceRecognition = null;
-            double maxConfidence = 0.0;
+            double      maxConfidence                = 0.0;
 
             for (Recognition recognition : currentRecognitions) {
                 double confidence = recognition.getConfidence();
@@ -322,21 +323,20 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
             AngleUnit unit = AngleUnit.DEGREES;
             assert highestConfidenceRecognition != null;
             double degrees = highestConfidenceRecognition.estimateAngleToObject(unit); //TODO: this is interesting for the pickup assistant
-            double x = (highestConfidenceRecognition.getLeft() + highestConfidenceRecognition.getRight()) / 2 ;
-            double y = (highestConfidenceRecognition.getTop()  + highestConfidenceRecognition.getBottom()) / 2 ;
-            telemetry.addData(""," ");
+            double x       = (highestConfidenceRecognition.getLeft() + highestConfidenceRecognition.getRight()) / 2;
+            double y       = (highestConfidenceRecognition.getTop() + highestConfidenceRecognition.getBottom()) / 2;
+            telemetry.addData("", " ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", highestConfidenceRecognition.getLabel(), highestConfidenceRecognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", highestConfidenceRecognition.getWidth(), highestConfidenceRecognition.getHeight());
-            if (x < 50){
+            if (x < 50) {
                 return DriveModes.PixelPos.LEFT;
-            }
-            else if(x > 180){
+            } else if (x > 180) {
                 return DriveModes.PixelPos.CENTER;
             } else {
                 return DriveModes.PixelPos.RIGHT;
             }
-        } else{
+        } else {
             return DriveModes.PixelPos.UNKNOWN;
         }
     }
@@ -363,21 +363,20 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
                 .setCameraResolution(new Size(1280, 720));
 
 
-
         visionPortal = builder.build();
 
 
     } //initTfod
 
-    public boolean pixelInView(){
-        int i = 0;
+    public boolean pixelInView() {
+        int     i = 0;
         boolean result;
-        while (i<500){
+        while (i < 500) {
             i++;
             List<Recognition> currentRecognitions = tfod.getRecognitions();
 
             result = currentRecognitions.size() > 0;
-            if (result){
+            if (result) {
                 return true;
             }
         }

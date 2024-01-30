@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 
 
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -17,14 +16,14 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 public class DriveModes {
-    public enum StartPos{
+    public enum StartPos {
         BLUESHORT,
         BLUELONG,
         REDSHORT,
         REDLONG
     }
 
-    public enum GameStrategy{
+    public enum GameStrategy {
         DO_NOTHING,
         PUSH_PIXEL,
         PUSH_AND_PLACE,
@@ -34,23 +33,24 @@ public class DriveModes {
         PUSH_PLACE_GET_RETURN_CAM,
     }
 
-    public enum PixelPos{
+    public enum PixelPos {
         LEFT,
         CENTER,
         RIGHT,
         UNKNOWN
     }
-    public static class DriveParams{
-        double startRotation;
-        double endRotation;
-        double PowerCoefficient;
+
+    public static class DriveParams {
+        double   startRotation;
+        double   endRotation;
+        double   PowerCoefficient;
         StartPos startPos;
     }
 
     private final HardwareMap hardwareMap;
-    public PixelPos pixelPos;
-    public Servo leftClaw;
-    public Servo rightClaw;
+    public        PixelPos    pixelPos;
+    public        Servo       leftClaw;
+    public        Servo       rightClaw;
 
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
@@ -63,7 +63,7 @@ public class DriveModes {
     private VisionPortal visionPortal;
 
 
-    public DriveModes(StartPos startPos, HardwareMap hardwareMap){
+    public DriveModes(StartPos startPos, HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;//FtcOpMode.getInstance().hardwareMap;
         leftClaw = this.hardwareMap.get(Servo.class, "leftClaw");
         rightClaw = this.hardwareMap.get(Servo.class, "rightClaw");
@@ -71,15 +71,15 @@ public class DriveModes {
 
     }
 
-    public PixelPos getPixelPos(){
-        if (visionPortal == null){
+    public PixelPos getPixelPos() {
+        if (visionPortal == null) {
             initTfod();
         }
         visionPortal.stopStreaming();
         List<Recognition> currentRecognitions = Tfod.getRecognitions();
         if (!currentRecognitions.isEmpty()) {
             Recognition highestConfidenceRecognition = null;
-            double maxConfidence = 0.0;
+            double      maxConfidence                = 0.0;
 
             for (Recognition recognition : currentRecognitions) {
                 double confidence = recognition.getConfidence();
@@ -93,17 +93,16 @@ public class DriveModes {
             AngleUnit unit = AngleUnit.DEGREES;
             assert highestConfidenceRecognition != null;
             double degrees = highestConfidenceRecognition.estimateAngleToObject(unit);
-            double x = (highestConfidenceRecognition.getLeft() + highestConfidenceRecognition.getRight()) / 2 ;
-            double y = (highestConfidenceRecognition.getTop()  + highestConfidenceRecognition.getBottom()) / 2 ;
-            if (x < 50){
+            double x       = (highestConfidenceRecognition.getLeft() + highestConfidenceRecognition.getRight()) / 2;
+            double y       = (highestConfidenceRecognition.getTop() + highestConfidenceRecognition.getBottom()) / 2;
+            if (x < 50) {
                 return PixelPos.LEFT;
-            }
-            else if(x > 180){
+            } else if (x > 180) {
                 return PixelPos.CENTER;
             } else {
                 return PixelPos.RIGHT;
             }
-        } else{
+        } else {
             return PixelPos.UNKNOWN;
         }
     }
@@ -132,7 +131,7 @@ public class DriveModes {
 
     } //initTfod
 
-    public boolean isPixelInView(){
+    public boolean isPixelInView() {
         List<Recognition> currentRecognitions = Tfod.getRecognitions();
         return currentRecognitions.size() > 0;
     }

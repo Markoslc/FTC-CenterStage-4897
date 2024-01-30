@@ -13,12 +13,11 @@ public class Position2D {
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param x specifies the x component of the pose (in cm).
-     * @param y specifies the y component of the pose (in cm).
+     * @param x     specifies the x component of the pose (in cm).
+     * @param y     specifies the y component of the pose (in cm).
      * @param angle specifies the angle in degrees.
      */
-    public Position2D(double x, double y, double angle)
-    {
+    public Position2D(double x, double y, double angle) {
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -29,14 +28,14 @@ public class Position2D {
      */
     @NonNull
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
                 Locale.US, "(x=%.1f,y=%.1f,angle=%.1f)", x, y, angle);
     }   //toString
 
     /**
      * Compares this pose with the specified pose for equality.
+     *
      * @param obj the Position2D object that should be compared.
      * @return true if equal, false otherwise.
      */
@@ -56,7 +55,8 @@ public class Position2D {
 
     /**
      * Compares the pose with the specified pose.
-     * @param obj The Position2D object that should be compared.
+     *
+     * @param obj       The Position2D object that should be compared.
      * @param tolerance The tolerance for the similarity of the poses (in cm).
      * @return True if similar, false otherwise.
      */
