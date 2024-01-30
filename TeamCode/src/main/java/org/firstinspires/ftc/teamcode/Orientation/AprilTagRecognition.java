@@ -81,8 +81,8 @@ public class AprilTagRecognition {
             Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
 
 
-            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
-            double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle));
+            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
+            double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
             double angle = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
 
             sumX += robotX;

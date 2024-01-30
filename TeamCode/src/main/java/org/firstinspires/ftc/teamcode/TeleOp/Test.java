@@ -13,14 +13,13 @@ public class Test extends LinearOpMode {
     Position2D botPosition;
     @Override
     public void runOpMode(){
-        Robot robot =  new Robot(false, 1, this);
+        Robot robot =  new Robot(false, this);
+        tags = new AprilTagRecognition(this);
 
         waitForStart();
         while(opModeIsActive()){
-            tags = new AprilTagRecognition(this);
             botPosition = tags.getRobotPosition();
             if (botPosition != null) telemetry.addLine(botPosition.toString());
-
             robot.update();
         }
     }

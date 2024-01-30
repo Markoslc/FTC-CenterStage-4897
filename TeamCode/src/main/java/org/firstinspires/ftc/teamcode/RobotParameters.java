@@ -12,7 +12,7 @@ public class RobotParameters {
     public enum DriveMode {
         FIELD, ROBOT
     }
-    public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.ROBOT;
+    public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.FIELD;
 
     //
     // Wheels
@@ -23,8 +23,8 @@ public class RobotParameters {
     public static final String  BACK_RIGHT_STR            = "backRight";
     public static final boolean FRONT_LEFT_REVERSED       = true;
     public static final boolean FRONT_RIGHT_REVERSED      = false;
-    public static final boolean BACK_LEFT_REVERSED        = true;
-    public static final boolean BACK_RIGHT_REVERSED       = false;
+    public static final boolean BACK_LEFT_REVERSED        = false;
+    public static final boolean BACK_RIGHT_REVERSED       = true;
     public static final double  WHEEL_PPR                 = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
     public static final int     WHEEL_RPM                 = 312;
     public static final double  WHEEL_RPS                 = (double) WHEEL_RPM / 60;
@@ -116,7 +116,7 @@ public class RobotParameters {
     public static final RevHubOrientationOnRobot.UsbFacingDirection  USB_DIRECTION        = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
     public static       RevHubOrientationOnRobot                     ORIENTATION_ON_ROBOT = new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);
     public static       IMU.Parameters                               IMU_DEFAULT_PARAMS   = new IMU.Parameters(ORIENTATION_ON_ROBOT);
-    public static final int                                          VERBOSE              = 3;
+    public static final int                                          VERBOSE              = 4;
     /**
      * 0: NOTHING
      * 1: ERRORS ONLY

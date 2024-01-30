@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class Drive_AS extends LinearOpMode {
     @Override
     public void runOpMode(){
-        Robot robot =  new Robot(false, 1, this);
+        Robot robot =  new Robot(false, this);
         boolean dpadUpWasPressed = false;
         boolean dpadUpPressed = false;
         boolean dpadDownWasPressed = false;

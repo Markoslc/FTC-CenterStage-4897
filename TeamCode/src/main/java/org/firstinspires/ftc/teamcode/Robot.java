@@ -60,7 +60,7 @@ public class Robot {
     public static IMU    imu;
     public static double currImuTargetAngle;
 
-    public Robot(boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
+    public Robot(boolean resetIMUYaw, LinearOpMode opMode) {
         //
         // Robot
         //
@@ -85,15 +85,17 @@ public class Robot {
         backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        frontR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        backL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        backR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        frontL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        frontR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        backL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        backR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        frontL.setPower(wheelPower);
-        frontR.setPower(wheelPower);
-        backL.setPower(wheelPower);
-        backR.setPower(wheelPower);
+        frontL.setPower(0);
+        frontR.setPower(0);
+        backL.setPower(0);
+        backR.setPower(0);
+
+
 
         //
         // Arm
@@ -246,15 +248,17 @@ public class Robot {
 
         switch (driveMode) {
             case ROBOT:
-                frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
-                frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
-                backLPower = Range.clip(forwardPower - sidePower + rotationPower, -1, 1);
-                backRPower = Range.clip(forwardPower + sidePower - rotationPower, -1, 1);
+                double denominator = Math.max(Math.abs(forwardPower) + Math.abs(sidePower) + Math.abs(sidePower), 1);
 
-                frontL.setVelocity(WHEEL_DEGREES_PER_SECOND * frontLPower, AngleUnit.DEGREES);
-                frontR.setVelocity(WHEEL_DEGREES_PER_SECOND * frontRPower, AngleUnit.DEGREES);
-                backL.setVelocity(WHEEL_DEGREES_PER_SECOND * backLPower, AngleUnit.DEGREES);
-                backR.setVelocity(WHEEL_DEGREES_PER_SECOND * backRPower, AngleUnit.DEGREES);
+                frontLPower = forwardPower + sidePower + rotationPower;
+                frontRPower = forwardPower - sidePower - rotationPower;
+                backLPower = forwardPower - sidePower + rotationPower;
+                backRPower = forwardPower + sidePower - rotationPower;
+
+                frontL.setPower(frontLPower / denominator);
+                frontR.setPower(frontRPower / denominator);
+                backL.setPower(backLPower / denominator);
+                backR.setPower(backRPower / denominator);
 
                 break;
             case FIELD:
