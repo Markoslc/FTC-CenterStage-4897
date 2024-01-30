@@ -239,6 +239,9 @@ public class Robot {
      * @param rotationPower The multiplier of the turning. Ranges from -1 to 1
      */
     public void drive(double forwardPower, double sidePower, double rotationPower) {
+
+        double denominator = Math.max(Math.abs(forwardPower) + Math.abs(sidePower) + Math.abs(sidePower), 1);
+
         double frontLPower;
         double frontRPower;
         double backLPower;
@@ -248,8 +251,6 @@ public class Robot {
 
         switch (driveMode) {
             case ROBOT:
-                double denominator = Math.max(Math.abs(forwardPower) + Math.abs(sidePower) + Math.abs(sidePower), 1);
-
                 frontLPower = forwardPower + sidePower + rotationPower;
                 frontRPower = forwardPower - sidePower - rotationPower;
                 backLPower = forwardPower - sidePower + rotationPower;
@@ -262,28 +263,27 @@ public class Robot {
 
                 break;
             case FIELD:
-                double stickAngle = Math.atan2(forwardPower, sidePower);
-                double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) - stickAngle;
+                // double stickAngle = Math.atan2(forwardPower, sidePower);
+                double robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-                double stickMagnitude = Math.sqrt(Math.pow(forwardPower, 2) + Math.pow(sidePower, 2));
-                forwardPower = stickMagnitude * Math.cos(Math.toRadians(angle));
-                sidePower = stickMagnitude * Math.sin(Math.toRadians(angle));
+                forwardPower = sidePower * Math.cos(-robotRotation) - forwardPower * Math.sin(-robotRotation);
+                sidePower = sidePower * Math.sin(-robotRotation) + forwardPower * Math.cos(-robotRotation);
 
-                frontLPower = Range.clip(forwardPower + sidePower + rotationPower, -1, 1);
-                frontRPower = Range.clip(forwardPower - sidePower - rotationPower, -1, 1);
-                backLPower = Range.clip(forwardPower - sidePower + rotationPower, -1, 1);
-                backRPower = Range.clip(forwardPower + sidePower - rotationPower, -1, 1);
+                frontLPower = forwardPower + sidePower + rotationPower;
+                frontRPower = forwardPower - sidePower - rotationPower;
+                backLPower = forwardPower - sidePower + rotationPower;
+                backRPower = forwardPower + sidePower - rotationPower;
 
-                frontL.setVelocity(WHEEL_DEGREES_PER_SECOND * frontLPower, AngleUnit.DEGREES);
-                frontR.setVelocity(WHEEL_DEGREES_PER_SECOND * frontRPower, AngleUnit.DEGREES);
-                backL.setVelocity(WHEEL_DEGREES_PER_SECOND * backLPower, AngleUnit.DEGREES);
-                backR.setVelocity(WHEEL_DEGREES_PER_SECOND * backRPower, AngleUnit.DEGREES);
+                frontL.setPower(frontLPower / denominator);
+                frontR.setPower(frontRPower / denominator);
+                backL.setPower(backLPower / denominator);
+                backR.setPower(backRPower / denominator);
                 break;
             default:
-                frontL.setVelocity(0);
-                frontR.setVelocity(0);
-                backL.setVelocity(0);
-                backR.setVelocity(0);
+                frontL.setPower(0);
+                frontR.setPower(0);
+                backL.setPower(0);
+                backR.setPower(0);
         }
     }
 
