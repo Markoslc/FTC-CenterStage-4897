@@ -12,7 +12,7 @@ public class RobotParameters {
     public enum DriveMode {
         FIELD, ROBOT
     }
-    public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.FIELD;
+    public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.ROBOT;
 
     //
     // Wheels

@@ -8,6 +8,7 @@ import android.sax.StartElementListener;
 
 import androidx.annotation.Nullable;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -93,6 +94,11 @@ public class Robot {
         frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         backL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         backR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+        frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        frontR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        backL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        backR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         frontL.setPower(wheelPower);
         frontR.setPower(wheelPower);
@@ -484,11 +490,11 @@ public class Robot {
     // Claws
     //
     public void moveClaws(boolean moveLeft, boolean moveRight, ClawPositions clawPos, @Nullable boolean... individualWait){
-        leftClawTargetPos = ClawPositions.leftClaw(clawPos);
-        rightClawTargetPos = ClawPositions.rightClaw(clawPos);
+        if(moveLeft) leftClawTargetPos = ClawPositions.leftClaw(clawPos);
+        if (moveRight) rightClawTargetPos = ClawPositions.rightClaw(clawPos);
         
-        leftClaw.setPosition(moveLeft ? leftClawTargetPos : leftClaw.getPosition());
-        rightClaw.setPosition(moveRight ? rightClawTargetPos : rightClaw.getPosition());
+        leftClaw.setPosition(leftClawTargetPos);
+        rightClaw.setPosition(rightClawTargetPos);
 
         clawsBusy = true;
 

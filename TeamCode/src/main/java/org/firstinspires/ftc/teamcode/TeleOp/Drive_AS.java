@@ -24,16 +24,20 @@ public class Drive_AS extends LinearOpMode {
             double forwardPower = -gamepad1.left_stick_y;
             double sidePower = gamepad1.left_stick_x;
             double rotationPower = gamepad1.right_stick_x;
-
             robot.drive(forwardPower, sidePower, rotationPower);
 
-            if(gamepad1.left_bumper) robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
-            else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-            // TODO: Set the right values for the position
+            telemetry.addData("left_stick_y", forwardPower);
 
-            if(gamepad1.right_bumper) robot.moveClaws(false, true, ClawPositions.CLAWS_OPEN);
-            else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-            // TODO: Set the right values for the position
+            if(gamepad1.left_bumper && gamepad1.right_bumper) robot.moveClaws(true, true,  ClawPositions.CLAWS_OPEN);
+            else {
+                if (gamepad1.left_bumper) robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
+                else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+                // TODO: Set the right values for the position
+
+                if (gamepad1.right_bumper) robot.moveClaws(false, true, ClawPositions.CLAWS_OPEN);
+                else robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
+                // TODO: Set the right values for the position
+            }
 
             dpadUpWasPressed = dpadUpPressed;
             dpadUpPressed = false;
@@ -52,7 +56,7 @@ public class Drive_AS extends LinearOpMode {
             if(gamepad1.a){
                 if(currLiftDirection == LiftDirections.REST) {
                     currLiftDirection = nextLiftDirection;
-                    nextLiftDirection = nextLiftDirection == LiftDirections.UP ? LiftDirections.DOWN : nextLiftDirection;
+                    nextLiftDirection = nextLiftDirection == LiftDirections.UP ? LiftDirections.DOWN : LiftDirections.UP;
                 }
             } else currLiftDirection = LiftDirections.REST;
             robot.moveLift(currLiftDirection);
