@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class Drive_AS extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot   robot              = new Robot(false, this);
+        Robot   robot              = new Robot(true, this); // Change imu reset to false
         boolean dpadUpWasPressed   = false;
         boolean dpadUpPressed      = false;
         boolean dpadDownWasPressed = false;

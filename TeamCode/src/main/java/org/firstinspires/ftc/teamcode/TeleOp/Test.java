@@ -14,7 +14,7 @@ public class Test extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(false, this);
+        Robot robot = new Robot(true, this);
         tags = new AprilTagRecognition(this);
 
         waitForStart();

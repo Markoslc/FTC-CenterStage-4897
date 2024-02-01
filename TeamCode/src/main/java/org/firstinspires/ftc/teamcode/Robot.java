@@ -259,17 +259,16 @@ public class Robot {
 
                 break;
             case FIELD:
-                // double stickAngle = Math.atan2(forwardPower, sidePower);
                 double robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-                forwardPower = sidePower * Math.cos(-robotRotation) - forwardPower * Math.sin(-robotRotation);
-                sidePower = sidePower * Math.sin(-robotRotation) + forwardPower * Math.cos(-robotRotation);
-                sidePower *= SIDE_POWER_PERFECTION_MULTIPLIER;
+                double forwardField = forwardPower * Math.cos(robotRotation) - sidePower * Math.sin(robotRotation);
+                double sideField = forwardPower * Math.sin(robotRotation) + sidePower * Math.cos(robotRotation);
+                sideField *= SIDE_POWER_PERFECTION_MULTIPLIER;
 
-                frontLPower = forwardPower + sidePower + rotationPower;
-                frontRPower = forwardPower - sidePower - rotationPower;
-                backLPower = forwardPower - sidePower + rotationPower;
-                backRPower = forwardPower + sidePower - rotationPower;
+                frontLPower = forwardField + sideField + rotationPower;
+                frontRPower = forwardField - sideField - rotationPower;
+                backLPower = forwardField - sideField + rotationPower;
+                backRPower = forwardField + sideField - rotationPower;
 
                 frontL.setPower(frontLPower / denominator);
                 frontR.setPower(frontRPower / denominator);

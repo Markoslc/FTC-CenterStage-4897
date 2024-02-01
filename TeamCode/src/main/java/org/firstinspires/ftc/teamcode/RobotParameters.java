@@ -133,18 +133,18 @@ public class RobotParameters {
     //
     //Position Settings
     //
-    public static       double                                       POSITION_TOLERANCE           = 0.1;
-    public static final Position2D[]                                 APRIL_TAG_POSES              = new Position2D[]{
-            new Position2D(29.845, 77.7, 90.0),    // TagId 1
-            new Position2D(29.845, 92.94, 90.0),   // TagId 2
-            new Position2D(29.845, 108.18, 90.0),  // TagId 3
-            new Position2D(29.845, 257.58, 90.0),  // TagId 4
-            new Position2D(29.845, 272.82, 90.0),  // TagId 5
-            new Position2D(29.845, 288.1, 90.0),   // TagId 6
-            new Position2D(365.76, 286.08, 270.0), // TagId 7
-            new Position2D(365.76, 272.11, 270.0), // TagId 8
-            new Position2D(365.76, 93.65, 270.0),  // TagId 9
-            new Position2D(365.76, 79.68, 270.0)   // TagId 10
+    public static       double                                       POSITION_TOLERANCE   = 0.1;
+    public static final Position2D[]                                 APRIL_TAG_POSES      = new Position2D[]{
+            new Position2D(29.845, 77.7, 270.0),    // TagId 1
+            new Position2D(29.845, 92.94, 270.0),   // TagId 2
+            new Position2D(29.845, 108.18, 270.0),  // TagId 3
+            new Position2D(29.845, 257.58, 270.0),  // TagId 4
+            new Position2D(29.845, 272.82, 270.0),  // TagId 5
+            new Position2D(29.845, 288.1, 270.0),   // TagId 6
+            new Position2D(365.76, 286.08, 90.0), // TagId 7
+            new Position2D(365.76, 272.11, 90.0), // TagId 8
+            new Position2D(365.76, 93.65, 90.0),  // TagId 9
+            new Position2D(365.76, 79.68, 90.0)   // TagId 10
     };
 
 
