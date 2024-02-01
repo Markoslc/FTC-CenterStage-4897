@@ -526,14 +526,18 @@ public class Robot {
     // Systems
     //
     private void waitForImu() {
-        while (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) != currImuTargetAngle) {
+        double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+
+        while (angle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || angle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
             currOpMode.sleep(1);
+
+            angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
 
-        frontL.setVelocity(0, AngleUnit.DEGREES);
-        frontR.setVelocity(0, AngleUnit.DEGREES);
-        backL.setVelocity(0, AngleUnit.DEGREES);
-        backR.setVelocity(0, AngleUnit.DEGREES);
+        frontL.setPower(0);
+        frontR.setPower(0);
+        backL.setPower(0);
+        backR.setPower(0);
     }
 
     public void waitForSystem(int extraTime, Systems... systems) {
