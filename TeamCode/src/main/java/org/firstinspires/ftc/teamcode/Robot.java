@@ -57,7 +57,7 @@ public class Robot {
     public static IMU    imu;
     public static double currImuTargetAngle;
 
-    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, LinearOpMode opMode) {
+    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
         // Robot
         //
@@ -105,10 +105,10 @@ public class Robot {
                 backL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                 backR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-                frontL.setPower(1);
-                frontR.setPower(1);
-                backL.setPower(1);
-                backR.setPower(1);
+                frontL.setPower(wheelPower);
+                frontR.setPower(wheelPower);
+                backL.setPower(wheelPower);
+                backR.setPower(wheelPower);
         }
 
 
@@ -402,38 +402,31 @@ public class Robot {
         }
     }
 
-    public void turnAngleLeft(double angle, @Nullable boolean... individualWait) {
+    public void turnAngleLeft(double angle) {
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
-        if (imuAngle + angle > 180) {
-            angle %= 180;
-            currImuTargetAngle = -180 + ((imuAngle + angle) % 180);
-        }
+        if (angle > 180) {
+            currImuTargetAngle = -180 + (angle % 180);
+        } else currImuTargetAngle = angle;
 
-        frontL.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
-        frontR.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
-        backL.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
-        backR.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
+            turnLeft(50);
 
-        if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.IMU);
+            imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
     }
 
-    public void turnAngleRight(double angle, @Nullable boolean... individualWait) {
+    public void turnAngleRight(double angle) {
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
-        if (imuAngle - angle < -180) {
-            currImuTargetAngle = 180 - Math.abs((imuAngle - angle) % 180);
-        }
+        if (angle < -180) {
+            currImuTargetAngle = 180 - (Math.abs(angle) % 180);
+        } else currImuTargetAngle = angle;
 
-        frontL.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
-        frontR.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
-        backL.setVelocity(WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
-        backR.setVelocity(-WHEEL_DEGREES_PER_SECOND, AngleUnit.DEGREES);
+        while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
+            turnRight(25);
 
-        if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.IMU);
+            imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
     }
 
@@ -548,20 +541,9 @@ public class Robot {
     //
     // Systems
     //
+    /*
     private void waitForImu() {
-        double angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-
-        while (angle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || angle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            currOpMode.sleep(1);
-
-            angle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }
-
-        frontL.setPower(0);
-        frontR.setPower(0);
-        backL.setPower(0);
-        backR.setPower(0);
-    }
+    }*/
 
     public void waitForSystem(int extraTime, Systems... systems) {
         for (Systems system : systems) {
@@ -577,10 +559,10 @@ public class Robot {
                     break;
                 case CLAWS:
                     waitForClaws();
-                    break;
+                    break;/*
                 case IMU:
                     waitForImu();
-                    break;
+                    break;*/
                 default:
                     waitForSystem(20, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS);
             }

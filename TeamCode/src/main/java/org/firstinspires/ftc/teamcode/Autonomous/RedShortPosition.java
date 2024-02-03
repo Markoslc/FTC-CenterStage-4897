@@ -15,7 +15,7 @@ public class RedShortPosition extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, this);
+        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.75, this);
 
         frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

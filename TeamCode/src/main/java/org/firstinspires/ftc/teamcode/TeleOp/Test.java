@@ -15,7 +15,7 @@ public class Test extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(RobotParameters.DrivePeriod.DRIVER, true, this);
+        Robot robot = new Robot(RobotParameters.DrivePeriod.DRIVER, true, 0.75, this);
         tags = new AprilTagRecognition(this);
 
         waitForStart();
