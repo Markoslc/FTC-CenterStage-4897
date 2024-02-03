@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Orientation.AprilTagRecognition;
 import org.firstinspires.ftc.teamcode.Orientation.Position2D;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.RobotParameters;
 
 @TeleOp(name = "Test", group = "Test")
 public class Test extends LinearOpMode {
@@ -14,7 +15,7 @@ public class Test extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(true, this);
+        Robot robot = new Robot(RobotParameters.DrivePeriod.DRIVER, true, this);
         tags = new AprilTagRecognition(this);
 
         waitForStart();

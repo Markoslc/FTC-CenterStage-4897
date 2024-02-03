@@ -34,7 +34,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(true, this);/*
+        robot = new Robot(DrivePeriod.AUTONOMOUS, true, this);/*
         initClaws();
         initWheels();
         initArm();*/

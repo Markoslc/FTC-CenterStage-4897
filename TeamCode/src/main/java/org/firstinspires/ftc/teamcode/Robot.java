@@ -5,6 +5,8 @@ import static org.firstinspires.ftc.teamcode.RobotParameters.*;
 import static java.lang.Thread.sleep;
 
 import androidx.annotation.Nullable;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -55,7 +57,7 @@ public class Robot {
     public static IMU    imu;
     public static double currImuTargetAngle;
 
-    public Robot(boolean resetIMUYaw, LinearOpMode opMode) {
+    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, LinearOpMode opMode) {
         //
         // Robot
         //
@@ -80,15 +82,34 @@ public class Robot {
         backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        frontR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        backL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        backR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        switch (drivePeriod){
+            case DRIVER:
+                frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+                frontR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+                backL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+                backR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        frontL.setPower(0);
-        frontR.setPower(0);
-        backL.setPower(0);
-        backR.setPower(0);
+                frontL.setPower(0);
+                frontR.setPower(0);
+                backL.setPower(0);
+                backR.setPower(0);
+                break;
+            case AUTONOMOUS:
+                frontL.setTargetPosition(0);
+                frontR.setTargetPosition(0);
+                backL.setTargetPosition(0);
+                backR.setTargetPosition(0);
+
+                frontL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                backL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                backR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+                frontL.setPower(1);
+                frontR.setPower(1);
+                backL.setPower(1);
+                backR.setPower(1);
+        }
 
 
         //
@@ -127,6 +148,8 @@ public class Robot {
 
         leftClaw.setDirection(LEFT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
         rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
+
+        moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
 
         //
         // Systems
@@ -513,12 +536,13 @@ public class Robot {
     }
 
     public void waitForClaws() {
-        while (clawsBusy) {
-            boolean leftClawBusy  = leftClaw.getPosition() >= leftClawTargetPos + 1 || leftClaw.getPosition() <= leftClawTargetPos - 1;
-            boolean rightClawBusy = rightClaw.getPosition() >= rightClawTargetPos + 1 || rightClaw.getPosition() <= rightClawTargetPos - 1;
-
-            clawsBusy = leftClawBusy || rightClawBusy;
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
+        clawsBusy = false;
     }
 
     //
