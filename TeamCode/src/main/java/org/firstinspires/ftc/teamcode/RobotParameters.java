@@ -65,10 +65,10 @@ public class RobotParameters {
     public static final String  RIGHT_CLAW_STR        = "rightClaw";
     public static final boolean LEFT_CLAW_REVERSED    = true;
     public static final boolean RIGHT_CLAW_REVERSED   = false;
-    public static final double  LEFT_CLAW_CLOSED_POS  = 0.75;
+    public static final double  LEFT_CLAW_CLOSED_POS  = 0.85;
     public static final double  LEFT_CLAW_OPEN_POS    = 0.5;
     public static final double  LEFT_CLAW_FALL_POS    = 0.1;
-    public static final double  RIGHT_CLAW_CLOSED_POS = 0.75;
+    public static final double  RIGHT_CLAW_CLOSED_POS = 0.85;
     public static final double  RIGHT_CLAW_OPEN_POS   = 0.5;
     public static final double  RIGHT_CLAW_FALL_POS   = 0.1;
 

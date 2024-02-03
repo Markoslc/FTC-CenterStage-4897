@@ -73,5 +73,23 @@ public class Position2D {
         }
     }   //similar
 
+    /**
+     * Subtracts the given pose from the current pose, treating them as relative positions.
+     * This involves subtracting the coordinates and the angles.
+     *
+     * @param otherPose The pose to subtract from this pose.
+     * @return A new Position2D representing the result of the subtraction.
+     */
+    public Position2D subtractRelativePose(Position2D otherPose) {
+        double newX = this.x - otherPose.x;
+        double newY = this.y - otherPose.y;
+        double newAngle = this.angle - otherPose.angle;
+
+        // Ensuring the angle remains within a standard range, e.g., -180 to 180 degrees.
+        newAngle = ((newAngle + 180) % 360 + 360) % 360 - 180;
+
+        return new Position2D(newX, newY, newAngle);
+    }
+
 
 }
