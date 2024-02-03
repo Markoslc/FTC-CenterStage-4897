@@ -72,7 +72,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
 
-        robot.turnAngleRight(30);
+        robot.turnAngleRight(-30);
         robot.moveRight(ARM_LOAD_POS);
         robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
 
@@ -85,8 +85,6 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.turnAngleRight(120);
 
         robot.moveForward(500, true);
-
-        robot.moveArm(ARM_SCORE_POS, true);
 
         robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
@@ -152,27 +150,28 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.turnAngleLeft(90);
 
-        robot.moveForward(700, true);
+        robot.moveRight(1100, true);
 
-        robot.moveRight(1000, true);
+        robot.moveForward(850, true);
 
-        robot.moveForward(420, true);
+        robot.moveArm(ARM_SCORE_POS, true);
 
         robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
         robot.moveBackward(300, true);
 
-        robot.moveRight(1250);
-        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-        robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
+        robot.moveRight(1000, true);
 
-        robot.moveForward(700, true);
+        robot.moveArm(ARM_REST_POS);
+        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+        robot.moveForward(700);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.ARM, Systems.CLAWS);
     }
 
     public DriveModes.PixelPos searchPixel() {
         robot.moveForward(325);
         robot.moveArm(ARM_LOAD_POS);
-        robot.waitForSystem(1000, Systems.WHEELS, Systems.ARM);
+        robot.waitForSystem(1200, Systems.WHEELS, Systems.ARM);
 
         if (pixelInView()) {
             telemetry.speak("I work! I found the pixel in the center. i just don't care about how computers and logic work");
@@ -184,12 +183,15 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveArm(ARM_SCORE_POS, true);
 
-        robot.turnLeft(200, true);
+        robot.turnAngleLeft(15);
 
-        robot.moveArm(ARM_LOAD_POS, true);
+        robot.moveArm(ARM_LOAD_POS);
+        robot.waitForSystem(1000, Systems.ARM);
 
+        robot.moveBackward(100);
+        robot.waitForSystem(500, Systems.WHEELS);
         if (pixelInView()) {
-            robot.moveRight(200);
+            robot.turnAngleRight(0);
             robot.moveArm(ARM_SCORE_POS);
             robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
             return DriveModes.PixelPos.LEFT;
