@@ -101,35 +101,36 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
 
-        robot.turnAngleLeft(30);
-        robot.moveArm(ARM_LOAD_POS);
-        robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+        robot.moveArm(ARM_LOAD_POS - 25, true);
+
+        robot.turnAngleLeft(25);
+
+        robot.moveForward(200, true);
 
         robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-        robot.moveArm(ARM_SCORE_POS);
+        robot.moveArm(ARM_REST_POS);
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(50, Systems.ARM, Systems.CLAWS);
 
-        robot.turnAngleLeft(60);
+        robot.turnAngleLeft(90);
 
-        robot.moveRight(500, true);
+        robot.moveForward(1600, true);
 
-        robot.moveForward(400, true);
+        robot.moveRight(1500, true);
 
-        robot.moveLeft(100, true);
-
-        robot.moveForward(100, true);
+        robot.moveArm(ARM_SCORE_POS, true);
 
         robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
         robot.moveBackward(100, true);
 
-        robot.moveLeft(900);
+        robot.moveRight(1000);
+        robot.moveArm(ARM_REST_POS);
         robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-        robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
+        robot.waitForSystem(20, Systems.WHEELS, Systems.ARM, Systems.CLAWS);
 
-        robot.moveForward(200, true);
+        robot.moveForward(500, true);
     }
 
     private void useCenterMode() {
@@ -180,6 +181,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
             return DriveModes.PixelPos.CENTER;
         }
         telemetry.addLine("I didn't find it");
+        telemetry.update();
 
         robot.moveArm(ARM_SCORE_POS, true);
 
@@ -191,9 +193,6 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.moveBackward(100);
         robot.waitForSystem(500, Systems.WHEELS);
         if (pixelInView()) {
-            robot.turnAngleRight(0);
-            robot.moveArm(ARM_SCORE_POS);
-            robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
             return DriveModes.PixelPos.LEFT;
 
         } else {
