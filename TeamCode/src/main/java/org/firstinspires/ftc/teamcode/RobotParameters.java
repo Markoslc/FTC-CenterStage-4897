@@ -115,12 +115,13 @@ public class RobotParameters {
         WHEELS, ARM, CLAWS, LIFT, IMU, CAMERA
     }
 
-    public static final String                                       IMU_STR              = "imu";
-    public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION       = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-    public static final RevHubOrientationOnRobot.UsbFacingDirection  USB_DIRECTION        = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
-    public static       RevHubOrientationOnRobot                     ORIENTATION_ON_ROBOT = new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);
-    public static       IMU.Parameters                               IMU_DEFAULT_PARAMS   = new IMU.Parameters(ORIENTATION_ON_ROBOT);
-    public static final int                                          VERBOSE              = 4;
+    public static final String                                       IMU_STR                      = "imu";
+    public static final double                                       IMU_TOLERANCE_DEGREES        = 1;
+    public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION               = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+    public static final RevHubOrientationOnRobot.UsbFacingDirection  USB_DIRECTION                = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+    public static       RevHubOrientationOnRobot                     DEFAULT_ORIENTATION_ON_ROBOT = new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);
+    public static       IMU.Parameters                               IMU_DEFAULT_PARAMS           = new IMU.Parameters(DEFAULT_ORIENTATION_ON_ROBOT);
+    public static final int                                          VERBOSE                      = 4;
     /**
      * 0: NOTHING
      * 1: ERRORS ONLY
