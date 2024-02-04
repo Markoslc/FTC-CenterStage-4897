@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 import static java.lang.Thread.sleep;
 
 import androidx.annotation.Nullable;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,7 +18,7 @@ public class Robot {
     // Robot
     //
     public DriveMode    driveMode;
-    public LinearOpMode currOpMode;
+    public LinearOpMode opMode;
 
     //
     // Wheels
@@ -28,6 +27,7 @@ public class Robot {
     public DcMotorEx frontR;
     public DcMotorEx backL;
     public DcMotorEx backR;
+    public double    wheelPower;
 
     //
     // Arm
@@ -39,8 +39,7 @@ public class Robot {
     // Lift
     //
     public DcMotorEx      lift;
-    public LiftDirections currLiftDirection = LiftDirections.REST;
-    public LiftDirections nextLiftDirection = LiftDirections.UP;
+    public LiftDirections currLiftDirection = LiftDirections.UP;
 
     //
     // Claws
@@ -62,7 +61,7 @@ public class Robot {
         // Robot
         //
         setDriveMode(DEFAULT_DRIVE_MODE);
-        currOpMode = opMode;
+        this.opMode = opMode;
 
         //
         // Wheels
@@ -110,6 +109,7 @@ public class Robot {
                 backL.setPower(wheelPower);
                 backR.setPower(wheelPower);
         }
+        this.wheelPower = wheelPower;
 
 
         //
@@ -166,6 +166,17 @@ public class Robot {
         this.driveMode = driveMode;
     }
 
+    public void switchDriveMode() {
+        switch (driveMode) {
+            case ROBOT:
+                setDriveMode(DriveMode.FIELD);
+                break;
+            case FIELD:
+                setDriveMode(DriveMode.ROBOT);
+                break;
+        }
+    }
+
     /**
      * Update telemetry. Leave blank for update of all systems
      *
@@ -176,61 +187,60 @@ public class Robot {
             for (Systems system : systems) {
                 switch (system) {
                     case WHEELS:
-                        currOpMode.telemetry.addData("FL busy:", frontL.isBusy());
-                        currOpMode.telemetry.addData("FR busy:", frontR.isBusy());
-                        currOpMode.telemetry.addData("BL busy:", backL.isBusy());
-                        currOpMode.telemetry.addData("BR busy:", backR.isBusy());
+                        opMode.telemetry.addData("FL busy:", frontL.isBusy());
+                        opMode.telemetry.addData("FR busy:", frontR.isBusy());
+                        opMode.telemetry.addData("BL busy:", backL.isBusy());
+                        opMode.telemetry.addData("BR busy:", backR.isBusy());
 
-                        currOpMode.telemetry.addData("FL velocity:", frontL.getVelocity(AngleUnit.DEGREES));
-                        currOpMode.telemetry.addData("FR velocity:", frontR.getVelocity(AngleUnit.DEGREES));
-                        currOpMode.telemetry.addData("BL velocity:", backL.getVelocity(AngleUnit.DEGREES));
-                        currOpMode.telemetry.addData("BR velocity:", backR.getVelocity(AngleUnit.DEGREES));
+                        opMode.telemetry.addData("FL power:", frontL.getPower());
+                        opMode.telemetry.addData("FR power:", frontR.getPower());
+                        opMode.telemetry.addData("BL power:", backL.getPower());
+                        opMode.telemetry.addData("BR power:", backR.getPower());
                         break;
                     case ARM:
-                        currOpMode.telemetry.addData("Arm busy:", arm.isBusy());
-                        currOpMode.telemetry.addData("Arm position:", arm.getCurrentPosition());
+                        opMode.telemetry.addData("Arm busy:", arm.isBusy());
+                        opMode.telemetry.addData("Arm position:", arm.getCurrentPosition());
 
                         switch (armPosIndex) {
                             case 0:
-                                currOpMode.telemetry.addLine("Arm target position: Rest");
+                                opMode.telemetry.addLine("Arm target position: Rest");
                                 break;
                             case 1:
-                                currOpMode.telemetry.addLine("Arm target position: Score");
+                                opMode.telemetry.addLine("Arm target position: Score");
                                 break;
                             case 2:
-                                currOpMode.telemetry.addLine("Arm target position: Load");
+                                opMode.telemetry.addLine("Arm target position: Load");
                                 break;
                         }
                         break;
                     case LIFT:
-                        currOpMode.telemetry.addData("Lift busy:", lift.isBusy());
-                        currOpMode.telemetry.addData("Lift power:", lift.getPower());
+                        opMode.telemetry.addData("Lift busy:", lift.isBusy());
+                        opMode.telemetry.addData("Lift power:", lift.getPower());
                         switch (currLiftDirection) {
                             case UP:
-                                currOpMode.telemetry.addLine("Lift direction: Up");
+                                opMode.telemetry.addLine("Lift direction: Up");
                                 break;
                             case DOWN:
-                                currOpMode.telemetry.addLine("Lift direction: Down");
+                                opMode.telemetry.addLine("Lift direction: Down");
                                 break;
-                            case REST:
-                                currOpMode.telemetry.addLine("Lift direction: Rest");
-                                break;
+                            default:
+                                opMode.telemetry.addLine("Lift direction: Rest");
                         }
                         break;
                     case CLAWS:
-                        currOpMode.telemetry.addData("Claws busy", clawsBusy);
-                        currOpMode.telemetry.addData("LeftClaw Position: ", leftClaw.getPosition());
-                        currOpMode.telemetry.addData("RightClaw Position: ", rightClaw.getPosition());
+                        opMode.telemetry.addData("Claws busy", clawsBusy);
+                        opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
+                        opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
 
                         clawsBusy = false;
                         break;
                     case IMU:
-                        currOpMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+                        opMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
                         break;
                 }
             }
         } else update(Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
-        currOpMode.telemetry.update();
+        opMode.telemetry.update();
     }
 
     //
@@ -446,6 +456,15 @@ public class Robot {
         }
     }
 
+    public void setWheelPower(double wheelPower) {
+        this.wheelPower = wheelPower;
+
+        frontL.setPower(wheelPower);
+        frontR.setPower(wheelPower);
+        backL.setPower(wheelPower);
+        backR.setPower(wheelPower);
+    }
+
     public void stopWheels() {
         frontL.setTargetPosition(frontL.getCurrentPosition());
         frontR.setTargetPosition(frontR.getCurrentPosition());
@@ -455,7 +474,7 @@ public class Robot {
 
     public void waitForWheels() {
         while (frontL.isBusy() || frontR.isBusy() || backL.isBusy() || backR.isBusy()) {
-            currOpMode.sleep(1);
+            opMode.sleep(1);
         }
     }
 
@@ -508,29 +527,42 @@ public class Robot {
 
     public void waitForArm() {
         while (arm.isBusy()) {
-            currOpMode.sleep(1);
+            opMode.sleep(1);
         }
     }
 
     //
     // Lift
     //
-    public void moveLift(LiftDirections direction) {
-        switch (direction) {
+    public void moveLift() {
+        switch (currLiftDirection) {
             case UP:
                 lift.setPower(1);
                 break;
             case DOWN:
                 lift.setPower(-1);
                 break;
-            case REST:
-                lift.setPower(0);
         }
+    }
+
+    public void switchLiftDirection() {
+        switch (currLiftDirection) {
+            case UP:
+                currLiftDirection = LiftDirections.DOWN;
+                break;
+            case DOWN:
+                currLiftDirection = LiftDirections.UP;
+                break;
+        }
+    }
+
+    public void stopLift() {
+        lift.setPower(0);
     }
 
     public void waitForLift() {
         while (lift.isBusy()) {
-            currOpMode.sleep(1);
+            opMode.sleep(1);
         }
     }
 

@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Orientation.AprilTagRecognition;
 import org.firstinspires.ftc.teamcode.Orientation.Position2D;
-import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.RobotParameters;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
+import org.firstinspires.ftc.teamcode.Robot.RobotParameters;
 
 @TeleOp(name = "Test", group = "Test")
 public class Test extends LinearOpMode {

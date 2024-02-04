@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.ARM_LOAD_POS;
-import static org.firstinspires.ftc.teamcode.RobotParameters.ARM_REST_POS;
-import static org.firstinspires.ftc.teamcode.RobotParameters.ARM_SCORE_POS;
-import static org.firstinspires.ftc.teamcode.RobotParameters.ClawPositions;
-import static org.firstinspires.ftc.teamcode.RobotParameters.DrivePeriod;
-import static org.firstinspires.ftc.teamcode.RobotParameters.Systems;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_LOAD_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REST_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_SCORE_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
 
 import android.util.Size;
 
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 

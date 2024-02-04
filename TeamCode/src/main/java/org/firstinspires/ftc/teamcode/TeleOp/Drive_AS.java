@@ -3,65 +3,60 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.*;
-import static org.firstinspires.ftc.teamcode.Robot.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.checkerframework.checker.units.qual.C;
+import org.firstinspires.ftc.teamcode.Robot.Controller;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 @TeleOp(name = "Drive AS")
 public class Drive_AS extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot   robot              = new Robot(DrivePeriod.DRIVER, true, 1, this); // Change imu reset to false
-        boolean dpadUpWasPressed   = false;
-        boolean dpadUpPressed      = false;
-        boolean dpadDownWasPressed = false;
-        boolean dpadDownPressed    = false;
+        Robot      robot              = new Robot(DrivePeriod.DRIVER, true, 1, this); // Change imu reset to false
+        Controller driverController   = new Controller(gamepad1);
+        Controller operatorController = new Controller(gamepad2);
 
         waitForStart();
         while (opModeIsActive()) {
 
-            double forwardPower  = -gamepad1.left_stick_y;
-            double sidePower     = gamepad1.left_stick_x;
-            double rotationPower = gamepad1.right_stick_x;
+            //
+            // Driver Controller
+            //
+            double forwardPower  = driverController.leftStick.getY();
+            double sidePower     = driverController.leftStick.getX();
+            double rotationPower = driverController.rightStick.getX();
             robot.drive(forwardPower, sidePower, rotationPower);
 
             telemetry.addData("left_stick_y", forwardPower);
 
-            if (gamepad1.left_bumper && gamepad1.right_bumper)
-                robot.moveClaws(true, true, ClawPositions.CLAWS_OPEN);
-            else {
-                if (gamepad1.left_bumper) robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
-                else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-                // TODO: Set the right values for the position
+            if (driverController.leftBumper.pressed())
+                robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
+            else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
 
-                if (gamepad1.right_bumper) robot.moveClaws(false, true, ClawPositions.CLAWS_OPEN);
-                else robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                // TODO: Set the right values for the position
+            if (driverController.rightBumper.pressed())
+                robot.moveClaws(false, true, ClawPositions.CLAWS_OPEN);
+            else robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
+
+            if (driverController.dpadUp.singlePress()) {
+                robot.nextArmPos();
             }
 
-            dpadUpWasPressed = dpadUpPressed;
-            dpadUpPressed = false;
-            if (gamepad1.dpad_up) {
-                dpadUpPressed = true;
-                if (!dpadUpWasPressed) robot.nextArmPos();
+            if (driverController.dpadDown.singlePress()) {
+                robot.prevArmPos();
             }
 
-            dpadDownWasPressed = dpadDownPressed;
-            dpadDownPressed = false;
-            if (gamepad1.dpad_down) {
-                dpadDownPressed = true;
-                if (!dpadDownWasPressed) robot.prevArmPos();
-            }
+            if (driverController.a.pressed()) robot.moveLift();
+            if (driverController.a.onRelease()) robot.switchLiftDirection();
+            if (!driverController.a.pressed()) robot.stopLift();
 
-            if (gamepad1.a) {
-                if (robot.currLiftDirection == LiftDirections.REST) {
-                    robot.currLiftDirection = robot.nextLiftDirection;
-                    robot.nextLiftDirection = robot.nextLiftDirection == LiftDirections.UP ? LiftDirections.DOWN : LiftDirections.UP;
-                }
-            } else robot.currLiftDirection = LiftDirections.REST;
-            robot.moveLift(robot.currLiftDirection);
+            //
+            // Operator controller
+            //
+            if (operatorController.a.singlePress()) robot.switchDriveMode();
 
+            if (operatorController.b.singlePress()) robot.setWheelPower(0.5);
+            if (operatorController.b.onRelease()) robot.setWheelPower(1);
             robot.update();
         }
     }

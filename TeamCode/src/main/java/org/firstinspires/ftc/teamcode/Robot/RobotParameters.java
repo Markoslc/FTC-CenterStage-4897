@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Robot;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -15,6 +15,28 @@ public class RobotParameters {
 
     public enum DrivePeriod {
         AUTONOMOUS, DRIVER
+    }
+
+    //
+    // Gamepad
+    //
+    public static final boolean STICK_Y_REVERSED = true;
+    public static final boolean STICK_X_REVERSED = false;
+
+    public enum GamepadButtons {
+        A, B, X, Y,
+        DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,
+        L_BUMPER, R_BUMPER,
+        BACK, START, GUIDE,
+        L_STICK_BUTTON, R_STICK_BUTTON
+    }
+
+    public enum GamepadTriggers {
+        L_TRIGGER, R_TRIGGER
+    }
+
+    public enum GamepadSticks {
+        L_STICK, R_STICK
     }
 
     public static final DriveMode DEFAULT_DRIVE_MODE = DriveMode.FIELD;
@@ -59,7 +81,7 @@ public class RobotParameters {
     public static final boolean LIFT_REVERSED = false;
 
     public enum LiftDirections {
-        UP, DOWN, REST
+        UP, DOWN
     }
 
     //
