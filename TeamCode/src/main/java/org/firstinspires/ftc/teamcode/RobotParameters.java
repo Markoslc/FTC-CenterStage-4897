@@ -12,7 +12,8 @@ public class RobotParameters {
     public enum DriveMode {
         FIELD, ROBOT
     }
-    public enum DrivePeriod{
+
+    public enum DrivePeriod {
         AUTONOMOUS, DRIVER
     }
 
@@ -136,8 +137,8 @@ public class RobotParameters {
     //
     //Position Settings
     //
-    public static       double                                       POSITION_TOLERANCE   = 0.1;
-    public static final Position2D[]                                 APRIL_TAG_POSES      = new Position2D[]{
+    public static       double                                       POSITION_TOLERANCE           = 0.1;
+    public static final Position2D[]                                 APRIL_TAG_POSES              = new Position2D[]{
             new Position2D(29.845, 77.7, 270.0),    // TagId 1
             new Position2D(29.845, 92.94, 270.0),   // TagId 2
             new Position2D(29.845, 108.18, 270.0),  // TagId 3

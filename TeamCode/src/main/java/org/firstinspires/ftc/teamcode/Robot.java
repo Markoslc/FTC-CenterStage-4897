@@ -82,7 +82,7 @@ public class Robot {
         backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        switch (drivePeriod){
+        switch (drivePeriod) {
             case DRIVER:
                 frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 frontR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -446,7 +446,7 @@ public class Robot {
         }
     }
 
-    public void stopWheels(){
+    public void stopWheels() {
         frontL.setTargetPosition(frontL.getCurrentPosition());
         frontR.setTargetPosition(frontR.getCurrentPosition());
         backL.setTargetPosition(backL.getCurrentPosition());
