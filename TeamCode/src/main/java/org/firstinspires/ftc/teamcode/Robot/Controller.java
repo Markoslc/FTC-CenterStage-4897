@@ -148,15 +148,14 @@ public class Controller {
         }
 
         private void updateTrigger() {
+            wasPressed = pressed;
             switch (trigger) {
                 case L_TRIGGER:
                     triggerPress = gamepad.left_trigger;
-                    wasPressed = pressed;
                     pressed = triggerPress > 0;
                     break;
                 case R_TRIGGER:
                     triggerPress = gamepad.right_trigger;
-                    wasPressed = pressed;
                     pressed = triggerPress > 0;
                     break;
             }
