@@ -34,7 +34,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);/*
+        robot = new Robot(DrivePeriod.AUTONOMOUS, true, 1, this);/*
         initClaws();
         initWheels();
         initArm();*/
@@ -55,11 +55,11 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         pixelPos = searchPixel();
 
         switch (pixelPos) {
-            case RIGHT:
-                useRightMode();
-                break;
             case LEFT:
                 useLeftMode();
+                break;
+            case RIGHT:
+                useRightMode();
                 break;
             case CENTER:
             case UNKNOWN:
@@ -72,19 +72,23 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
 
-        robot.turnAngleRight(-30);
-        robot.moveRight(ARM_LOAD_POS);
-        robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+        robot.turnAngleRight(-25);
+
+        robot.moveRight(ARM_LOAD_POS, true);
 
         robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-        robot.moveArm(ARM_SCORE_POS);
+        robot.moveArm(ARM_REST_POS);
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(50, Systems.ARM, Systems.CLAWS);
 
-        robot.turnAngleRight(120);
+        robot.turnAngleLeft(90);
 
-        robot.moveForward(500, true);
+        robot.moveForward(1500, true);
+
+        robot.moveRight(500);
+
+        robot.moveArm(ARM_SCORE_POS);
 
         robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
@@ -92,9 +96,9 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(20, Systems.WHEELS, Systems.CLAWS);
 
-        robot.moveLeft(900, true);
+        robot.moveRight(900, true);
 
-        robot.moveForward(200, true);
+        robot.moveForward(500, true);
     }
 
     private void useLeftMode() {
@@ -175,30 +179,26 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.waitForSystem(1200, Systems.WHEELS, Systems.ARM);
 
         if (pixelInView()) {
-            telemetry.speak("I work! I found the pixel in the center. i just don't care about how computers and logic work");
-            telemetry.addLine("I found it");
-            telemetry.update();
             return DriveModes.PixelPos.CENTER;
         }
-        telemetry.addLine("I didn't find it");
-        telemetry.update();
 
         robot.moveArm(ARM_SCORE_POS, true);
 
         robot.turnAngleLeft(15);
 
-        robot.moveArm(ARM_LOAD_POS);
-        robot.waitForSystem(1000, Systems.ARM);
+        robot.moveArm(ARM_LOAD_POS, true);
 
         robot.moveBackward(100);
         robot.waitForSystem(500, Systems.WHEELS);
+
         if (pixelInView()) {
             return DriveModes.PixelPos.LEFT;
 
         } else {
-            robot.moveRight(200);
-            robot.moveArm(ARM_SCORE_POS);
-            robot.waitForSystem(20, Systems.WHEELS, Systems.ARM);
+            robot.moveForward(100, true);
+
+            robot.moveArm(ARM_SCORE_POS, true);
+
             return DriveModes.PixelPos.RIGHT;
         }
 

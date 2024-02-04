@@ -410,10 +410,12 @@ public class Robot {
         } else currImuTargetAngle = angle;
 
         while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            turnLeft(50);
+            turnLeft(75);
 
             imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
+
+        stopWheels();
 
         try {
             sleep(200);
@@ -430,16 +432,25 @@ public class Robot {
         } else currImuTargetAngle = angle;
 
         while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            turnRight(50);
+            turnRight(75);
 
             imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
+
+        stopWheels();
 
         try {
             sleep(200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void stopWheels(){
+        frontL.setTargetPosition(frontL.getCurrentPosition());
+        frontR.setTargetPosition(frontR.getCurrentPosition());
+        backL.setTargetPosition(backL.getCurrentPosition());
+        backR.setTargetPosition(backR.getCurrentPosition());
     }
 
     public void waitForWheels() {
