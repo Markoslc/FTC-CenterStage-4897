@@ -55,12 +55,12 @@ public class Drive_AS extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-                if (currLiftDirection == LiftDirections.REST) {
-                    currLiftDirection = nextLiftDirection;
-                    nextLiftDirection = nextLiftDirection == LiftDirections.UP ? LiftDirections.DOWN : LiftDirections.UP;
+                if (robot.currLiftDirection == LiftDirections.REST) {
+                    robot.currLiftDirection = robot.nextLiftDirection;
+                    robot.nextLiftDirection = robot.nextLiftDirection == LiftDirections.UP ? LiftDirections.DOWN : LiftDirections.UP;
                 }
-            } else currLiftDirection = LiftDirections.REST;
-            robot.moveLift(currLiftDirection);
+            } else robot.currLiftDirection = LiftDirections.REST;
+            robot.moveLift(robot.currLiftDirection);
 
             robot.update();
         }

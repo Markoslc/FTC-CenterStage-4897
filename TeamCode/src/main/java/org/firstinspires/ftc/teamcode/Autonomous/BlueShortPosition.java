@@ -17,16 +17,6 @@ public class BlueShortPosition extends LinearOpMode {
     public void runOpMode() {
         Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.75, this);
 
-        frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        frontL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
 
         waitForStart();

@@ -18,44 +18,44 @@ public class Robot {
     //
     // Robot
     //
-    public static DriveMode    driveMode;
-    public static LinearOpMode currOpMode;
+    public DriveMode    driveMode;
+    public LinearOpMode currOpMode;
 
     //
     // Wheels
     //
-    public static DcMotorEx frontL;
-    public static DcMotorEx frontR;
-    public static DcMotorEx backL;
-    public static DcMotorEx backR;
+    public DcMotorEx frontL;
+    public DcMotorEx frontR;
+    public DcMotorEx backL;
+    public DcMotorEx backR;
 
     //
     // Arm
     //
-    public static DcMotorEx arm;
-    public static int       armPosIndex = 0;
+    public DcMotorEx arm;
+    public int       armPosIndex = 0;
 
     //
     // Lift
     //
-    public static DcMotorEx      lift;
-    public static LiftDirections currLiftDirection = LiftDirections.REST;
-    public static LiftDirections nextLiftDirection = LiftDirections.UP;
+    public DcMotorEx      lift;
+    public LiftDirections currLiftDirection = LiftDirections.REST;
+    public LiftDirections nextLiftDirection = LiftDirections.UP;
 
     //
     // Claws
     //
-    public static Servo   leftClaw;
-    public static Servo   rightClaw;
-    public static double  leftClawTargetPos;
-    public static double  rightClawTargetPos;
-    public static boolean clawsBusy;
+    public Servo   leftClaw;
+    public Servo   rightClaw;
+    public double  leftClawTargetPos;
+    public double  rightClawTargetPos;
+    public boolean clawsBusy;
 
     //
     // Systems
     //
-    public static IMU    imu;
-    public static double currImuTargetAngle;
+    public IMU    imu;
+    public double currImuTargetAngle;
 
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
@@ -163,7 +163,7 @@ public class Robot {
     // Robot
     //
     public void setDriveMode(DriveMode driveMode) {
-        Robot.driveMode = driveMode;
+        this.driveMode = driveMode;
     }
 
     /**
