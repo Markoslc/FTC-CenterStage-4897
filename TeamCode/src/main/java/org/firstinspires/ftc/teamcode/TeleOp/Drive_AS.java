@@ -23,6 +23,9 @@ public class Drive_AS extends LinearOpMode {
             //
             // Driver Controller
             //
+            driverController.updateInputs();
+            operatorController.updateInputs();
+
             double forwardPower  = driverController.leftStick.getY();
             double sidePower     = driverController.leftStick.getX();
             double rotationPower = driverController.rightStick.getX();
@@ -47,8 +50,8 @@ public class Drive_AS extends LinearOpMode {
             }
 
             if (driverController.a.pressed()) robot.moveLift();
+            else robot.stopLift();
             if (driverController.a.onRelease()) robot.switchLiftDirection();
-            if (!driverController.a.pressed()) robot.stopLift();
 
             //
             // Operator controller

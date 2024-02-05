@@ -28,6 +28,10 @@ public class Controller {
     public Trigger rightTrigger;
     public Stick   leftStick;
     public Stick   rightStick;
+    public Button[] buttons;
+    public Trigger[] triggers;
+    public Stick[] sticks;
+
 
     public Controller(Gamepad gamepad) {
         a = new Button(GamepadButtons.A, gamepad);
@@ -49,6 +53,19 @@ public class Controller {
         rightTrigger = new Trigger(GamepadTriggers.R_TRIGGER, gamepad);
         leftStick = new Stick(GamepadSticks.L_STICK, gamepad);
         rightStick = new Stick(GamepadSticks.R_STICK, gamepad);
+
+        buttons = new Button[]{a, b, x, y, dpadUp, dpadDown, dpadLeft, dpadRight,
+                leftBumper, rightBumper,
+                back, start, guide,
+                leftStickButton, rightStickButton};
+        triggers = new Trigger[]{leftTrigger, rightTrigger};
+        sticks = new Stick[]{leftStick, rightStick};
+    }
+
+    public void updateInputs(){
+        for(Button button : buttons) button.updateButton();
+        for (Trigger trigger : triggers) trigger.updateTrigger();
+        for (Stick stick : sticks) stick.stickUpdate();
     }
 
     public static class Button {
@@ -117,17 +134,14 @@ public class Controller {
         }
 
         public boolean pressed() {
-            updateButton();
             return pressed;
         }
 
         public boolean singlePress() {
-            updateButton();
             return !wasPressed && pressed;
         }
 
         public boolean onRelease() {
-            updateButton();
             return wasPressed && !pressed;
         }
     }
@@ -162,22 +176,18 @@ public class Controller {
         }
 
         public boolean pressed() {
-            updateTrigger();
             return pressed;
         }
 
         public boolean singlePress() {
-            updateTrigger();
             return !wasPressed && pressed;
         }
 
         public boolean onRelease() {
-            updateTrigger();
             return wasPressed && !pressed;
         }
 
         public double getPress() {
-            updateTrigger();
             return triggerPress;
         }
     }
@@ -208,12 +218,10 @@ public class Controller {
         }
 
         public double getX() {
-            stickUpdate();
             return STICK_X_REVERSED ? -gamepad.left_stick_x : gamepad.left_stick_x;
         }
 
         public double getY() {
-            stickUpdate();
             return STICK_Y_REVERSED ? -gamepad.left_stick_y : gamepad.left_stick_y;
         }
 
@@ -223,7 +231,6 @@ public class Controller {
          * @return A double
          */
         public double getMagnitude() {
-            stickUpdate();
             return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         }
 
