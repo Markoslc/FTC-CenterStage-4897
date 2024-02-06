@@ -245,7 +245,6 @@ public class Robot {
                     case CLAWS:
                         opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
                         opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
-
                         break;
                     case IMU:
                         opMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
@@ -455,7 +454,7 @@ public class Robot {
         } else currImuTargetAngle = angle;
 
         while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            turnRight(75);
+            turnRight(50);
 
             imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
