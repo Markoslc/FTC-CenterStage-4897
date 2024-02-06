@@ -137,10 +137,18 @@ public class RobotParameters {
     }
 
     //
+    // Plane
+    //
+    public static final String  PLANE_STR        = "plane";
+    public static final boolean PLANE_REVERSED    = false;
+    public static final double PLANE_REST_POS = 1;
+    public static final double PLANE_LAUNCH_POS = 0.5;
+
+    //
     // Systems
     //
     public enum Systems {
-        WHEELS, ARM, CLAWS, LIFT, IMU, CAMERA
+        WHEELS, ARM, CLAWS, LIFT, IMU, PLANE, CAMERA
     }
 
     public static final String                                       IMU_STR                      = "imu";

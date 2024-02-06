@@ -36,6 +36,10 @@ public class Robot {
     private int       armPosIndex = 0;
 
     //
+    // Plane
+    //
+    private final Servo plane;
+    //
     // Lift
     //
     private final DcMotorEx      lift;
@@ -150,6 +154,15 @@ public class Robot {
         rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
 
         moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
+
+        //
+        // Plane
+        //
+        plane = opMode.hardwareMap.get(Servo.class, PLANE_STR);
+
+        plane.setDirection(PLANE_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
+
+        plane.setPosition(PLANE_REST_POS);
 
         //
         // Systems
@@ -285,10 +298,10 @@ public class Robot {
                 backLPower = forwardPower - sidePower + rotationPower;
                 backRPower = forwardPower + sidePower - rotationPower;
 
-                frontL.setPower(frontLPower / denominator);
-                frontR.setPower(frontRPower / denominator);
-                backL.setPower(backLPower / denominator);
-                backR.setPower(backRPower / denominator);
+                frontL.setPower(frontLPower * wheelPower / denominator);
+                frontR.setPower(frontRPower * wheelPower / denominator);
+                backL.setPower(backLPower * wheelPower / denominator);
+                backR.setPower(backRPower * wheelPower / denominator);
 
                 break;
             case FIELD:
@@ -303,10 +316,10 @@ public class Robot {
                 backLPower = forwardField - sideField + rotationPower;
                 backRPower = forwardField + sideField - rotationPower;
 
-                frontL.setPower(frontLPower / denominator);
-                frontR.setPower(frontRPower / denominator);
-                backL.setPower(backLPower / denominator);
-                backR.setPower(backRPower / denominator);
+                frontL.setPower(frontLPower * wheelPower / denominator);
+                frontR.setPower(frontRPower * wheelPower / denominator);
+                backL.setPower(backLPower * wheelPower / denominator);
+                backR.setPower(backRPower * wheelPower / denominator);
                 break;
             default:
                 frontL.setPower(0);
@@ -458,11 +471,6 @@ public class Robot {
 
     public void setWheelPower(double wheelPower) {
         this.wheelPower = wheelPower;
-
-        frontL.setPower(wheelPower);
-        frontR.setPower(wheelPower);
-        backL.setPower(wheelPower);
-        backR.setPower(wheelPower);
     }
 
     public void stopWheels() {
@@ -591,6 +599,13 @@ public class Robot {
         }
 
         clawsBusy = false;
+    }
+
+    //
+    // Plane
+    //
+    public void launchPlane(){
+        plane.setPosition(PLANE_LAUNCH_POS);
     }
 
     //
