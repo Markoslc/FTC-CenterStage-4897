@@ -148,11 +148,11 @@ public class RobotParameters {
     // Systems
     //
     public enum Systems {
-        WHEELS, ARM, CLAWS, LIFT, IMU, PLANE, CAMERA
+        ROBOT, WHEELS, ARM, CLAWS, LIFT, IMU, PLANE, CAMERA
     }
 
     public static final String                                       IMU_STR                      = "imu";
-    public static final double                                       IMU_TOLERANCE_DEGREES        = 1;
+    public static final double                                       IMU_TOLERANCE_DEGREES        = 2;
     public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION               = RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static final RevHubOrientationOnRobot.UsbFacingDirection  USB_DIRECTION                = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
     public static       RevHubOrientationOnRobot                     DEFAULT_ORIENTATION_ON_ROBOT = new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);

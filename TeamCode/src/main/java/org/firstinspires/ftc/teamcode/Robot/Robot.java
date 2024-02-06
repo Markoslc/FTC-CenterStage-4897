@@ -52,7 +52,6 @@ public class Robot {
     private final Servo rightClaw;
     private       double leftClawTargetPos;
     private double  rightClawTargetPos;
-    private boolean clawsBusy;
 
     //
     // Systems
@@ -199,6 +198,9 @@ public class Robot {
         if (systems != null && systems.length > 0) {
             for (Systems system : systems) {
                 switch (system) {
+                    case ROBOT:
+                        opMode.telemetry.addData("Robot drive mode:", driveMode);
+                        break;
                     case WHEELS:
                         opMode.telemetry.addData("FL busy:", frontL.isBusy());
                         opMode.telemetry.addData("FR busy:", frontR.isBusy());
@@ -241,18 +243,16 @@ public class Robot {
                         }
                         break;
                     case CLAWS:
-                        opMode.telemetry.addData("Claws busy", clawsBusy);
                         opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
                         opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
 
-                        clawsBusy = false;
                         break;
                     case IMU:
                         opMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
                         break;
                 }
             }
-        } else update(Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
+        } else update(Systems.ROBOT, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
         opMode.telemetry.update();
     }
 
@@ -433,7 +433,7 @@ public class Robot {
         } else currImuTargetAngle = angle;
 
         while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            turnLeft(75);
+            turnLeft(50);
 
             imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
@@ -441,7 +441,7 @@ public class Robot {
         stopWheels();
 
         try {
-            sleep(200);
+            sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -463,7 +463,7 @@ public class Robot {
         stopWheels();
 
         try {
-            sleep(200);
+            sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -584,8 +584,6 @@ public class Robot {
         leftClaw.setPosition(leftClawTargetPos);
         rightClaw.setPosition(rightClawTargetPos);
 
-        clawsBusy = true;
-
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
             waitForSystem(20, Systems.CLAWS);
         }
@@ -597,8 +595,6 @@ public class Robot {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        clawsBusy = false;
     }
 
     //
