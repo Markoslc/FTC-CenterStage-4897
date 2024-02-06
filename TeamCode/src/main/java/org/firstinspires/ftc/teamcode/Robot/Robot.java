@@ -17,44 +17,44 @@ public class Robot {
     //
     // Robot
     //
-    public DriveMode    driveMode;
-    public LinearOpMode opMode;
+    private       DriveMode    driveMode;
+    private final LinearOpMode opMode;
 
     //
     // Wheels
     //
-    public DcMotorEx frontL;
-    public DcMotorEx frontR;
-    public DcMotorEx backL;
-    public DcMotorEx backR;
-    public double    wheelPower;
+    private final DcMotorEx frontL;
+    private final DcMotorEx frontR;
+    private final DcMotorEx backL;
+    private final DcMotorEx backR;
+    private       double    wheelPower;
 
     //
     // Arm
     //
     public DcMotorEx arm;
-    public int       armPosIndex = 0;
+    private int       armPosIndex = 0;
 
     //
     // Lift
     //
-    public DcMotorEx      lift;
-    public LiftDirections currLiftDirection = LiftDirections.UP;
+    private final DcMotorEx      lift;
+    private       LiftDirections currLiftDirection = LiftDirections.UP;
 
     //
     // Claws
     //
-    public Servo   leftClaw;
-    public Servo   rightClaw;
-    public double  leftClawTargetPos;
-    public double  rightClawTargetPos;
-    public boolean clawsBusy;
+    private final Servo leftClaw;
+    private final Servo rightClaw;
+    private       double leftClawTargetPos;
+    private double  rightClawTargetPos;
+    private boolean clawsBusy;
 
     //
     // Systems
     //
-    public IMU    imu;
-    public double currImuTargetAngle;
+    private final IMU    imu;
+    private       double currImuTargetAngle;
 
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //

@@ -24,7 +24,6 @@ public class Drive_AS extends LinearOpMode {
             // Driver Controller
             //
             driverController.updateInputs();
-            operatorController.updateInputs();
 
             double forwardPower  = driverController.leftStick.getY();
             double sidePower     = driverController.leftStick.getX();
@@ -36,18 +35,14 @@ public class Drive_AS extends LinearOpMode {
             if (driverController.leftBumper.pressed())
                 robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
             else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-
             if (driverController.rightBumper.pressed())
                 robot.moveClaws(false, true, ClawPositions.CLAWS_OPEN);
             else robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
 
-            if (driverController.dpadUp.singlePress()) {
+            if (driverController.dpadUp.singlePress())
                 robot.nextArmPos();
-            }
-
-            if (driverController.dpadDown.singlePress()) {
+            if (driverController.dpadDown.singlePress())
                 robot.prevArmPos();
-            }
 
             if (driverController.a.pressed()) robot.moveLift();
             else robot.stopLift();
@@ -56,10 +51,16 @@ public class Drive_AS extends LinearOpMode {
             //
             // Operator controller
             //
-            if (operatorController.a.singlePress()) robot.switchDriveMode();
+            operatorController.updateInputs();
 
-            if (operatorController.b.singlePress()) robot.setWheelPower(0.5);
-            if (operatorController.b.onRelease()) robot.setWheelPower(1);
+            if (operatorController.a.singlePress())
+                robot.switchDriveMode();
+
+            if (operatorController.b.singlePress())
+                robot.setWheelPower(0.5);
+            if (operatorController.b.onRelease())
+                robot.setWheelPower(1);
+
             robot.update();
         }
     }

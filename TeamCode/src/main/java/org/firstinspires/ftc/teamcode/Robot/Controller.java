@@ -9,28 +9,28 @@ import androidx.annotation.Nullable;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Controller {
-    public Button  a;
-    public Button  b;
-    public Button  x;
-    public Button  y;
-    public Button  dpadUp;
-    public Button  dpadDown;
-    public Button  dpadLeft;
-    public Button  dpadRight;
-    public Button  leftBumper;
-    public Button  rightBumper;
-    public Button  back;
-    public Button  start;
-    public Button  guide;
-    public Button  leftStickButton;
-    public Button  rightStickButton;
-    public Trigger leftTrigger;
-    public Trigger rightTrigger;
-    public Stick   leftStick;
-    public Stick   rightStick;
-    public Button[] buttons;
+    public Button    a;
+    public Button    b;
+    public Button    x;
+    public Button    y;
+    public Button    dpadUp;
+    public Button    dpadDown;
+    public Button    dpadLeft;
+    public Button    dpadRight;
+    public Button    leftBumper;
+    public Button    rightBumper;
+    public Button    back;
+    public Button    start;
+    public Button    guide;
+    public Button    leftStickButton;
+    public Button    rightStickButton;
+    public Trigger   leftTrigger;
+    public Trigger   rightTrigger;
+    public Stick     leftStick;
+    public Stick     rightStick;
+    public Button[]  buttons;
     public Trigger[] triggers;
-    public Stick[] sticks;
+    public Stick[]   sticks;
 
 
     public Controller(Gamepad gamepad) {
@@ -62,8 +62,8 @@ public class Controller {
         sticks = new Stick[]{leftStick, rightStick};
     }
 
-    public void updateInputs(){
-        for(Button button : buttons) button.updateButton();
+    public void updateInputs() {
+        for (Button button : buttons) button.updateButton();
         for (Trigger trigger : triggers) trigger.updateTrigger();
         for (Stick stick : sticks) stick.stickUpdate();
     }
@@ -218,11 +218,25 @@ public class Controller {
         }
 
         public double getX() {
-            return STICK_X_REVERSED ? -gamepad.left_stick_x : gamepad.left_stick_x;
+            switch (stick) {
+                case L_STICK:
+                    return L_STICK_X_REVERSED ? -gamepad.left_stick_x : gamepad.left_stick_x;
+                case R_STICK:
+                    return R_STICK_X_REVERSED ? -gamepad.right_stick_x : gamepad.right_stick_x;
+                default:
+                    return 0;
+            }
         }
 
         public double getY() {
-            return STICK_Y_REVERSED ? -gamepad.left_stick_y : gamepad.left_stick_y;
+            switch (stick) {
+                case L_STICK:
+                    return L_STICK_Y_REVERSED ? -gamepad.left_stick_y : gamepad.left_stick_y;
+                case R_STICK:
+                    return R_STICK_Y_REVERSED ? -gamepad.right_stick_y : gamepad.right_stick_y;
+                default:
+                    return 0;
+            }
         }
 
         /**

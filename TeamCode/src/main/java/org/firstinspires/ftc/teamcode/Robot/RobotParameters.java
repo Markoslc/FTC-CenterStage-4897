@@ -20,8 +20,10 @@ public class RobotParameters {
     //
     // Gamepad
     //
-    public static final boolean STICK_Y_REVERSED = true;
-    public static final boolean STICK_X_REVERSED = false;
+    public static final boolean L_STICK_Y_REVERSED = true;
+    public static final boolean L_STICK_X_REVERSED = false;
+    public static final boolean R_STICK_Y_REVERSED = true;
+    public static final boolean R_STICK_X_REVERSED = false;
 
     public enum GamepadButtons {
         A, B, X, Y,
