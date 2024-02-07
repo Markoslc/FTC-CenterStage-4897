@@ -79,7 +79,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveRight(1500, true);
 
-        robot.moveForward(350, true);
+        robot.moveForward(375, true);
 
         robot.moveArm(ARM_SCORE_POS, true);
 
@@ -89,9 +89,9 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveRight(1000, true);
 
-        robot.moveForward(500);
+        robot.moveForward(500, true);
         robot.moveArm(ARM_REST_POS);
-        robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
+        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
     }
 
@@ -123,12 +123,12 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
 
         robot.moveBackward(100, true);
 
-        robot.moveRight(1000);
+        robot.moveRight(1000, true);
+
+        robot.moveForward(500, true);
         robot.moveArm(ARM_REST_POS);
         robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
-
-        robot.moveForward(500, true);
     }
 
     private void useCenterMode() {

@@ -148,7 +148,7 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-        robot.moveLeft(800, true);
+        robot.moveRight(800, true);
 
         robot.turnAngleRight(-90);
 
