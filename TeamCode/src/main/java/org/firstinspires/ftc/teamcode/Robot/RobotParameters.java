@@ -62,6 +62,7 @@ public class RobotParameters {
     public static final double  WHEEL_PPS                        = WHEEL_PPM * 60;
     public static final double  ROTATION_POWER_MULTIPLIER        = (double) 1 / 3;
     public static final double  SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
+    public static final int     WHEELS_POSITION_TOLERANCE        = 5;
 
     //
     // Arm
@@ -69,18 +70,19 @@ public class RobotParameters {
     public static final String  ARM_STR           = "arm";
     public static final boolean ARM_REVERSED      = false;
     public static final double  DEFAULT_ARM_POWER = 0.4;
-    public static final int     ARM_LOAD_POS      = -1850;
+    public static final int     ARM_LOAD_POS      = -1900;
     public static final int     ARM_REST_POS      = 0;
     public static final int     ARM_SCORE_POS     = -1100;
-    public static       int[]   ArmPositions      = new int[]{
+    public static final int[]   ArmPositions      = new int[]{
             ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS
     };
+    public static final int ARM_POSITION_TOLERANCE = 2;
 
     //
     // Lift
     //
-    public static final String  LIFT_STR      = "lift";
-    public static final boolean LIFT_REVERSED = false;
+    public static final String  LIFT_STR          = "lift";
+    public static final boolean LIFT_REVERSED     = false;
 
     public enum LiftDirections {
         UP, DOWN
@@ -89,16 +91,16 @@ public class RobotParameters {
     //
     // Claws
     //
-    public static final String  LEFT_CLAW_STR         = "leftClaw";
-    public static final String  RIGHT_CLAW_STR        = "rightClaw";
-    public static final boolean LEFT_CLAW_REVERSED    = true;
-    public static final boolean RIGHT_CLAW_REVERSED   = false;
-    public static final double  LEFT_CLAW_CLOSED_POS  = 0.9;
-    public static final double  LEFT_CLAW_OPEN_POS    = 0.5;
-    public static final double  LEFT_CLAW_FALL_POS    = 0.1;
-    public static final double  RIGHT_CLAW_CLOSED_POS = 0.725;
-    public static final double  RIGHT_CLAW_OPEN_POS   = 0.5;
-    public static final double  RIGHT_CLAW_FALL_POS   = 0.1;
+    public static final  String  LEFT_CLAW_STR         = "leftClaw";
+    public static final  String  RIGHT_CLAW_STR        = "rightClaw";
+    public static final  boolean LEFT_CLAW_REVERSED    = true;
+    public static final  boolean RIGHT_CLAW_REVERSED   = false;
+    private static final double  LEFT_CLAW_CLOSED_POS  = 0.9;
+    private static final double  LEFT_CLAW_OPEN_POS    = 0.5;
+    private static final double  LEFT_CLAW_FALL_POS    = 0.1;
+    private static final double  RIGHT_CLAW_CLOSED_POS = 0.725;
+    private static final double  RIGHT_CLAW_OPEN_POS   = 0.5;
+    private static final double  RIGHT_CLAW_FALL_POS   = 0.1;
 
     public enum ClawPositions {
         CLAWS_CLOSED, CLAWS_OPEN, CLAWS_FALL;
@@ -140,9 +142,9 @@ public class RobotParameters {
     // Plane
     //
     public static final String  PLANE_STR        = "plane";
-    public static final boolean PLANE_REVERSED    = false;
-    public static final double PLANE_REST_POS = 1;
-    public static final double PLANE_LAUNCH_POS = 0.5;
+    public static final boolean PLANE_REVERSED   = false;
+    public static final double  PLANE_REST_POS   = 1;
+    public static final double  PLANE_LAUNCH_POS = 0.5;
 
     //
     // Systems
