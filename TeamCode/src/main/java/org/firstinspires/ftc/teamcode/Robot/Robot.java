@@ -32,7 +32,7 @@ public class Robot {
     //
     // Arm
     //
-    public DcMotorEx arm;
+    private final DcMotorEx arm;
     private int       armPosIndex = 0;
 
     //
@@ -84,6 +84,11 @@ public class Robot {
         backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
+        frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
         switch (drivePeriod) {
             case DRIVER:
                 frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -101,6 +106,11 @@ public class Robot {
                 frontR.setTargetPosition(0);
                 backL.setTargetPosition(0);
                 backR.setTargetPosition(0);
+
+                frontL.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                frontR.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                backL.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                backR.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
 
                 frontL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                 frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -124,7 +134,11 @@ public class Robot {
 
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
+        arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
         arm.setTargetPosition(0);
+
+        arm.setTargetPositionTolerance(ARM_POSITION_TOLERANCE);
 
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 

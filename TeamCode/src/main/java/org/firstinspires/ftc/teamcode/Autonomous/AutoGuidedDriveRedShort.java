@@ -28,7 +28,6 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
     public               Robot               robot;
     public               DriveModes.PixelPos pixelPos   = DriveModes.PixelPos.UNKNOWN;
     private static final boolean             USE_WEBCAM = true;  // true for webcam, false for phone camera
-
     private TfodProcessor tfod;
 
     /**
@@ -60,15 +59,54 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
         }
     }
 
+    private void useLeftMode() {
+        telemetry.addLine("Mode: LeftMode");
+        telemetry.update();
+
+        robot.turnAngleRight(25);
+
+        robot.moveArm(ARM_LOAD_POS - 50, true);
+
+        robot.moveForward(250, true);
+
+        robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveArm(ARM_REST_POS);
+        robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
+        robot.moveBackward(200);
+        robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+
+        robot.turnAngleRight(-90);
+
+        robot.moveForward(1250, true);
+
+        robot.moveLeft(1500, true);
+
+        robot.moveForward(350, true);
+
+        robot.moveArm(ARM_SCORE_POS, true);
+
+        robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
+
+        robot.moveBackward(200, true);
+
+        robot.moveLeft(1000, true);
+
+        robot.moveForward(500);
+        robot.moveArm(ARM_REST_POS);
+        robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
+        robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+    }
+
     private void useRightMode() {
         telemetry.addLine("Mode: RightMode");
         telemetry.update();
 
         robot.moveArm(ARM_LOAD_POS - 25, true);
 
-        robot.turnAngleRight(-25);
+        robot.turnAngleLeft(-25);
 
-        robot.moveForward(100, true);
+        robot.moveForward(200, true);
 
         robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -76,7 +114,7 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);
 
-        robot.turnAngleRight(90);
+        robot.turnAngleRight(-90);
 
         robot.moveForward(1600, true);
 
@@ -96,41 +134,6 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
         robot.moveForward(500, true);
     }
 
-    private void useLeftMode() {
-        telemetry.addLine("Mode: LeftMode");
-        telemetry.update();
-
-        robot.turnAngleLeft(25);
-
-        robot.moveForward(200, true);
-
-        robot.moveArm(ARM_LOAD_POS, true);
-
-        robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
-
-        robot.moveArm(ARM_REST_POS);
-        robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-        robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);
-
-        robot.turnAngleRight(-90);
-
-        robot.moveForward(1500, true);
-
-        robot.moveLeft(500);
-
-        robot.moveArm(ARM_SCORE_POS);
-
-        robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
-
-        robot.moveBackward(100);
-        robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-        robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS);
-
-        robot.moveLeft(900, true);
-
-        robot.moveForward(500, true);
-    }
-
     private void useCenterMode() {
         telemetry.addLine("Mode: CenterMode");
         telemetry.update();
@@ -145,9 +148,9 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
         robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
         robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-        robot.moveRight(800, true);
+        robot.moveLeft(800, true);
 
-        robot.turnAngleLeft(90);
+        robot.turnAngleRight(-90);
 
         robot.moveLeft(1100, true);
 
@@ -163,7 +166,7 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
 
         robot.moveArm(ARM_REST_POS);
         robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-        robot.moveForward(500);
+        robot.moveForward(700);
         robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
     }
 
@@ -178,22 +181,22 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
 
         robot.moveArm(ARM_SCORE_POS, true);
 
-        robot.turnAngleLeft(15);
+        robot.turnAngleRight(-15);
 
         robot.moveArm(ARM_LOAD_POS, true);
 
         robot.moveBackward(100);
-        robot.waitForSystem(500, Systems.WHEELS);
+        robot.waitForSystem(250, Systems.WHEELS);
 
         if (pixelInView()) {
-            return DriveModes.PixelPos.LEFT;
+            return DriveModes.PixelPos.RIGHT;
 
         } else {
             robot.moveForward(100, true);
 
             robot.moveArm(ARM_SCORE_POS, true);
 
-            return DriveModes.PixelPos.RIGHT;
+            return DriveModes.PixelPos.LEFT;
         }
 
     }

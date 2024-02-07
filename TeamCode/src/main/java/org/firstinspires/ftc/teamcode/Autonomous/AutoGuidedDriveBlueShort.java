@@ -57,14 +57,14 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
     }
 
     private void useRightMode() {
-        telemetry.addLine("Mode: LeftMode");
+        telemetry.addLine("Mode: RightMode");
         telemetry.update();
 
         robot.turnAngleRight(-25);
 
         robot.moveArm(ARM_LOAD_POS - 50, true);
 
-        robot.moveForward(200, true);
+        robot.moveForward(250, true);
 
         robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -183,7 +183,7 @@ public class AutoGuidedDriveBlueShort extends LinearOpMode {
         robot.moveArm(ARM_LOAD_POS, true);
 
         robot.moveBackward(100);
-        robot.waitForSystem(500, Systems.WHEELS);
+        robot.waitForSystem(250, Systems.WHEELS);
 
         if (pixelInView()) {
             return DriveModes.PixelPos.LEFT;
