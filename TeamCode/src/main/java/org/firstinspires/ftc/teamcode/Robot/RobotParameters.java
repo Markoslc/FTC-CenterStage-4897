@@ -67,22 +67,22 @@ public class RobotParameters {
     //
     // Arm
     //
-    public static final String  ARM_STR           = "arm";
-    public static final boolean ARM_REVERSED      = false;
-    public static final double  DEFAULT_ARM_POWER = 0.4;
-    public static final int     ARM_LOAD_POS      = -1900;
-    public static final int     ARM_REST_POS      = 0;
-    public static final int     ARM_SCORE_POS     = -1100;
-    public static final int[]   ArmPositions      = new int[]{
+    public static final String  ARM_STR                = "arm";
+    public static final boolean ARM_REVERSED           = false;
+    public static final double  DEFAULT_ARM_POWER      = 0.4;
+    public static final int     ARM_LOAD_POS           = -1900;
+    public static final int     ARM_REST_POS           = 0;
+    public static final int     ARM_SCORE_POS          = -1100;
+    public static final int[]   ArmPositions           = new int[]{
             ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS
     };
-    public static final int ARM_POSITION_TOLERANCE = 2;
+    public static final int     ARM_POSITION_TOLERANCE = 2;
 
     //
     // Lift
     //
-    public static final String  LIFT_STR          = "lift";
-    public static final boolean LIFT_REVERSED     = false;
+    public static final String  LIFT_STR      = "lift";
+    public static final boolean LIFT_REVERSED = false;
 
     public enum LiftDirections {
         UP, DOWN
@@ -187,12 +187,16 @@ public class RobotParameters {
 
 
     //
-    // Camera Settings
+    // Camera
     //
-    public static int     CAMERA_WIDTH     = 1280;
-    public static int     CAMERA_HEIGHT    = 720;
-    public static boolean USE_WEBCAM       = true;
-    public static boolean ENABLE_LIVE_VIEW = true;
+    public static final String  CAMERA_STR       = "camera";
+    public static final int     CAMERA_WIDTH     = 1280;
+    public static final int     CAMERA_HEIGHT    = 720;
+    public static final boolean USE_WEBCAM       = true;
+    public static final boolean ENABLE_LIVE_VIEW = true;
+    public static enum TeamPropPosition {
+        LEFT, CENTER, RIGHT
+    }
 
 
 }
