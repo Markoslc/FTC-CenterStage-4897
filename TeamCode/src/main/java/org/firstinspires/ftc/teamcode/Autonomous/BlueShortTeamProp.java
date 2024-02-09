@@ -12,7 +12,7 @@ public class BlueShortTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot robot = new Robot(DrivePeriod.DRIVER, true, 1, this);
-        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this);
+        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.BLUE_ALLIANCE);
 
         waitForStart();
 

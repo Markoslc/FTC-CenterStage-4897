@@ -13,8 +13,10 @@ public class TeamPropRecognition {
     private static OpenCvCamera       camera;
     private static AutonomousPipeline pipeline;
 
-    public TeamPropRecognition(LinearOpMode opMode) {
+    public TeamPropRecognition(LinearOpMode opMode, Alliance alliance) {
         pipeline = new AutonomousPipeline();
+
+        pipeline.setAlliance(alliance);
 
         WebcamName cameraName = opMode.hardwareMap.get(WebcamName.class, CAMERA_STR);
 

@@ -12,13 +12,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot.OpenCV.TeamPropRecognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
+import org.firstinspires.ftc.teamcode.Robot.RobotParameters;
 
-@Autonomous(name = "Blue Short Team Prop")
+@Autonomous(name = "Red Short Team Prop")
 public class RedShortTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot robot = new Robot(DrivePeriod.DRIVER, true, 1, this);
-        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this);
+        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, RobotParameters.Alliance.RED_ALLIANCE);
 
         waitForStart();
 

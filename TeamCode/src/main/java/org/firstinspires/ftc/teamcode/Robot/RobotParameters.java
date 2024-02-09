@@ -82,7 +82,7 @@ public class RobotParameters {
     // Lift
     //
     public static final String  LIFT_STR      = "lift";
-    public static final boolean LIFT_REVERSED = false;
+    public static final boolean LIFT_REVERSED = true;
 
     public enum LiftDirections {
         UP, DOWN
@@ -172,6 +172,9 @@ public class RobotParameters {
     //Position Settings
     //
     public static       double                                       POSITION_TOLERANCE           = 0.1;
+    public static enum Alliance {
+        RED_ALLIANCE, BLUE_ALLIANCE
+    }
     public static final Position2D[]                                 APRIL_TAG_POSES              = new Position2D[]{
             new Position2D(29.845, 77.7, 270.0),    // TagId 1
             new Position2D(29.845, 92.94, 270.0),   // TagId 2
@@ -189,7 +192,7 @@ public class RobotParameters {
     //
     // Camera
     //
-    public static final String  CAMERA_STR       = "camera";
+    public static final String  CAMERA_STR       = "Webcam 1";
     public static final int     CAMERA_WIDTH     = 1280;
     public static final int     CAMERA_HEIGHT    = 720;
     public static final boolean USE_WEBCAM       = true;
