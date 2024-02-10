@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.Robot.*;
-import static org.firstinspires.ftc.teamcode.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 
 @Autonomous(name = "Blue Short Auto AS")
@@ -15,17 +13,7 @@ public class BlueShortPosition extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(true, this);
-
-        frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        frontL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.75, this);
 
         robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
 

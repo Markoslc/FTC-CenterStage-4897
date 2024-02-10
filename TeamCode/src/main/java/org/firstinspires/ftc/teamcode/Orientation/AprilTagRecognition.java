@@ -10,7 +10,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import static org.firstinspires.ftc.teamcode.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 import java.util.Locale;
 import java.util.List;
@@ -83,8 +83,11 @@ public class AprilTagRecognition {
         for (AprilTagDetection detection : currentDetections) {
             Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
 
-            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
-            double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
+            //double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
+            //double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
+
+            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
+            double robotY = aprilTagPose.y + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
             double angle  = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
 
             sumX += robotX;
