@@ -41,4 +41,8 @@ public class TeamPropRecognition {
     public TeamPropPosition getTeamPropPosition(){
         return pipeline.getTeamPropPosition();
     }
+
+    public void stopCameraStream(){
+        camera.stopStreaming();
+    }
 }

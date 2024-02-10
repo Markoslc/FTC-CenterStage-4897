@@ -15,7 +15,11 @@ public class RedShortTeamProp extends LinearOpMode {
 
         waitForStart();
 
-        switch (teamPropRecognition.getTeamPropPosition()){
+        TeamPropPosition teamPropPosition = teamPropRecognition.getTeamPropPosition();
+
+        teamPropRecognition.stopCameraStream();
+
+        switch (teamPropPosition){
             case CENTER:
                 telemetry.addLine("Mode: CenterMode");
                 telemetry.update();
@@ -26,6 +30,7 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
+                robot.moveBackward(200);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
@@ -54,16 +59,20 @@ public class RedShortTeamProp extends LinearOpMode {
             case LEFT:
                 telemetry.addLine("Mode: LeftMode");
                 telemetry.update();
-                robot.moveForward(325);
-                robot.turnAngleLeft(25);
+
+                robot.moveForward(325, true);
+
+                robot.turnAngleLeft(15);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
                 robot.moveForward(250, true);
 
+                robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
+
+                robot.moveBackward(200);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.moveBackward(200);
                 robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
                 robot.turnAngleRight(-90);
@@ -90,12 +99,15 @@ public class RedShortTeamProp extends LinearOpMode {
             case RIGHT:
                 telemetry.addLine("Mode: RightMode");
                 telemetry.update();
-                robot.moveForward(325);
+
+                robot.moveForward(325, true);
+
                 robot.turnAngleRight(-15);
 
-                robot.moveBackward(100);
-                robot.turnAngleRight(25);
-                robot.moveForward(200, true);
+                robot.moveArm(ARM_LOAD_POS, true);
+
+                robot.moveForward(250, true);
+
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
                 robot.moveArm(ARM_REST_POS);
@@ -103,6 +115,7 @@ public class RedShortTeamProp extends LinearOpMode {
                 robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);
 
                 robot.turnAngleRight(-90);
+
                 robot.moveForward(1250, true);
 
                 robot.moveLeft(1500, true);

@@ -62,7 +62,7 @@ public class RobotParameters {
     public static final double  WHEEL_PPS                        = WHEEL_PPM * 60;
     public static final double  ROTATION_POWER_MULTIPLIER        = (double) 1 / 3;
     public static final double  SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
-    public static final int     WHEELS_POSITION_TOLERANCE        = 5;
+    public static final int     WHEELS_POSITION_TOLERANCE        = 10;
 
     //
     // Arm

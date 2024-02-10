@@ -16,7 +16,11 @@ public class BlueShortTeamProp extends LinearOpMode {
 
         waitForStart();
 
-        switch (teamPropRecognition.getTeamPropPosition()){
+        TeamPropPosition teamPropPosition = teamPropRecognition.getTeamPropPosition();
+
+        teamPropRecognition.stopCameraStream();
+
+        switch (teamPropPosition){
             case CENTER:
                 telemetry.addLine("Mode: CenterMode");
                 telemetry.update();
