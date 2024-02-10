@@ -39,15 +39,15 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.turnAngleRight(-90);
 
-                robot.moveLeft(1100, true);
+                robot.moveLeft(400, true);
 
-                robot.moveForward(850, true);
+                robot.moveForward(1000, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(300, true);
+                robot.moveBackward(200, true);
 
                 robot.moveLeft(1000, true);
 
@@ -60,13 +60,13 @@ public class RedShortTeamProp extends LinearOpMode {
                 telemetry.addLine("Mode: LeftMode");
                 telemetry.update();
 
-                robot.moveForward(325, true);
+                robot.moveForward(350, true);
 
-                robot.turnAngleLeft(15);
+                robot.turnAngleLeft(25);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(250, true);
+                robot.moveForward(350, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -79,9 +79,9 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveForward(1250, true);
 
-                robot.moveLeft(1500, true);
+                robot.moveLeft(1100, true);
 
-                robot.moveForward(350, true);
+                robot.moveForward(375, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -102,11 +102,11 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveForward(325, true);
 
-                robot.turnAngleRight(-15);
+                robot.turnAngleRight(-25);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(250, true);
+                robot.moveForward(300, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -118,9 +118,9 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveForward(1250, true);
 
-                robot.moveLeft(1500, true);
+                robot.moveLeft(1100, true);
 
-                robot.moveForward(350, true);
+                robot.moveForward(325, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 

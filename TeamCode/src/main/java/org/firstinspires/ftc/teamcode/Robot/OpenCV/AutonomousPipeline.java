@@ -16,13 +16,13 @@ public class AutonomousPipeline extends OpenCvPipeline {
     //
     // Region points
     //
-    private static final int   REGION_WIDTH  = 100;
+    private static final int   REGION_WIDTH  = 200;
     private static final int   REGION_HEIGHT = 200;
     private static final Point region1PointA = new Point(0, 300);
     private static final Point region1PointB = new Point(region1PointA.x + REGION_WIDTH, region1PointA.y + REGION_HEIGHT);
-    private static final Point region2PointA = new Point(550, 300);
+    private static final Point region2PointA = new Point(450, 300);
     private static final Point region2PointB = new Point(region2PointA.x + REGION_WIDTH, region2PointA.y + REGION_HEIGHT);
-    private static final Point region3PointA = new Point(1180, 300);
+    private static final Point region3PointA = new Point(1080, 300);
     private static final Point region3PointB = new Point(region3PointA.x + REGION_WIDTH, region3PointA.y + REGION_HEIGHT);
 
     //

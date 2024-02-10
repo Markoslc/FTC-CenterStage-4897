@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 public class Drive_AS extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot      robot              = new Robot(DrivePeriod.DRIVER, true, 1, this); // Change imu reset to false
+        Robot      robot              = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
         Controller driverController   = new Controller(gamepad1);
         Controller operatorController = new Controller(gamepad2);
 
