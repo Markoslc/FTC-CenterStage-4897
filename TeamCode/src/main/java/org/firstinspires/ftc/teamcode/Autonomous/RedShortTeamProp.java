@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.Robot.OpenCV.TeamPropRecognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
@@ -18,116 +17,109 @@ public class RedShortTeamProp extends LinearOpMode {
 
         switch (teamPropRecognition.getTeamPropPosition()){
             case CENTER:
-                telemetry.addLine("Center");
+                telemetry.addLine("Mode: CenterMode");
                 telemetry.update();
+
                 robot.moveArm(ARM_LOAD_POS, true);
 
                 robot.moveForward(800, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200, true);
-
-                robot.turnAngleRight(-90);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-                robot.moveForward(1200, true);
+                robot.moveRight(800, true);
 
-                robot.moveLeft(500, true);
+                robot.turnAngleRight(-90);
 
-                robot.moveForward(500);
-                robot.moveArm(ARM_SCORE_POS);
-                robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+                robot.moveLeft(1100, true);
+
+                robot.moveForward(850, true);
+
+                robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200);
+                robot.moveBackward(300, true);
 
-                robot.moveLeft(750, true);
+                robot.moveLeft(1000, true);
 
-                robot.moveForward(500);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+                robot.moveForward(700);
                 robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
                 break;
             case LEFT:
-                telemetry.addLine("Left");
+                telemetry.addLine("Mode: LeftMode");
                 telemetry.update();
-                robot.moveForward(500);
-
-                robot.turnAngleLeft(22.5);
+                robot.moveForward(325);
+                robot.turnAngleLeft(25);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(500, true);
+                robot.moveForward(250, true);
 
-                robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
-
-                robot.moveBackward(500, true);
-
-                robot.turnAngleLeft(90);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
+                robot.moveBackward(200);
                 robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-                robot.moveForward(1200, true);
+                robot.turnAngleRight(-90);
 
-                robot.moveLeft(500, true);
+                robot.moveForward(1250, true);
 
-                robot.moveForward(200);
-                robot.moveArm(ARM_SCORE_POS);
-                robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+                robot.moveLeft(1500, true);
+
+                robot.moveForward(350, true);
+
+                robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200);
+                robot.moveBackward(200, true);
 
-                robot.moveLeft(750, true);
+                robot.moveLeft(1000, true);
 
                 robot.moveForward(500);
                 robot.moveArm(ARM_REST_POS);
-                robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+                robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
                 break;
             case RIGHT:
-                telemetry.addLine("Right");
+                telemetry.addLine("Mode: RightMode");
                 telemetry.update();
-                robot.moveForward(500);
+                robot.moveForward(325);
+                robot.turnAngleRight(-15);
 
-                robot.turnAngleLeft(-22.5);
-
-                robot.moveArm(ARM_LOAD_POS, true);
-
-                robot.moveForward(500, true);
-
+                robot.moveBackward(100);
+                robot.turnAngleRight(25);
+                robot.moveForward(200, true);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(500, true);
-
-                robot.turnAngleLeft(90);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);
 
-                robot.moveForward(1200, true);
+                robot.turnAngleRight(-90);
+                robot.moveForward(1250, true);
 
-                robot.moveLeft(500, true);
+                robot.moveLeft(1500, true);
 
-                robot.moveForward(200);
-                robot.moveArm(ARM_SCORE_POS);
-                robot.waitForSystem(50, Systems.WHEELS, Systems.ARM);
+                robot.moveForward(350, true);
+
+                robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200);
+                robot.moveBackward(200, true);
 
-                robot.moveLeft(750, true);
+                robot.moveLeft(1000, true);
 
                 robot.moveForward(500);
                 robot.moveArm(ARM_REST_POS);
-                robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+                robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
                 break;
         }

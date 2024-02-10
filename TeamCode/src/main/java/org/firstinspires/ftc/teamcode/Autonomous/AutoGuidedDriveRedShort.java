@@ -63,7 +63,7 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
         telemetry.addLine("Mode: LeftMode");
         telemetry.update();
 
-        robot.turnAngleRight(25);
+        robot.turnAngleLeft(25);
 
         robot.moveArm(ARM_LOAD_POS - 50, true);
 
