@@ -1,17 +1,25 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_LOAD_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REST_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Alliance;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.TeamPropPosition;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.Robot.OpenCV.TeamPropRecognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
-@Autonomous(name = "Red Short Team Prop", group = "Team Prop")
-public class RedShortTeamProp extends LinearOpMode {
+@Autonomous(name = "Red Long Team Prop", group = "Team Prop")
+public class RedLongTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 1, this);
-        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.RED_ALLIANCE);
+        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
+        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.BLUE_ALLIANCE);
 
         waitForStart();
 
@@ -23,23 +31,22 @@ public class RedShortTeamProp extends LinearOpMode {
             case CENTER:
                 telemetry.addLine("Mode: CenterMode");
                 telemetry.update();
-
                 robot.moveArm(ARM_LOAD_POS, true);
 
                 robot.moveForward(800, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200);
+                robot.moveBackward(200, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);/*
 
-                robot.moveRight(800, true);
+                robot.moveLeft(800, true);
 
-                robot.turnAngleRight(-90);
+                robot.turnAngleLeft(90);
 
-                robot.moveLeft(400, true);
+                robot.moveRight(1050, true);
 
                 robot.moveForward(1000, true);
 
@@ -47,14 +54,14 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200, true);
+                robot.moveBackward(300, true);
 
-                robot.moveLeft(1200, true);
+                robot.moveRight(1100, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
                 robot.moveForward(700);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
                 break;
             case LEFT:
                 telemetry.addLine("Mode: LeftMode");
@@ -66,61 +73,61 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(350, true);
+                robot.moveForward(200, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);/*
 
-                robot.turnAngleRight(-90);
+                robot.turnAngleLeft(90);
 
-                robot.moveForward(1250, true);
+                robot.moveForward(1400, true);
 
-                robot.moveLeft(1100, true);
+                robot.moveRight(1100, true);
 
-                robot.moveForward(375, true);
+                robot.moveForward(100, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200, true);
+                robot.moveBackward(100, true);
 
-                robot.moveLeft(1200, true);
+                robot.moveRight(1250, true);
 
-                robot.moveForward(500);
+                robot.moveForward(500, true);
                 robot.moveArm(ARM_REST_POS);
-                robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
                 break;
             case RIGHT:
                 telemetry.addLine("Mode: RightMode");
                 telemetry.update();
 
-                robot.moveForward(325, true);
+                robot.moveForward(350);
 
                 robot.turnAngleRight(-25);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(300, true);
+                robot.moveForward(350, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);
+                robot.moveBackward(200);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);/*
 
-                robot.turnAngleRight(-90);
+                robot.turnAngleLeft(90);
 
                 robot.moveForward(1250, true);
 
-                robot.moveLeft(1100, true);
+                robot.moveRight(1100, true);
 
-                robot.moveForward(325, true);
+                robot.moveForward(350, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -128,12 +135,12 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveBackward(200, true);
 
-                robot.moveLeft(1200, true);
+                robot.moveRight(1250, true);
 
-                robot.moveForward(500);
+                robot.moveForward(500, true);
                 robot.moveArm(ARM_REST_POS);
-                robot.moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
                 break;
         }
 

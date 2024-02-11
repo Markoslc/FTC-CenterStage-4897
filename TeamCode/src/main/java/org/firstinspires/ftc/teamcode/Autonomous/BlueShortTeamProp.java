@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Robot.OpenCV.TeamPropRecognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
-@Autonomous(name = "Blue Short Team Prop")
+@Autonomous(name = "Blue Short Team Prop", group = "Team Prop")
 public class BlueShortTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
