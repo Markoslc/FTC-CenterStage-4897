@@ -7,11 +7,11 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 public class AutonomousPipeline extends OpenCvPipeline {
-    private static final Scalar           RED              = new Scalar(255, 0, 0);
-    private static final Scalar           GREEN            = new Scalar(0, 255, 0);
-    private static final Scalar           BLUE             = new Scalar(0, 0, 255);
+    private static final Scalar           RED   = new Scalar(255, 0, 0);
+    private static final Scalar           GREEN = new Scalar(0, 255, 0);
+    private static final Scalar           BLUE  = new Scalar(0, 0, 255);
     private volatile     TeamPropPosition teamPropPosition;
-    private static Alliance alliance;
+    private static       Alliance         alliance;
 
     //
     // Region points
@@ -40,7 +40,8 @@ public class AutonomousPipeline extends OpenCvPipeline {
     private static final Mat YCrCb = new Mat();
     private static final Mat Cb    = new Mat();
     private static final Mat Cr    = new Mat();
-    public void setAlliance(Alliance alliance){
+
+    public void setAlliance(Alliance alliance) {
         AutonomousPipeline.alliance = alliance;
     }
 
@@ -73,8 +74,8 @@ public class AutonomousPipeline extends OpenCvPipeline {
 
         inputToCb(input);
 
-        int avg1 = 0, avg2= 0, avg3 = 0;
-        switch (alliance){
+        int avg1 = 0, avg2 = 0, avg3 = 0;
+        switch (alliance) {
             case RED_ALLIANCE:
                 avg1 = (int) Core.mean(region1Cr).val[0];
                 avg2 = (int) Core.mean(region2Cr).val[0];

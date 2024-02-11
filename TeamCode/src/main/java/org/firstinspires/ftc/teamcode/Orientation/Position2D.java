@@ -81,8 +81,8 @@ public class Position2D {
      * @return A new Position2D representing the result of the subtraction.
      */
     public Position2D subtractRelativePose(Position2D otherPose) {
-        double newX = this.x - otherPose.x;
-        double newY = this.y - otherPose.y;
+        double newX     = this.x - otherPose.x;
+        double newY     = this.y - otherPose.y;
         double newAngle = this.angle - otherPose.angle;
 
         // Ensuring the angle remains within a standard range, e.g., -180 to 180 degrees.

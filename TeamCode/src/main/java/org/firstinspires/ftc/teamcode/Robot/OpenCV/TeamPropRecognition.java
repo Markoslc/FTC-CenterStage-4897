@@ -38,11 +38,11 @@ public class TeamPropRecognition {
         });
     }
 
-    public TeamPropPosition getTeamPropPosition(){
+    public TeamPropPosition getTeamPropPosition() {
         return pipeline.getTeamPropPosition();
     }
 
-    public void stopCameraStream(){
+    public void stopCameraStream() {
         camera.stopStreaming();
     }
 }

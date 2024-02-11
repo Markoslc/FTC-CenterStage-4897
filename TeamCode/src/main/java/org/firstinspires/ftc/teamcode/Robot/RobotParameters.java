@@ -172,10 +172,12 @@ public class RobotParameters {
     //Position Settings
     //
     public static       double                                       POSITION_TOLERANCE           = 0.1;
+
     public static enum Alliance {
         RED_ALLIANCE, BLUE_ALLIANCE
     }
-    public static final Position2D[]                                 APRIL_TAG_POSES              = new Position2D[]{
+
+    public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{
             new Position2D(29.845, 77.7, 270.0),    // TagId 1
             new Position2D(29.845, 92.94, 270.0),   // TagId 2
             new Position2D(29.845, 108.18, 270.0),  // TagId 3
@@ -197,6 +199,7 @@ public class RobotParameters {
     public static final int     CAMERA_HEIGHT    = 720;
     public static final boolean USE_WEBCAM       = true;
     public static final boolean ENABLE_LIVE_VIEW = true;
+
     public static enum TeamPropPosition {
         LEFT, CENTER, RIGHT
     }

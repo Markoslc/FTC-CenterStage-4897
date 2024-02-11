@@ -33,12 +33,12 @@ public class Robot {
     // Arm
     //
     private final DcMotorEx arm;
-    private int       armPosIndex = 0;
+    private       int       armPosIndex = 0;
 
     //
     // Plane
     //
-    private final Servo plane;
+    private final Servo          plane;
     //
     // Lift
     //
@@ -48,10 +48,10 @@ public class Robot {
     //
     // Claws
     //
-    private final Servo leftClaw;
-    private final Servo rightClaw;
+    private final Servo  leftClaw;
+    private final Servo  rightClaw;
     private       double leftClawTargetPos;
-    private double  rightClawTargetPos;
+    private       double rightClawTargetPos;
 
     //
     // Systems
@@ -265,7 +265,8 @@ public class Robot {
                         break;
                 }
             }
-        } else update(Systems.ROBOT, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
+        } else
+            update(Systems.ROBOT, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.IMU);
         opMode.telemetry.update();
     }
 
@@ -613,7 +614,7 @@ public class Robot {
     //
     // Plane
     //
-    public void launchPlane(){
+    public void launchPlane() {
         plane.setPosition(PLANE_LAUNCH_POS);
     }
 

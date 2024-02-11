@@ -61,7 +61,7 @@ public class Drive_AS extends LinearOpMode {
             if (operatorController.b.onRelease())
                 robot.setWheelPower(1);
 
-            if(operatorController.leftBumper.pressed() && operatorController.rightBumper.pressed())
+            if (operatorController.leftBumper.pressed() && operatorController.rightBumper.pressed())
                 robot.launchPlane();
 
             robot.update();

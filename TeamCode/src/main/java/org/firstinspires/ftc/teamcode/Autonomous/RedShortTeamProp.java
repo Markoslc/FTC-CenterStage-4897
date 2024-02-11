@@ -2,15 +2,17 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.Robot.OpenCV.TeamPropRecognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
+
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 @Autonomous(name = "Red Short Team Prop", group = "Team Prop")
 public class RedShortTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 1, this);
+        Robot               robot               = new Robot(DrivePeriod.AUTONOMOUS, true, 1, this);
         TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.RED_ALLIANCE);
 
         waitForStart();
@@ -19,7 +21,7 @@ public class RedShortTeamProp extends LinearOpMode {
 
         teamPropRecognition.stopCameraStream();
 
-        switch (teamPropPosition){
+        switch (teamPropPosition) {
             case CENTER:
                 telemetry.addLine("Mode: CenterMode");
                 telemetry.update();

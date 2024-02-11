@@ -28,7 +28,7 @@ public class AutoGuidedDriveRedShort extends LinearOpMode {
     public               Robot               robot;
     public               DriveModes.PixelPos pixelPos   = DriveModes.PixelPos.UNKNOWN;
     private static final boolean             USE_WEBCAM = true;  // true for webcam, false for phone camera
-    private TfodProcessor tfod;
+    private              TfodProcessor       tfod;
 
     /**
      * The variable to store our instance of the vision portal.
