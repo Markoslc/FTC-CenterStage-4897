@@ -100,13 +100,15 @@ public class RedLongTeamProp extends LinearOpMode {
                 telemetry.addLine("Mode: RightMode");
                 telemetry.update();
 
-                robot.moveForward(350);
+                robot.moveForward(550, true);
 
-                robot.turnAngleRight(-25);
+                robot.turnAngleRight(-30);
+
+                robot.moveBackward(200, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(350, true);
+                robot.moveForward(325, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
