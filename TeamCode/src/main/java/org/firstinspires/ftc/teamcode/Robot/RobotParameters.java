@@ -60,7 +60,7 @@ public class RobotParameters {
     public static final double  WHEEL_DEGREES_PER_SECOND         = WHEEL_RPS * 360;
     public static final double  WHEEL_PPM                        = WHEEL_PPR * WHEEL_RPM;
     public static final double  WHEEL_PPS                        = WHEEL_PPM * 60;
-    public static final double  ROTATION_POWER_MULTIPLIER        = (double) 1 / 3;
+    public static final double  ROTATION_POWER_MULTIPLIER        = (double) 2 / 5;
     public static final double  SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
     public static final int     WHEELS_POSITION_TOLERANCE        = 10;
 
@@ -81,8 +81,10 @@ public class RobotParameters {
     //
     // Lift
     //
-    public static final String  LIFT_STR      = "lift";
-    public static final boolean LIFT_REVERSED = true;
+    public static final String  LEFT_LIFT_STR      = "leftLift";
+    public static final String  RIGHT_LIFT_STR      = "rightLift";
+    public static final boolean LEFT_LIFT_REVERSED = false;
+    public static final boolean RIGHT_LIFT_REVERSED = true;
 
     public enum LiftDirections {
         UP, DOWN

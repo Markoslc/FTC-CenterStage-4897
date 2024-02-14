@@ -13,7 +13,7 @@ public class RedLongTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot               robot               = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
-        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.BLUE_ALLIANCE);
+        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.RED_ALLIANCE);
 
         waitForStart();
 
@@ -27,7 +27,7 @@ public class RedLongTeamProp extends LinearOpMode {
                 telemetry.update();
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(800, true);
+                robot.moveForward(775, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 

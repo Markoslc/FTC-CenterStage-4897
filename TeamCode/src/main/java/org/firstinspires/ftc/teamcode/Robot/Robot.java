@@ -17,7 +17,7 @@ public class Robot {
     //
     // Robot
     //
-    private       DriveMode    driveMode;
+    private DriveMode driveMode;
     private final LinearOpMode opMode;
 
     //
@@ -27,37 +27,38 @@ public class Robot {
     private final DcMotorEx frontR;
     private final DcMotorEx backL;
     private final DcMotorEx backR;
-    private       double    wheelPower;
+    private double wheelPower;
 
     //
     // Arm
     //
     private final DcMotorEx arm;
-    private       int       armPosIndex = 0;
+    private int armPosIndex = 0;
 
     //
     // Plane
     //
-    private final Servo          plane;
+    private final Servo plane;
     //
     // Lift
     //
-    private final DcMotorEx      lift;
-    private       LiftDirections currLiftDirection = LiftDirections.UP;
+    private final DcMotorEx leftLift;
+    private final DcMotorEx rightLift;
+    private LiftDirections currLiftDirection = LiftDirections.UP;
 
     //
     // Claws
     //
-    private final Servo  leftClaw;
-    private final Servo  rightClaw;
-    private       double leftClawTargetPos;
-    private       double rightClawTargetPos;
+    private final Servo leftClaw;
+    private final Servo rightClaw;
+    private double leftClawTargetPos;
+    private double rightClawTargetPos;
 
     //
     // Systems
     //
-    private final IMU    imu;
-    private       double currImuTargetAngle;
+    private final IMU imu;
+    private double currImuTargetAngle;
 
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
@@ -147,15 +148,20 @@ public class Robot {
         //
         // Lift
         //
-        lift = opMode.hardwareMap.get(DcMotorEx.class, LIFT_STR);
+        leftLift = opMode.hardwareMap.get(DcMotorEx.class, LEFT_LIFT_STR);
+        rightLift = opMode.hardwareMap.get(DcMotorEx.class, RIGHT_LIFT_STR);
 
-        lift.setDirection(LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+        leftLift.setDirection(LEFT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+        rightLift.setDirection(RIGHT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
-        lift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        lift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        lift.setPower(0);
+        leftLift.setPower(0);
+        rightLift.setPower(0);
 
         //
         // Claws
@@ -243,8 +249,10 @@ public class Robot {
                         }
                         break;
                     case LIFT:
-                        opMode.telemetry.addData("Lift busy:", lift.isBusy());
-                        opMode.telemetry.addData("Lift power:", lift.getPower());
+                        opMode.telemetry.addData("L Lift busy:", leftLift.isBusy());
+                        opMode.telemetry.addData("R Lift busy:", rightLift.isBusy());
+                        opMode.telemetry.addData("L Lift power:", leftLift.getPower());
+                        opMode.telemetry.addData("R Lift power:", rightLift.getPower());
                         switch (currLiftDirection) {
                             case UP:
                                 opMode.telemetry.addLine("Lift direction: Up");
@@ -276,8 +284,8 @@ public class Robot {
     public void positionDrive(int frontLRot, int frontRRot, int backLRot, int backRRot) {
         int frontLTargetPos = frontL.getCurrentPosition() + frontLRot;
         int frontRTargetPos = frontR.getCurrentPosition() + frontRRot;
-        int backLTargetPos  = backL.getCurrentPosition() + backLRot;
-        int backRTargetPos  = backR.getCurrentPosition() + backRRot;
+        int backLTargetPos = backL.getCurrentPosition() + backLRot;
+        int backRTargetPos = backR.getCurrentPosition() + backRRot;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -346,8 +354,8 @@ public class Robot {
     public void moveForward(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
-        int backLTargetPos  = backL.getCurrentPosition() + rotation;
-        int backRTargetPos  = backR.getCurrentPosition() + rotation;
+        int backLTargetPos = backL.getCurrentPosition() + rotation;
+        int backRTargetPos = backR.getCurrentPosition() + rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -362,8 +370,8 @@ public class Robot {
     public void moveBackward(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
-        int backLTargetPos  = backL.getCurrentPosition() - rotation;
-        int backRTargetPos  = backR.getCurrentPosition() - rotation;
+        int backLTargetPos = backL.getCurrentPosition() - rotation;
+        int backRTargetPos = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -378,8 +386,8 @@ public class Robot {
     public void moveLeft(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
-        int backLTargetPos  = backL.getCurrentPosition() + rotation;
-        int backRTargetPos  = backR.getCurrentPosition() - rotation;
+        int backLTargetPos = backL.getCurrentPosition() + rotation;
+        int backRTargetPos = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -394,8 +402,8 @@ public class Robot {
     public void moveRight(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
-        int backLTargetPos  = backL.getCurrentPosition() - rotation;
-        int backRTargetPos  = backR.getCurrentPosition() + rotation;
+        int backLTargetPos = backL.getCurrentPosition() - rotation;
+        int backRTargetPos = backR.getCurrentPosition() + rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -410,8 +418,8 @@ public class Robot {
     public void turnLeft(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
-        int backLTargetPos  = backL.getCurrentPosition() - rotation;
-        int backRTargetPos  = backR.getCurrentPosition() + rotation;
+        int backLTargetPos = backL.getCurrentPosition() - rotation;
+        int backRTargetPos = backR.getCurrentPosition() + rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -426,8 +434,8 @@ public class Robot {
     public void turnRight(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
-        int backLTargetPos  = backL.getCurrentPosition() + rotation;
-        int backRTargetPos  = backR.getCurrentPosition() - rotation;
+        int backLTargetPos = backL.getCurrentPosition() + rotation;
+        int backRTargetPos = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -559,10 +567,12 @@ public class Robot {
     public void moveLift() {
         switch (currLiftDirection) {
             case UP:
-                lift.setPower(1);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
                 break;
             case DOWN:
-                lift.setPower(-1);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
                 break;
         }
     }
@@ -579,11 +589,12 @@ public class Robot {
     }
 
     public void stopLift() {
-        lift.setPower(0);
+        leftLift.setPower(0);
+        rightLift.setPower(0);
     }
 
     public void waitForLift() {
-        while (lift.isBusy()) {
+        while (leftLift.isBusy() || rightLift.isBusy()) {
             opMode.sleep(1);
         }
     }
