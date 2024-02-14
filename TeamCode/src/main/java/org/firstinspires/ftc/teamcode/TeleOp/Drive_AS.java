@@ -30,8 +30,6 @@ public class Drive_AS extends LinearOpMode {
             double rotationPower = driverController.rightStick.getX();
             robot.drive(forwardPower, sidePower, rotationPower);
 
-            telemetry.addData("left_stick_y", forwardPower);
-
             if (driverController.leftBumper.pressed())
                 robot.moveClaws(true, false, ClawPositions.CLAWS_OPEN);
             else robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
@@ -44,9 +42,8 @@ public class Drive_AS extends LinearOpMode {
             if (driverController.dpadDown.singlePress())
                 robot.prevArmPos();
 
-            if (driverController.a.pressed()) robot.moveLift();
-            else robot.stopLift();
-            if (driverController.a.onRelease()) robot.switchLiftDirection();
+            if (driverController.a.singlePress()) robot.moveLift();
+            if (driverController.a.onRelease()) robot.switchLiftPosition();
 
             //
             // Operator controller

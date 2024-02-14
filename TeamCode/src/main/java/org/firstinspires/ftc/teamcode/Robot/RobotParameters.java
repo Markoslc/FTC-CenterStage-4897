@@ -85,9 +85,10 @@ public class RobotParameters {
     public static final String  RIGHT_LIFT_STR      = "rightLift";
     public static final boolean LEFT_LIFT_REVERSED = false;
     public static final boolean RIGHT_LIFT_REVERSED = true;
-
-    public enum LiftDirections {
-        UP, DOWN
+    public static final int LIFT_UP_POSITION = 1000;
+    public static final int LIFT_HANGING_POSITION = 0;
+    public static enum LiftPositions {
+        UP, HANG
     }
 
     //

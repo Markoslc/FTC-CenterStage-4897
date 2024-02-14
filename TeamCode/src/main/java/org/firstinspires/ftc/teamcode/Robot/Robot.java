@@ -43,8 +43,8 @@ public class Robot {
     // Lift
     //
     private final DcMotorEx leftLift;
-    private final DcMotorEx rightLift;
-    private LiftDirections currLiftDirection = LiftDirections.UP;
+    private final DcMotorEx     rightLift;
+    private       LiftPositions currLiftPosition = LiftPositions.UP;
 
     //
     // Claws
@@ -157,11 +157,14 @@ public class Robot {
         leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        rightLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftLift.setTargetPosition(0);
+        rightLift.setTargetPosition(0);
 
-        leftLift.setPower(0);
-        rightLift.setPower(0);
+        leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+        leftLift.setPower(1);
+        rightLift.setPower(1);
 
         //
         // Claws
@@ -253,15 +256,13 @@ public class Robot {
                         opMode.telemetry.addData("R Lift busy:", rightLift.isBusy());
                         opMode.telemetry.addData("L Lift power:", leftLift.getPower());
                         opMode.telemetry.addData("R Lift power:", rightLift.getPower());
-                        switch (currLiftDirection) {
+                        switch (currLiftPosition) {
                             case UP:
                                 opMode.telemetry.addLine("Lift direction: Up");
                                 break;
-                            case DOWN:
-                                opMode.telemetry.addLine("Lift direction: Down");
+                            case HANG:
+                                opMode.telemetry.addLine("Lift direction: Hang");
                                 break;
-                            default:
-                                opMode.telemetry.addLine("Lift direction: Rest");
                         }
                         break;
                     case CLAWS:
@@ -565,32 +566,27 @@ public class Robot {
     // Lift
     //
     public void moveLift() {
-        switch (currLiftDirection) {
+        switch (currLiftPosition) {
             case UP:
-                leftLift.setPower(1);
-                rightLift.setPower(1);
+                leftLift.setTargetPosition(LIFT_UP_POSITION);
+                rightLift.setTargetPosition(LIFT_UP_POSITION);
                 break;
-            case DOWN:
-                leftLift.setPower(-1);
-                rightLift.setPower(-1);
+            case HANG:
+                leftLift.setTargetPosition(LIFT_HANGING_POSITION);
+                rightLift.setTargetPosition(LIFT_HANGING_POSITION);
                 break;
         }
     }
 
-    public void switchLiftDirection() {
-        switch (currLiftDirection) {
+    public void switchLiftPosition(){
+        switch (currLiftPosition){
             case UP:
-                currLiftDirection = LiftDirections.DOWN;
+                currLiftPosition = LiftPositions.HANG;
                 break;
-            case DOWN:
-                currLiftDirection = LiftDirections.UP;
+            case HANG:
+                currLiftPosition = LiftPositions.UP;
                 break;
         }
-    }
-
-    public void stopLift() {
-        leftLift.setPower(0);
-        rightLift.setPower(0);
     }
 
     public void waitForLift() {
