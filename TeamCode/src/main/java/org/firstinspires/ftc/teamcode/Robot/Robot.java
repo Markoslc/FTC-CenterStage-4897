@@ -17,7 +17,7 @@ public class Robot {
     //
     // Robot
     //
-    private DriveMode driveMode;
+    private       DriveMode    driveMode;
     private final LinearOpMode opMode;
 
     //
@@ -27,38 +27,38 @@ public class Robot {
     private final DcMotorEx frontR;
     private final DcMotorEx backL;
     private final DcMotorEx backR;
-    private double wheelPower;
+    private       double    wheelPower;
 
     //
     // Arm
     //
     private final DcMotorEx arm;
-    private int armPosIndex = 0;
+    private       int       armPosIndex = 0;
 
     //
     // Plane
     //
-    private final Servo plane;
+    private final Servo         plane;
     //
     // Lift
     //
-    private final DcMotorEx leftLift;
+    private final DcMotorEx     leftLift;
     private final DcMotorEx     rightLift;
     private       LiftPositions currLiftPosition = LiftPositions.UP;
 
     //
     // Claws
     //
-    private final Servo leftClaw;
-    private final Servo rightClaw;
-    private double leftClawTargetPos;
-    private double rightClawTargetPos;
+    private final Servo  leftClaw;
+    private final Servo  rightClaw;
+    private       double leftClawTargetPos;
+    private       double rightClawTargetPos;
 
     //
     // Systems
     //
-    private final IMU imu;
-    private double currImuTargetAngle;
+    private final IMU    imu;
+    private       double currImuTargetAngle;
 
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
@@ -285,8 +285,8 @@ public class Robot {
     public void positionDrive(int frontLRot, int frontRRot, int backLRot, int backRRot) {
         int frontLTargetPos = frontL.getCurrentPosition() + frontLRot;
         int frontRTargetPos = frontR.getCurrentPosition() + frontRRot;
-        int backLTargetPos = backL.getCurrentPosition() + backLRot;
-        int backRTargetPos = backR.getCurrentPosition() + backRRot;
+        int backLTargetPos  = backL.getCurrentPosition() + backLRot;
+        int backRTargetPos  = backR.getCurrentPosition() + backRRot;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -355,8 +355,8 @@ public class Robot {
     public void moveForward(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
-        int backLTargetPos = backL.getCurrentPosition() + rotation;
-        int backRTargetPos = backR.getCurrentPosition() + rotation;
+        int backLTargetPos  = backL.getCurrentPosition() + rotation;
+        int backRTargetPos  = backR.getCurrentPosition() + rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -371,8 +371,8 @@ public class Robot {
     public void moveBackward(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
-        int backLTargetPos = backL.getCurrentPosition() - rotation;
-        int backRTargetPos = backR.getCurrentPosition() - rotation;
+        int backLTargetPos  = backL.getCurrentPosition() - rotation;
+        int backRTargetPos  = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -387,8 +387,8 @@ public class Robot {
     public void moveLeft(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
-        int backLTargetPos = backL.getCurrentPosition() + rotation;
-        int backRTargetPos = backR.getCurrentPosition() - rotation;
+        int backLTargetPos  = backL.getCurrentPosition() + rotation;
+        int backRTargetPos  = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -403,8 +403,8 @@ public class Robot {
     public void moveRight(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
-        int backLTargetPos = backL.getCurrentPosition() - rotation;
-        int backRTargetPos = backR.getCurrentPosition() + rotation;
+        int backLTargetPos  = backL.getCurrentPosition() - rotation;
+        int backRTargetPos  = backR.getCurrentPosition() + rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -419,8 +419,8 @@ public class Robot {
     public void turnLeft(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
-        int backLTargetPos = backL.getCurrentPosition() - rotation;
-        int backRTargetPos = backR.getCurrentPosition() + rotation;
+        int backLTargetPos  = backL.getCurrentPosition() - rotation;
+        int backRTargetPos  = backR.getCurrentPosition() + rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -435,8 +435,8 @@ public class Robot {
     public void turnRight(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
-        int backLTargetPos = backL.getCurrentPosition() + rotation;
-        int backRTargetPos = backR.getCurrentPosition() - rotation;
+        int backLTargetPos  = backL.getCurrentPosition() + rotation;
+        int backRTargetPos  = backR.getCurrentPosition() - rotation;
 
         frontL.setTargetPosition(frontLTargetPos);
         frontR.setTargetPosition(frontRTargetPos);
@@ -578,8 +578,8 @@ public class Robot {
         }
     }
 
-    public void switchLiftPosition(){
-        switch (currLiftPosition){
+    public void switchLiftPosition() {
+        switch (currLiftPosition) {
             case UP:
                 currLiftPosition = LiftPositions.HANG;
                 break;
