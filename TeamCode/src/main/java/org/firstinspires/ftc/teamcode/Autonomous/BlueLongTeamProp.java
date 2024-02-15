@@ -15,12 +15,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot.OpenCV.TeamPropRecognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 
-@Autonomous(name = "Red Short Team Prop", group = "Team Prop")
-public class RedShortTeamProp extends LinearOpMode {
+@Autonomous(name = "Blue Long Team Prop", group = "Team Prop")
+public class BlueLongTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
-        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.RED_ALLIANCE);
+        TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.BLUE_ALLIANCE);
         waitForStart();
 
         TeamPropPosition teamPropPosition = teamPropRecognition.getTeamPropPosition();
@@ -41,7 +41,7 @@ public class RedShortTeamProp extends LinearOpMode {
                 robot.moveBackward(200, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);/*
 
                 robot.moveRight(800, true);
 
@@ -62,7 +62,7 @@ public class RedShortTeamProp extends LinearOpMode {
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
                 robot.moveForward(700);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
                 break;
             case LEFT:
                 telemetry.addLine("Mode: LeftMode");
@@ -83,7 +83,7 @@ public class RedShortTeamProp extends LinearOpMode {
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
                 robot.moveBackward(200);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);/*
 
                 robot.turnAngleRight(-90);
 
@@ -104,7 +104,7 @@ public class RedShortTeamProp extends LinearOpMode {
                 robot.moveForward(400);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
                 break;
             case RIGHT:
                 telemetry.addLine("Mode: RightMode");
@@ -124,7 +124,7 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);
+                robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);/*
 
                 robot.turnAngleRight(-90);
 
@@ -145,7 +145,7 @@ public class RedShortTeamProp extends LinearOpMode {
                 robot.moveForward(600);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
                 break;
         }
 
