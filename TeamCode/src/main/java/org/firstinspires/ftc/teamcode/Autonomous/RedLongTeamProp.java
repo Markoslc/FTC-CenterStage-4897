@@ -34,15 +34,17 @@ public class RedLongTeamProp extends LinearOpMode {
                 robot.moveBackward(200, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);/*
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-                robot.moveLeft(800, true);
+                robot.turnAngleRight(-90);
 
-                robot.turnAngleLeft(90);
+                robot.moveRight(400, true);
 
-                robot.moveRight(1050, true);
+                robot.moveForward(3000, true);
 
-                robot.moveForward(1000, true);
+                robot.moveLeft(1400, true);
+
+                robot.moveForward(950, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -50,12 +52,12 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.moveBackward(300, true);
 
-                robot.moveRight(1100, true);
+                robot.moveLeft(1200, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
                 robot.moveForward(700);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
                 break;
             case LEFT:
                 telemetry.addLine("Mode: LeftMode");
@@ -71,30 +73,33 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
+                robot.moveBackward(200, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.ARM);/*
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-                robot.turnAngleLeft(90);
+                robot.turnAngleRight(-90);
 
-                robot.moveForward(1400, true);
+                robot.moveRight(400, true);
 
-                robot.moveRight(1100, true);
+                robot.moveForward(3000, true);
 
-                robot.moveForward(100, true);
+                robot.moveLeft(1400, true);
+
+                robot.moveForward(950, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(100, true);
+                robot.moveBackward(300, true);
 
-                robot.moveRight(1250, true);
+                robot.moveLeft(1200, true);
 
-                robot.moveForward(500, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
+                robot.moveForward(700);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
                 break;
             case RIGHT:
                 telemetry.addLine("Mode: RightMode");
@@ -112,31 +117,33 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
+                robot.moveBackward(200);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
-                robot.moveBackward(200);
-                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);/*
+                robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
-                robot.turnAngleLeft(90);
+                robot.turnAngleRight(-90);
 
-                robot.moveForward(1250, true);
+                robot.moveRight(400, true);
 
-                robot.moveRight(1100, true);
+                robot.moveForward(3000, true);
 
-                robot.moveForward(350, true);
+                robot.moveLeft(1400, true);
+
+                robot.moveForward(950, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
                 robot.moveClaws(true, false, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200, true);
+                robot.moveBackward(300, true);
 
-                robot.moveRight(1250, true);
+                robot.moveLeft(1200, true);
 
-                robot.moveForward(500, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
-                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);*/
+                robot.moveForward(700);
+                robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
                 break;
         }
 
