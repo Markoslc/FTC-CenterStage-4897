@@ -6,6 +6,7 @@ import static java.lang.Thread.sleep;
 
 import androidx.annotation.Nullable;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -25,11 +26,15 @@ public class Robot {
     //
     // Wheels
     //
-    private final DcMotorEx frontL;
-    private final DcMotorEx frontR;
-    private final DcMotorEx backL;
-    private final DcMotorEx backR;
-    private       double    wheelPower;
+    private final DcMotorEx     frontL;
+    private final DcMotorEx     frontR;
+    private final DcMotorEx     backL;
+    private final DcMotorEx     backR;
+    private final PIDController frontLController;
+    private final PIDController frontRController;
+    private final PIDController backLController;
+    private final PIDController backRController;
+    private       double        wheelPower;
 
     //
     // Arm
@@ -126,6 +131,12 @@ public class Robot {
                 backL.setPower(wheelPower);
                 backR.setPower(wheelPower);
         }
+
+        frontLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        frontRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        backLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        backRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+
         this.wheelPower = wheelPower;
 
 
@@ -309,7 +320,7 @@ public class Robot {
      */
     public void drive(double forwardPower, double sidePower, double rotationPower) {
 
-        double denominator = Math.max(Math.abs(forwardPower) + Math.abs(sidePower) + Math.abs(sidePower), 1);
+        // double denominator = Math.max(Math.abs(forwardPower) + Math.abs(sidePower) + Math.abs(sidePower), 1);
 
         double frontLPower;
         double frontRPower;
@@ -320,17 +331,15 @@ public class Robot {
 
         switch (driveMode) {
             case ROBOT:
-                sidePower *= SIDE_POWER_PERFECTION_MULTIPLIER;
+                frontLPower = frontLController.getVelocity(forwardPower + sidePower + rotationPower, frontL.getVelocity());
+                frontRPower = frontRController.getVelocity(forwardPower - sidePower - rotationPower, frontR.getVelocity());
+                backLPower = backLController.getVelocity(forwardPower - sidePower + rotationPower, backL.getVelocity());
+                backRPower = backRController.getVelocity(forwardPower + sidePower - rotationPower, backR.getVelocity());
 
-                frontLPower = forwardPower + sidePower + rotationPower;
-                frontRPower = forwardPower - sidePower - rotationPower;
-                backLPower = forwardPower - sidePower + rotationPower;
-                backRPower = forwardPower + sidePower - rotationPower;
-
-                frontL.setPower(frontLPower * wheelPower / denominator);
-                frontR.setPower(frontRPower * wheelPower / denominator);
-                backL.setPower(backLPower * wheelPower / denominator);
-                backR.setPower(backRPower * wheelPower / denominator);
+                frontL.setPower(frontLPower * wheelPower);
+                frontR.setPower(frontRPower * wheelPower);
+                backL.setPower(backLPower * wheelPower);
+                backR.setPower(backRPower * wheelPower);
 
                 break;
             case FIELD:
@@ -339,16 +348,16 @@ public class Robot {
                 double forwardField = forwardPower * Math.cos(robotRotation) - sidePower * Math.sin(robotRotation);
                 double sideField = forwardPower * Math.sin(robotRotation) + sidePower * Math.cos(robotRotation);
                 sideField *= SIDE_POWER_PERFECTION_MULTIPLIER;
+                frontLPower = frontLController.getVelocity(forwardField + sideField + rotationPower, frontL.getVelocity());
+                frontRPower = frontRController.getVelocity(forwardField - sideField - rotationPower, frontR.getVelocity());
+                backLPower = backLController.getVelocity(forwardField - sideField + rotationPower, backL.getVelocity());
+                backRPower = backRController.getVelocity(forwardField + sideField - rotationPower, backR.getVelocity());
 
-                frontLPower = forwardField + sideField + rotationPower;
-                frontRPower = forwardField - sideField - rotationPower;
-                backLPower = forwardField - sideField + rotationPower;
-                backRPower = forwardField + sideField - rotationPower;
+                frontL.setPower(frontLPower * wheelPower);
+                frontR.setPower(frontRPower * wheelPower);
+                backL.setPower(backLPower * wheelPower);
+                backR.setPower(backRPower * wheelPower);
 
-                frontL.setPower(frontLPower * wheelPower / denominator);
-                frontR.setPower(frontRPower * wheelPower / denominator);
-                backL.setPower(backLPower * wheelPower / denominator);
-                backR.setPower(backRPower * wheelPower / denominator);
                 break;
             default:
                 frontL.setPower(0);
@@ -500,13 +509,13 @@ public class Robot {
 
     public void moveDirection(double angle, int time) {
         ElapsedTime timer     = new ElapsedTime();
-        double      startTime = timer.time();
+        double      startTime = timer.seconds();
 
-        while (startTime + time > timer.time()) {
+        double forwardPower = Math.cos(Math.toRadians(angle));
+        double sidePower    = Math.sin(Math.toRadians(angle));
+
+        while (startTime + time > timer.seconds()) {
             double robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            double forwardPower = Math.cos(Math.toRadians(angle));
-            double sidePower    = Math.sin(Math.toRadians(angle));
 
             double forwardField = forwardPower * Math.cos(robotRotation) - sidePower * Math.sin(robotRotation);
             double sideField    = forwardPower * Math.sin(robotRotation) + sidePower * Math.cos(robotRotation);
