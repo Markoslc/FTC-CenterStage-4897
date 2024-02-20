@@ -6,15 +6,18 @@ import static java.lang.Thread.sleep;
 
 import androidx.annotation.Nullable;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+@Config
 public class Robot {
     //
     // Robot
@@ -34,6 +37,9 @@ public class Robot {
     private final PIDController frontRController;
     private final PIDController backLController;
     private final PIDController backRController;
+    private static double WHEEL_KP;
+    private static double WHEEL_KI;
+    private static double WHEEL_KD;
     private       double        wheelPower;
 
     //
@@ -100,6 +106,7 @@ public class Robot {
 
         switch (drivePeriod) {
             case DRIVER:
+            case TEST:
                 frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 frontR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 backL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -131,6 +138,10 @@ public class Robot {
                 backL.setPower(wheelPower);
                 backR.setPower(wheelPower);
         }
+
+        WHEEL_KP = DEFAULT_WHEEL_KP;
+        WHEEL_KI = DEFAULT_WHEEL_KI;
+        WHEEL_KD = DEFAULT_WHEEL_KD;
 
         frontLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
         frontRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
@@ -313,6 +324,10 @@ public class Robot {
 
     /**
      * Moves the robot depending on the current drive mode
+     * <p>
+     * On field mode the movement is based on the direction of the gyroscope, while on robot mode it's based on the robot direction
+     * <p>
+     * Uses PID Control and sends velocity to the FTC Dashboard if the drive period is set to TEST
      *
      * @param forwardPower  The multiplier of the movement in the forward/backward direction. Ranges from -1 to 1
      * @param sidePower     The multiplier of the movement in the left/right direction. Ranges from -1 to 1
@@ -322,24 +337,29 @@ public class Robot {
 
         // double denominator = Math.max(Math.abs(forwardPower) + Math.abs(sidePower) + Math.abs(sidePower), 1);
 
-        double frontLPower;
-        double frontRPower;
-        double backLPower;
-        double backRPower;
+        double frontLPower = 0;
+        double frontRPower = 0;
+        double backLPower = 0;
+        double backRPower = 0;
+
+        double frontLTargetVelocity = 0;
+        double frontRTargetVelocity = 0;
+        double backLTargetVelocity = 0;
+        double backRTargetVelocity = 0;
 
         rotationPower *= ROTATION_POWER_MULTIPLIER;
 
         switch (driveMode) {
             case ROBOT:
-                frontLPower = frontLController.getVelocity(forwardPower + sidePower + rotationPower, frontL.getVelocity());
-                frontRPower = frontRController.getVelocity(forwardPower - sidePower - rotationPower, frontR.getVelocity());
-                backLPower = backLController.getVelocity(forwardPower - sidePower + rotationPower, backL.getVelocity());
-                backRPower = backRController.getVelocity(forwardPower + sidePower - rotationPower, backR.getVelocity());
+                frontLTargetVelocity = forwardPower + sidePower + rotationPower;
+                frontRTargetVelocity = forwardPower + sidePower + rotationPower;
+                backLTargetVelocity = forwardPower + sidePower + rotationPower;
+                backRTargetVelocity = forwardPower + sidePower + rotationPower;
 
-                frontL.setPower(frontLPower * wheelPower);
-                frontR.setPower(frontRPower * wheelPower);
-                backL.setPower(backLPower * wheelPower);
-                backR.setPower(backRPower * wheelPower);
+                frontLPower = frontLController.getVelocity(frontLTargetVelocity, frontL.getVelocity());
+                frontRPower = frontRController.getVelocity(frontRTargetVelocity, frontR.getVelocity());
+                backLPower = backLController.getVelocity(backLTargetVelocity, backL.getVelocity());
+                backRPower = backRController.getVelocity(backRTargetVelocity, backR.getVelocity());
 
                 break;
             case FIELD:
@@ -348,23 +368,45 @@ public class Robot {
                 double forwardField = forwardPower * Math.cos(robotRotation) - sidePower * Math.sin(robotRotation);
                 double sideField = forwardPower * Math.sin(robotRotation) + sidePower * Math.cos(robotRotation);
                 sideField *= SIDE_POWER_PERFECTION_MULTIPLIER;
-                frontLPower = frontLController.getVelocity(forwardField + sideField + rotationPower, frontL.getVelocity());
-                frontRPower = frontRController.getVelocity(forwardField - sideField - rotationPower, frontR.getVelocity());
-                backLPower = backLController.getVelocity(forwardField - sideField + rotationPower, backL.getVelocity());
-                backRPower = backRController.getVelocity(forwardField + sideField - rotationPower, backR.getVelocity());
 
-                frontL.setPower(frontLPower * wheelPower);
-                frontR.setPower(frontRPower * wheelPower);
-                backL.setPower(backLPower * wheelPower);
-                backR.setPower(backRPower * wheelPower);
+                frontLTargetVelocity = forwardField + sideField + rotationPower;
+                frontRTargetVelocity = forwardField + sideField + rotationPower;
+                backLTargetVelocity = forwardField + sideField + rotationPower;
+                backRTargetVelocity = forwardField + sideField + rotationPower;
+
+                frontLPower = frontLController.getVelocity(frontLTargetVelocity, frontL.getVelocity());
+                frontRPower = frontRController.getVelocity(frontRTargetVelocity, frontR.getVelocity());
+                backLPower = backLController.getVelocity(backLTargetVelocity, backL.getVelocity());
+                backRPower = backRController.getVelocity(backRTargetVelocity, backR.getVelocity());
 
                 break;
-            default:
-                frontL.setPower(0);
-                frontR.setPower(0);
-                backL.setPower(0);
-                backR.setPower(0);
         }
+
+        if(drivePeriod == DrivePeriod.TEST){
+            frontLController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            frontRController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            backLController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            backRController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+
+            FtcDashboard dashboard = FtcDashboard.getInstance();
+            Telemetry telemetry = dashboard.getTelemetry();
+
+            telemetry.addData("FrontL target velocity", frontLTargetVelocity);
+            telemetry.addData("FrontL current velocity", frontL.getVelocity());
+            telemetry.addData("FrontR target velocity", frontRTargetVelocity);
+            telemetry.addData("FrontR current velocity", frontR.getVelocity());
+            telemetry.addData("backL target velocity", backLTargetVelocity);
+            telemetry.addData("BackL current velocity", backL.getVelocity());
+            telemetry.addData("BackR target velocity", backRTargetVelocity);
+            telemetry.addData("BackR current velocity", backR.getVelocity());
+
+            telemetry.update();
+        }
+
+        frontL.setPower(frontLPower * wheelPower);
+        frontR.setPower(frontRPower * wheelPower);
+        backL.setPower(backLPower * wheelPower);
+        backR.setPower(backRPower * wheelPower);
     }
 
     public void moveForward(int rotation, @Nullable boolean... individualWait) {

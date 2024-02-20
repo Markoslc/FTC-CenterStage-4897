@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDController {
-    private final  double      kp;
-    private final  double      ki;
-    private final  double      kd;
+    private  double      kp;
+    private  double      ki;
+    private  double      kd;
     private static double      lastError;
     private static double      errorSum;
     private final  ElapsedTime timer = new ElapsedTime();
@@ -17,6 +17,12 @@ public class PIDController {
 
         lastError = 0;
         errorSum = 0;
+    }
+
+    public void setCoefficients(double kp, double ki, double kd){
+        this.kp = kp;
+        this.ki = ki;
+        this.kd = kd;
     }
 
     public double getVelocity(double targetVelocity, double currVelocity) {

@@ -14,7 +14,7 @@ public class RobotParameters {
     }
 
     public enum DrivePeriod {
-        AUTONOMOUS, DRIVER
+        AUTONOMOUS, DRIVER, TEST
     }
 
     //
@@ -52,9 +52,9 @@ public class RobotParameters {
     public static final String  BACK_RIGHT_STR                   = "backRight";
     public static final boolean FRONT_LEFT_REVERSED              = true;
     public static final boolean FRONT_RIGHT_REVERSED             = false;
-    public static final double  WHEEL_KP                         = 2;
-    public static final double  WHEEL_KI                         = 0.5;
-    public static final double  WHEEL_KD                         = 0.2;
+    public static final double  DEFAULT_WHEEL_KP                         = 2;
+    public static final double  DEFAULT_WHEEL_KI                         = 0.5;
+    public static final double  DEFAULT_WHEEL_KD                         = 0.2;
     public static final boolean BACK_LEFT_REVERSED               = false;
     public static final boolean BACK_RIGHT_REVERSED              = true;
     public static final double  WHEEL_PPR                        = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
