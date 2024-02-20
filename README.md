@@ -1,6 +1,6 @@
 # FTC-CenterStage-4897
 
-A fork of the FTC SDK for the 2023-2024 season of FIRST Tech Challenge owned by the team 4897 "Bodacious Bulldawgs"
+A fork of the FTC SDK for the 2023-2024 season of FIRST Tech Challenge owned by **Team 4897 "Bodacious Bulldawgs"**
 
 ## About Code
 
