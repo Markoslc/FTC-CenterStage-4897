@@ -46,40 +46,37 @@ public class RobotParameters {
     //
     // Wheels
     //
-    public static final String  FRONT_LEFT_STR                   = "frontLeft";
-    public static final String  FRONT_RIGHT_STR                  = "frontRight";
-    public static final String  BACK_LEFT_STR                    = "backLeft";
-    public static final String  BACK_RIGHT_STR                   = "backRight";
-    public static final boolean FRONT_LEFT_REVERSED              = true;
-    public static final boolean FRONT_RIGHT_REVERSED             = false;
-    public static final double  DEFAULT_WHEEL_KP                         = 2;
-    public static final double  DEFAULT_WHEEL_KI                         = 0.5;
-    public static final double  DEFAULT_WHEEL_KD                         = 0.2;
-    public static final boolean BACK_LEFT_REVERSED               = false;
-    public static final boolean BACK_RIGHT_REVERSED              = true;
-    public static final double  WHEEL_PPR                        = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
-    public static final int     WHEEL_RPM                        = 312;
-    public static final double  WHEEL_RPS                        = (double) WHEEL_RPM / 60;
-    public static final double  WHEEL_DEGREES_PER_SECOND         = WHEEL_RPS * 360;
-    public static final double  WHEEL_PPM                        = WHEEL_PPR * WHEEL_RPM;
-    public static final double  WHEEL_PPS                        = WHEEL_PPM * 60;
-    public static final double  ROTATION_POWER_MULTIPLIER        = (double) 2 / 5;
-    public static final double  SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
-    public static final int     WHEELS_POSITION_TOLERANCE        = 10;
+    public static final String FRONT_LEFT_STR = "frontLeft";
+    public static final String FRONT_RIGHT_STR = "frontRight";
+    public static final String BACK_LEFT_STR = "backLeft";
+    public static final String BACK_RIGHT_STR = "backRight";
+    public static final boolean FRONT_LEFT_REVERSED = true;
+    public static final boolean FRONT_RIGHT_REVERSED = false;
+    public static final boolean BACK_LEFT_REVERSED = false;
+    public static final boolean BACK_RIGHT_REVERSED = true;
+    public static final double WHEEL_PPR = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
+    public static final int WHEEL_RPM = 312;
+    public static final double WHEEL_RPS = (double) WHEEL_RPM / 60;
+    public static final double WHEEL_DEGREES_PER_SECOND = WHEEL_RPS * 360;
+    public static final double WHEEL_PPM = WHEEL_PPR * WHEEL_RPM;
+    public static final double WHEEL_PPS = WHEEL_PPM * 60;
+    public static final double ROTATION_POWER_MULTIPLIER = (double) 2 / 5;
+    public static final double SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
+    public static final int WHEELS_POSITION_TOLERANCE = 10;
 
     //
     // Arm
     //
-    public static final String  ARM_STR                = "arm";
-    public static final boolean ARM_REVERSED           = true;
-    public static final double  DEFAULT_ARM_POWER      = 0.4;
-    public static final int     ARM_LOAD_POS           = -1900;
-    public static final int     ARM_REST_POS           = 0;
-    public static final int     ARM_SCORE_POS          = -1100;
-    public static final int[]   ArmPositions           = new int[]{
+    public static final String ARM_STR = "arm";
+    public static final boolean ARM_REVERSED = true;
+    public static final double DEFAULT_ARM_POWER = 0.4;
+    public static final int ARM_LOAD_POS = -1900;
+    public static final int ARM_REST_POS = 0;
+    public static final int ARM_SCORE_POS = -1100;
+    public static final int[] ArmPositions = new int[]{
             ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS
     };
-    public static final int     ARM_POSITION_TOLERANCE = 2;
+    public static final int ARM_POSITION_TOLERANCE = 2;
 
     //
     // Lift
@@ -160,13 +157,13 @@ public class RobotParameters {
         ROBOT, WHEELS, ARM, CLAWS, LIFT, IMU, PLANE, CAMERA
     }
 
-    public static final String                                       IMU_STR                      = "imu";
-    public static final double                                       IMU_TOLERANCE_DEGREES        = 2;
-    public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION               = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-    public static final RevHubOrientationOnRobot.UsbFacingDirection  USB_DIRECTION                = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
-    public static final RevHubOrientationOnRobot                     DEFAULT_ORIENTATION_ON_ROBOT = new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);
-    public static final IMU.Parameters                               IMU_DEFAULT_PARAMS           = new IMU.Parameters(DEFAULT_ORIENTATION_ON_ROBOT);
-    public static final int                                          VERBOSE                      = 4;
+    public static final String IMU_STR = "imu";
+    public static final double IMU_TOLERANCE_DEGREES = 2;
+    public static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+    public static final RevHubOrientationOnRobot.UsbFacingDirection USB_DIRECTION = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+    public static RevHubOrientationOnRobot DEFAULT_ORIENTATION_ON_ROBOT = new RevHubOrientationOnRobot(LOGO_DIRECTION, USB_DIRECTION);
+    public static IMU.Parameters IMU_DEFAULT_PARAMS = new IMU.Parameters(DEFAULT_ORIENTATION_ON_ROBOT);
+    public static final int VERBOSE = 4;
     /**
      * 0: NOTHING
      * 1: ERRORS ONLY
@@ -178,7 +175,7 @@ public class RobotParameters {
     //
     //Position Settings
     //
-    public static       double                                       POSITION_TOLERANCE           = 0.1;
+    public static double POSITION_TOLERANCE = 0.1;
 
     public static enum Alliance {
         RED_ALLIANCE, BLUE_ALLIANCE
@@ -201,10 +198,10 @@ public class RobotParameters {
     //
     // Camera
     //
-    public static final String  CAMERA_STR       = "Webcam 1";
-    public static final int     CAMERA_WIDTH     = 1280;
-    public static final int     CAMERA_HEIGHT    = 720;
-    public static final boolean USE_WEBCAM       = true;
+    public static final String CAMERA_STR = "Webcam 1";
+    public static final int CAMERA_WIDTH = 1280;
+    public static final int CAMERA_HEIGHT = 720;
+    public static final boolean USE_WEBCAM = true;
     public static final boolean ENABLE_LIVE_VIEW = true;
 
     public static enum TeamPropPosition {

@@ -54,7 +54,7 @@ public class Drive_AS extends LinearOpMode {
                 robot.switchDriveMode();
 
             if (operatorController.b.singlePress())
-                robot.setWheelPower(0.5);
+                robot.setWheelPower(0.6);
             if (operatorController.b.onRelease())
                 robot.setWheelPower(1);
 

@@ -27,18 +27,18 @@ public class RedLongTeamProp extends LinearOpMode {
                 telemetry.update();
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(775, true);
+                robot.moveForward(725, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200, true);
+                robot.moveBackward(500, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
                 robot.turnAngleRight(-90);
 
-                robot.moveRight(400, true);
+                robot.moveRight(250, true);
 
                 robot.moveForward(3000, true);
 
@@ -52,7 +52,7 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.moveBackward(300, true);
 
-                robot.moveLeft(1200, true);
+                robot.moveRight(1300, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
@@ -67,9 +67,11 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.turnAngleLeft(25);
 
+                robot.moveBackward(300, true);
+
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(200, true);
+                robot.moveForward(400, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -80,7 +82,7 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.turnAngleRight(-90);
 
-                robot.moveRight(400, true);
+                robot.moveRight(350, true);
 
                 robot.moveForward(3000, true);
 
@@ -94,7 +96,7 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.moveBackward(300, true);
 
-                robot.moveLeft(1200, true);
+                robot.moveRight(1200, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
@@ -109,11 +111,11 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.turnAngleRight(-30);
 
-                robot.moveBackward(200, true);
+                robot.moveBackward(300, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(325, true);
+                robot.moveForward(400, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -124,7 +126,7 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.turnAngleRight(-90);
 
-                robot.moveRight(400, true);
+                robot.moveRight(600, true);
 
                 robot.moveForward(3000, true);
 
@@ -138,7 +140,7 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.moveBackward(300, true);
 
-                robot.moveLeft(1200, true);
+                robot.moveRight(1200, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
