@@ -38,20 +38,20 @@ public class BlueLongTeamProp extends LinearOpMode {
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(200, true);
+                robot.moveBackward(500, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
                 robot.turnAngleLeft(90);
 
-                robot.moveLeft(400, true);
+                robot.moveLeft(200, true);
 
                 robot.moveForward(3000, true);
 
                 robot.moveRight(1400, true);
 
-                robot.moveForward(950, true);
+                robot.moveForward(925, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -59,7 +59,7 @@ public class BlueLongTeamProp extends LinearOpMode {
 
                 robot.moveBackward(300, true);
 
-                robot.moveRight(1200, true);
+                robot.moveRight(1400, true);
 
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);

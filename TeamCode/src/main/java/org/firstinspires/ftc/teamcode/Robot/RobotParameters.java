@@ -85,7 +85,7 @@ public class RobotParameters {
     public static final String RIGHT_LIFT_STR = "rightLift";
     public static final boolean LEFT_LIFT_REVERSED = true;
     public static final boolean RIGHT_LIFT_REVERSED = true;
-    public static final int LIFT_UP_POSITION = 2500;
+    public static final int LIFT_UP_POSITION = 1750;
     public static final int LIFT_HANGING_POSITION = 5;
 
     public static enum LiftPositions {
@@ -148,7 +148,7 @@ public class RobotParameters {
     public static final String PLANE_STR = "plane";
     public static final boolean PLANE_REVERSED = false;
     public static final double PLANE_REST_POS = 0.2;
-    public static final double PLANE_LAUNCH_POS = 0.6;
+    public static final double PLANE_LAUNCH_POS = 0.8;
 
     //
     // Systems

@@ -370,7 +370,7 @@ public class Robot {
         backR.setTargetPosition(backRTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.WHEELS);
+            waitForSystem(50, Systems.WHEELS);
         }
     }
 
@@ -386,7 +386,7 @@ public class Robot {
         backR.setTargetPosition(backRTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.WHEELS);
+            waitForSystem(50, Systems.WHEELS);
         }
     }
 
@@ -402,7 +402,7 @@ public class Robot {
         backR.setTargetPosition(backRTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.WHEELS);
+            waitForSystem(50, Systems.WHEELS);
         }
     }
 
@@ -418,7 +418,7 @@ public class Robot {
         backR.setTargetPosition(backRTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.WHEELS);
+            waitForSystem(50, Systems.WHEELS);
         }
     }
 
@@ -434,7 +434,7 @@ public class Robot {
         backR.setTargetPosition(backRTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.WHEELS);
+            waitForSystem(50, Systems.WHEELS);
         }
     }
 
@@ -450,7 +450,7 @@ public class Robot {
         backR.setTargetPosition(backRTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.WHEELS);
+            waitForSystem(50, Systems.WHEELS);
         }
     }
 
@@ -575,7 +575,7 @@ public class Robot {
         arm.setTargetPosition(targetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.ARM);
+            waitForSystem(50, Systems.ARM);
         }
     }
 
@@ -645,7 +645,7 @@ public class Robot {
         rightClaw.setPosition(rightClawTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
-            waitForSystem(20, Systems.CLAWS);
+            waitForSystem(50, Systems.CLAWS);
         }
     }
 
@@ -690,7 +690,7 @@ public class Robot {
                     waitForImu();
                     break;*/
                 default:
-                    waitForSystem(20, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS);
+                    waitForSystem(50, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS);
             }
         }
 
