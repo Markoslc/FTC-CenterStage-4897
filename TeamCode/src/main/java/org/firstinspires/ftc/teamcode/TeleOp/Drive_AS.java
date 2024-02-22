@@ -18,6 +18,9 @@ public class Drive_AS extends LinearOpMode {
         Controller operatorController = new Controller(gamepad2);
 
         waitForStart();
+
+        robot.start();
+
         while (opModeIsActive()) {
 
             //
