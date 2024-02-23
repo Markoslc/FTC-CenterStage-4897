@@ -19,13 +19,13 @@ public class PIDController {
         errorSum = 0;
     }
 
-    public void setCoefficients(double kp, double ki, double kd){
+    public void updateCoefficients(double kp, double ki, double kd){
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
     }
 
-    public double getVelocity(double targetVelocity, double currVelocity) {
+    public double getPowerPID(double targetVelocity, double currVelocity) {
         double error = targetVelocity - currVelocity;
 
         errorSum += error * timer.seconds();

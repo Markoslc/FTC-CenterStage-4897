@@ -107,10 +107,10 @@ public class Robot {
         switch (drivePeriod) {
             case DRIVER:
             case TEST:
-                frontL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-                frontR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-                backL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-                backR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+                frontL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                frontR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                backL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                backR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
                 frontL.setPower(0);
                 frontR.setPower(0);
@@ -168,7 +168,7 @@ public class Robot {
 
         arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-        arm.setPower(DEFAULT_ARM_POWER);
+        arm.setPower(0);
 
         //
         // Lift
@@ -191,8 +191,8 @@ public class Robot {
         leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-        leftLift.setPower(1);
-        rightLift.setPower(1);
+        leftLift.setPower(0);
+        rightLift.setPower(0);
 
         //
         // Claws
@@ -225,6 +225,11 @@ public class Robot {
     //
     // Robot
     //
+    public void start(){
+        arm.setPower(DEFAULT_ARM_POWER);
+        leftLift.setPower(1);
+        rightLift.setPower(1);
+    }
     public void setDriveMode(DriveMode driveMode) {
         this.driveMode = driveMode;
     }
@@ -356,10 +361,10 @@ public class Robot {
                 backLTargetVelocity = forwardPower + sidePower + rotationPower;
                 backRTargetVelocity = forwardPower + sidePower + rotationPower;
 
-                frontLPower = frontLController.getVelocity(frontLTargetVelocity, frontL.getVelocity());
-                frontRPower = frontRController.getVelocity(frontRTargetVelocity, frontR.getVelocity());
-                backLPower = backLController.getVelocity(backLTargetVelocity, backL.getVelocity());
-                backRPower = backRController.getVelocity(backRTargetVelocity, backR.getVelocity());
+                frontLPower = frontLController.getPowerPID(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
+                frontRPower = frontRController.getPowerPID(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
+                backLPower = backLController.getPowerPID(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
+                backRPower = backRController.getPowerPID(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
 
                 break;
             case FIELD:
@@ -374,30 +379,34 @@ public class Robot {
                 backLTargetVelocity = forwardField + sideField + rotationPower;
                 backRTargetVelocity = forwardField + sideField + rotationPower;
 
-                frontLPower = frontLController.getVelocity(frontLTargetVelocity, frontL.getVelocity());
-                frontRPower = frontRController.getVelocity(frontRTargetVelocity, frontR.getVelocity());
-                backLPower = backLController.getVelocity(backLTargetVelocity, backL.getVelocity());
-                backRPower = backRController.getVelocity(backRTargetVelocity, backR.getVelocity());
+                frontLPower = frontLController.getPowerPID(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
+                frontRPower = frontRController.getPowerPID(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
+                backLPower = backLController.getPowerPID(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
+                backRPower = backRController.getPowerPID(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
 
                 break;
         }
 
         if(drivePeriod == DrivePeriod.TEST){
-            frontLController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-            frontRController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-            backLController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-            backRController.setCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            frontLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            frontRController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            backLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            backRController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
 
             FtcDashboard dashboard = FtcDashboard.getInstance();
             Telemetry telemetry = dashboard.getTelemetry();
 
             telemetry.addData("FrontL target velocity", frontLTargetVelocity);
             telemetry.addData("FrontL current velocity", frontL.getVelocity());
+            telemetry.addData("FrontL current velocity", frontL.getVelocity());
             telemetry.addData("FrontR target velocity", frontRTargetVelocity);
+            telemetry.addData("FrontR current velocity", frontR.getVelocity());
             telemetry.addData("FrontR current velocity", frontR.getVelocity());
             telemetry.addData("backL target velocity", backLTargetVelocity);
             telemetry.addData("BackL current velocity", backL.getVelocity());
+            telemetry.addData("BackL current velocity", backL.getVelocity());
             telemetry.addData("BackR target velocity", backRTargetVelocity);
+            telemetry.addData("BackR current velocity", backR.getVelocity());
             telemetry.addData("BackR current velocity", backR.getVelocity());
 
             telemetry.update();
