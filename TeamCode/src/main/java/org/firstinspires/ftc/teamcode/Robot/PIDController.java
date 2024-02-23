@@ -26,13 +26,15 @@ public class PIDController {
     }
 
     public double getPowerPID(double targetVelocity, double currVelocity) {
+        double time = timer.seconds();
+        timer.reset();
+
         double error = targetVelocity - currVelocity;
 
-        errorSum += error * timer.seconds();
-        double errorChange = (error - lastError) / timer.seconds();
+        errorSum += error * time;
+        double errorChange = (error - lastError) / time;
 
         lastError = error;
-        timer.reset();
 
         return error * kp + errorSum * ki + errorChange * kd;
     }

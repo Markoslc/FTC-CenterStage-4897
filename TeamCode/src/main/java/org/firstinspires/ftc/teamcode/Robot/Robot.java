@@ -23,7 +23,7 @@ public class Robot {
     // Robot
     //
     private       DriveMode    driveMode;
-    private       DrivePeriod  drivePeriod;
+    private final DrivePeriod  drivePeriod;
     private final LinearOpMode opMode;
 
     //
@@ -33,10 +33,10 @@ public class Robot {
     private final DcMotorEx     frontR;
     private final DcMotorEx     backL;
     private final DcMotorEx     backR;
-    private final PIDController frontLController;
-    private final PIDController frontRController;
-    private final PIDController backLController;
-    private final PIDController backRController;
+    private final PIDProfile frontLController;
+    private final PIDProfile frontRController;
+    private final PIDProfile backLController;
+    private final PIDProfile backRController;
     private static double WHEEL_KP;
     private static double WHEEL_KI;
     private static double WHEEL_KD;
@@ -143,10 +143,10 @@ public class Robot {
         WHEEL_KI = DEFAULT_WHEEL_KI;
         WHEEL_KD = DEFAULT_WHEEL_KD;
 
-        frontLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-        frontRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-        backLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-        backRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        frontLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+        frontRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+        backLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+        backRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
 
         this.wheelPower = wheelPower;
 
@@ -361,10 +361,10 @@ public class Robot {
                 backLTargetVelocity = forwardPower + sidePower + rotationPower;
                 backRTargetVelocity = forwardPower + sidePower + rotationPower;
 
-                frontLPower = frontLController.getPowerPID(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
-                frontRPower = frontRController.getPowerPID(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
-                backLPower = backLController.getPowerPID(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
-                backRPower = backRController.getPowerPID(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
+                frontLPower = frontLController.getPower(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
+                frontRPower = frontRController.getPower(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
+                backLPower = backLController.getPower(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
+                backRPower = backRController.getPower(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
 
                 break;
             case FIELD:
@@ -379,10 +379,10 @@ public class Robot {
                 backLTargetVelocity = forwardField + sideField + rotationPower;
                 backRTargetVelocity = forwardField + sideField + rotationPower;
 
-                frontLPower = frontLController.getPowerPID(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
-                frontRPower = frontRController.getPowerPID(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
-                backLPower = backLController.getPowerPID(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
-                backRPower = backRController.getPowerPID(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
+                frontLPower = frontLController.getPower(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
+                frontRPower = frontRController.getPower(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
+                backLPower = backLController.getPower(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
+                backRPower = backRController.getPower(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
 
                 break;
         }
