@@ -64,6 +64,7 @@ public class RobotParameters {
     public static final double SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
     public static final int WHEELS_POSITION_TOLERANCE = 10;
     public static final double MAX_WHEEL_VELOCITY = 0.9;
+    public static final double MAX_WHEEL_ACCELERATION = 0.9;
     public static final double DEFAULT_WHEEL_KP = 2;
     public static final double DEFAULT_WHEEL_KI = 0.25;
     public static final double DEFAULT_WHEEL_KD = 0.2;
