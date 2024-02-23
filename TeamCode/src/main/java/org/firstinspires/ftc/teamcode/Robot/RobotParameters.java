@@ -68,10 +68,6 @@ public class RobotParameters {
     public static final double DEFAULT_WHEEL_KI = 0.25;
     public static final double DEFAULT_WHEEL_KD = 0.2;
 
-    public static final double DEFAULT_WHEEL_KP = 2;
-    public static final double DEFAULT_WHEEL_KI = 0.25;
-    public static final double DEFAULT_WHEEL_KD = 0.2;
-
 
     //
     // Arm

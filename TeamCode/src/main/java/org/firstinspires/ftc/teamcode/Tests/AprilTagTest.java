@@ -108,6 +108,7 @@ public class AprilTagTest extends LinearOpMode {
                 telemetry.addLine("A buch of tests:");
                 telemetry.addLine(String.format(Locale.US, "Berring - yaw: %6.1f", detection.ftcPose.bearing - detection.ftcPose.yaw));
                 telemetry.addLine(String.format(Locale.US, "cos(angle+aprilAngle)*dist: %6.1f", Math.cos(angle+aprilTagPose.angle)*detection.ftcPose.range));
+                telemetry.addLine(String.format(Locale.US, "sin(angle+aprilAngle)*dist: %6.1f", Math.sin(angle+aprilTagPose.angle)*detection.ftcPose.range));
             } else {
                 telemetry.addLine(String.format(Locale.US, "\n==== (ID %d) Unknown", detection.id));
                 telemetry.addLine(String.format(Locale.US, "Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
