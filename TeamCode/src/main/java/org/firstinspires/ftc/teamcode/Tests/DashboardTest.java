@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.Tests;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot.Controller;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 
-@TeleOp(name = "Drive AS")
+@TeleOp(name = "Test: Dashboard", group = "Test")
 public class DashboardTest extends LinearOpMode {
     @Override
     public void runOpMode() {

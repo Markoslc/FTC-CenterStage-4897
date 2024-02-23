@@ -64,6 +64,11 @@ public class RobotParameters {
     public static final double SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
     public static final int WHEELS_POSITION_TOLERANCE = 10;
 
+    public static final double DEFAULT_WHEEL_KP = 2;
+    public static final double DEFAULT_WHEEL_KI = 0.25;
+    public static final double DEFAULT_WHEEL_KD = 0.2;
+
+
     //
     // Arm
     //
@@ -182,17 +187,18 @@ public class RobotParameters {
     }
 
     public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{
-            new Position2D(29.845, 77.7, 270.0),    // TagId 1
-            new Position2D(29.845, 92.94, 270.0),   // TagId 2
-            new Position2D(29.845, 108.18, 270.0),  // TagId 3
-            new Position2D(29.845, 257.58, 270.0),  // TagId 4
-            new Position2D(29.845, 272.82, 270.0),  // TagId 5
-            new Position2D(29.845, 288.1, 270.0),   // TagId 6
+            new Position2D(132, 29, 270.0),    // TagId 1
+            new Position2D(132, 35, 270.0),   // TagId 2
+            new Position2D(132, 41, 270.0),  // TagId 3
+            new Position2D(132, 144-41, 270.0),  // TagId 4 //TODO: finish the values. maybe using the
+            new Position2D(132, 144-35, 270.0),  // TagId 5
+            new Position2D(132, 144-29, 270.0),   // TagId 6
             new Position2D(365.76, 286.08, 90.0), // TagId 7
             new Position2D(365.76, 272.11, 90.0), // TagId 8
             new Position2D(365.76, 93.65, 90.0),  // TagId 9
             new Position2D(365.76, 79.68, 90.0)   // TagId 10
     };
+
 
 
     //
