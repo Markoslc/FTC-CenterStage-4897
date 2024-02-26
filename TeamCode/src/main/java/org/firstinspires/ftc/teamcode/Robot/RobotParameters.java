@@ -26,11 +26,7 @@ public class RobotParameters {
     public static final boolean R_STICK_X_REVERSED = false;
 
     public enum GamepadButtons {
-        A, B, X, Y,
-        DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,
-        L_BUMPER, R_BUMPER,
-        BACK, START, GUIDE,
-        L_STICK_BUTTON, R_STICK_BUTTON
+        A, B, X, Y, DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT, L_BUMPER, R_BUMPER, BACK, START, GUIDE, L_STICK_BUTTON, R_STICK_BUTTON
     }
 
     public enum GamepadTriggers {
@@ -54,10 +50,11 @@ public class RobotParameters {
     public static final boolean FRONT_RIGHT_REVERSED = false;
     public static final boolean BACK_LEFT_REVERSED = false;
     public static final boolean BACK_RIGHT_REVERSED = true;
+    public static final double WHEEL_DIAMETER_MM = 99;
     public static final double WHEEL_PPR = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
     public static final int WHEEL_RPM = 312;
     public static final double WHEEL_RPS = (double) WHEEL_RPM / 60;
-    public static final double WHEEL_DEGREES_PER_SECOND = WHEEL_RPS * 360;
+    public final static double WHEEL_DEGREES_PER_SECOND = WHEEL_RPS * 360;
     public static final double WHEEL_PPM = WHEEL_PPR * WHEEL_RPM;
     public static final double WHEEL_PPS = WHEEL_PPM * 60;
     public static final double ROTATION_POWER_MULTIPLIER = (double) 2 / 5;
@@ -79,38 +76,36 @@ public class RobotParameters {
     public static final int ARM_LOAD_POS = -1900;
     public static final int ARM_REST_POS = 0;
     public static final int ARM_SCORE_POS = -1100;
-    public static final int[] ArmPositions = new int[]{
-            ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS
-    };
+    public static final int[] ArmPositions = new int[]{ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS};
     public static final int ARM_POSITION_TOLERANCE = 2;
 
     //
     // Lift
     //
-    public static final String  LEFT_LIFT_STR         = "leftLift";
-    public static final String  RIGHT_LIFT_STR        = "rightLift";
-    public static final boolean LEFT_LIFT_REVERSED    = true;
-    public static final boolean RIGHT_LIFT_REVERSED   = true;
-    public static final int     LIFT_UP_POSITION      = 2500;
-    public static final int     LIFT_HANGING_POSITION = 5;
+    public static final String LEFT_LIFT_STR = "leftLift";
+    public static final String RIGHT_LIFT_STR = "rightLift";
+    public static final boolean LEFT_LIFT_REVERSED = true;
+    public static final boolean RIGHT_LIFT_REVERSED = true;
+    public static final int LIFT_UP_POSITION = 2500;
+    public static final int LIFT_HANGING_POSITION = 5;
 
-    public static enum LiftPositions {
+    public enum LiftPositions {
         UP, HANG
     }
 
     //
     // Claws
     //
-    public static final  String  LEFT_CLAW_STR         = "leftClaw";
-    public static final  String  RIGHT_CLAW_STR        = "rightClaw";
-    public static final  boolean LEFT_CLAW_REVERSED    = true;
-    public static final  boolean RIGHT_CLAW_REVERSED   = false;
-    private static final double  LEFT_CLAW_CLOSED_POS  = 0.9;
-    private static final double  LEFT_CLAW_OPEN_POS    = 0.5;
-    private static final double  LEFT_CLAW_FALL_POS    = 0.1;
-    private static final double  RIGHT_CLAW_CLOSED_POS = 0.705;
-    private static final double  RIGHT_CLAW_OPEN_POS   = 0.5;
-    private static final double  RIGHT_CLAW_FALL_POS   = 0.1;
+    public static final String LEFT_CLAW_STR = "leftClaw";
+    public static final String RIGHT_CLAW_STR = "rightClaw";
+    public static final boolean LEFT_CLAW_REVERSED = true;
+    public static final boolean RIGHT_CLAW_REVERSED = false;
+    private static final double LEFT_CLAW_CLOSED_POS = 0.9;
+    private static final double LEFT_CLAW_OPEN_POS = 0.5;
+    private static final double LEFT_CLAW_FALL_POS = 0.1;
+    private static final double RIGHT_CLAW_CLOSED_POS = 0.705;
+    private static final double RIGHT_CLAW_OPEN_POS = 0.5;
+    private static final double RIGHT_CLAW_FALL_POS = 0.1;
 
     public enum ClawPositions {
         CLAWS_CLOSED, CLAWS_OPEN, CLAWS_FALL;
@@ -151,10 +146,10 @@ public class RobotParameters {
     //
     // Plane
     //
-    public static final String  PLANE_STR        = "plane";
-    public static final boolean PLANE_REVERSED   = false;
-    public static final double  PLANE_REST_POS   = 0.2;
-    public static final double  PLANE_LAUNCH_POS = 0.6;
+    public static final String PLANE_STR = "plane";
+    public static final boolean PLANE_REVERSED = false;
+    public static final double PLANE_REST_POS = 0.2;
+    public static final double PLANE_LAUNCH_POS = 0.6;
 
     //
     // Systems
@@ -183,23 +178,21 @@ public class RobotParameters {
     //
     public static double POSITION_TOLERANCE = 0.1;
 
-    public static enum Alliance {
+    public enum Alliance {
         RED_ALLIANCE, BLUE_ALLIANCE
     }
 
-    public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{
-            new Position2D(132, 29, 270.0),    // TagId 1
+    public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{new Position2D(132, 29, 270.0),    // TagId 1
             new Position2D(132, 35, 270.0),   // TagId 2
             new Position2D(132, 41, 270.0),  // TagId 3
-            new Position2D(132, 144-41, 270.0),  // TagId 4 //TODO: finish the values. maybe using the
-            new Position2D(132, 144-35, 270.0),  // TagId 5
-            new Position2D(132, 144-29, 270.0),   // TagId 6
+            new Position2D(132, 144 - 41, 270.0),  // TagId 4 //TODO: finish the values. maybe using the
+            new Position2D(132, 144 - 35, 270.0),  // TagId 5
+            new Position2D(132, 144 - 29, 270.0),   // TagId 6
             new Position2D(365.76, 286.08, 90.0), // TagId 7
             new Position2D(365.76, 272.11, 90.0), // TagId 8
             new Position2D(365.76, 93.65, 90.0),  // TagId 9
             new Position2D(365.76, 79.68, 90.0)   // TagId 10
     };
-
 
 
     //
@@ -211,7 +204,7 @@ public class RobotParameters {
     public static final boolean USE_WEBCAM = true;
     public static final boolean ENABLE_LIVE_VIEW = true;
 
-    public static enum TeamPropPosition {
+    public enum TeamPropPosition {
         LEFT, CENTER, RIGHT
     }
 
