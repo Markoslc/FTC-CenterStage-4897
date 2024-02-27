@@ -1,5 +1,12 @@
 package org.firstinspires.ftc.teamcode.Orientation;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.APRIL_TAG_POSES;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.CAMERA_HEIGHT;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.CAMERA_WIDTH;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ENABLE_LIVE_VIEW;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.USE_WEBCAM;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.VERBOSE;
+
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,16 +17,14 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
-
-import java.util.Locale;
 import java.util.List;
+import java.util.Locale;
 
 
 public class AprilTagRecognition {
     private       AprilTagProcessor aprilTag;
     public static LinearOpMode      currOpMode;
-    private VisionPortal visionPortal;
+    private       VisionPortal      visionPortal;
 
 
     public AprilTagRecognition(LinearOpMode opMode) {
@@ -98,7 +103,7 @@ public class AprilTagRecognition {
      */
     public Position2D getRobotPosition() {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        int count = currentDetections.size();
+        int                     count             = currentDetections.size();
         if (VERBOSE >= 4)
             currOpMode.telemetry.addLine(String.format(Locale.US, "found %d aprilTags", count));
         if (count == 0) return null;
@@ -115,7 +120,7 @@ public class AprilTagRecognition {
                 }
             }
             if (detection.metadata != null && aprilTagPose != null) {
-                double angle = detection.ftcPose.bearing - detection.ftcPose.yaw + aprilTagPose.angle;
+                double angle    = detection.ftcPose.bearing - detection.ftcPose.yaw + aprilTagPose.angle;
                 double y_offset = Math.cos(Math.toRadians(angle)) * detection.ftcPose.range;
                 double x_offset = Math.sin(Math.toRadians(angle)) * detection.ftcPose.range;
 
@@ -126,11 +131,11 @@ public class AprilTagRecognition {
                     currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", x_offset, y_offset, angle));
             }
         }
-            double averageX = sumX / count;
-            double averageY = sumY / count;
-            double averageAngle = sumAngle / count; //TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
-            if (VERBOSE >= 4)
-                currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", averageX, averageY, averageAngle));
-            return new Position2D(averageX, averageY, averageAngle);
-        }
+        double averageX     = sumX / count;
+        double averageY     = sumY / count;
+        double averageAngle = sumAngle / count; //TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
+        if (VERBOSE >= 4)
+            currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", averageX, averageY, averageAngle));
+        return new Position2D(averageX, averageY, averageAngle);
+    }
 }

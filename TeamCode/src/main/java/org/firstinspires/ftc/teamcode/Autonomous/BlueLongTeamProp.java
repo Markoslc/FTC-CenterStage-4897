@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 public class BlueLongTeamProp extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot robot = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
+        Robot               robot               = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
         TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.BLUE_ALLIANCE);
         waitForStart();
 

@@ -2,17 +2,15 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.APRIL_TAG_POSES;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Orientation.Position2D;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
-
 
 import java.util.List;
 import java.util.Locale;
@@ -100,15 +98,15 @@ public class AprilTagTest extends LinearOpMode {
             Position2D aprilTagPose;
             try {
                 aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
-            }catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 aprilTagPose = null;
                 telemetry.addLine("there was a massive error...");
             }
 
             if (detection.metadata != null && aprilTagPose != null) {
-                double angle = detection.ftcPose.bearing - detection.ftcPose.yaw;
-                double y_offset = Math.cos(Math.toRadians(angle+aprilTagPose.angle))*detection.ftcPose.range;
-                double x_offset = Math.sin(Math.toRadians(angle+aprilTagPose.angle))*detection.ftcPose.range;
+                double angle    = detection.ftcPose.bearing - detection.ftcPose.yaw;
+                double y_offset = Math.cos(Math.toRadians(angle + aprilTagPose.angle)) * detection.ftcPose.range;
+                double x_offset = Math.sin(Math.toRadians(angle + aprilTagPose.angle)) * detection.ftcPose.range;
                 telemetry.addLine(String.format(Locale.US, "\n==== (ID %d) %s", detection.id, detection.metadata.name));
                 telemetry.addLine(String.format(Locale.US, "XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format(Locale.US, "PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));

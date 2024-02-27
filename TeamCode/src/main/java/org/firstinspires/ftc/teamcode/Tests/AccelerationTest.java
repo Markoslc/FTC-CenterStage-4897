@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.WHEEL_DIAMETER_MM;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.WHEEL_PPR;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot.Robot;
-
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,8 +29,8 @@ public class AccelerationTest extends OpMode {
 
     final double timeInterval = 0.02; // Time in seconds
     /* Declare OpMode members. */
-    Robot robot = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
-    java.util.Timer time = new Timer();
+    Robot           robot = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
+    java.util.Timer time  = new Timer();
 
     double lastLeftVel = 0, lastRightVel = 0;
     int lastLeftPosition, lastRightPosition;

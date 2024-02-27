@@ -4,14 +4,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDProfile {
     private final PIDController pidController;
-    private final double maxAcceleration;
-    private final  ElapsedTime timer = new ElapsedTime();
+    private final double        maxAcceleration;
+    private final ElapsedTime   timer = new ElapsedTime();
 
     /**
      * Constructor for PIDProfile
-     * @param kp Proportional coefficient
-     * @param ki Integral coefficient
-     * @param kd Derivative coefficient
+     *
+     * @param kp              Proportional coefficient
+     * @param ki              Integral coefficient
+     * @param kd              Derivative coefficient
      * @param maxAcceleration The maximum acceleration
      */
     public PIDProfile(double kp, double ki, double kd, double maxAcceleration) {
@@ -22,18 +23,20 @@ public class PIDProfile {
 
     /**
      * Updates the coefficients of the PID controller
+     *
      * @param kp Proportional coefficient
      * @param ki Integral coefficient
      * @param kd Derivative coefficient
      */
-    public void updateCoefficients(double kp, double ki, double kd){
+    public void updateCoefficients(double kp, double ki, double kd) {
         pidController.updateCoefficients(kp, ki, kd);
     }
 
     /**
      * Returns the power output of the PID controller
+     *
      * @param targetVelocity The desired velocity
-     * @param currVelocity The current velocity
+     * @param currVelocity   The current velocity
      * @return The power output of the PID controller
      */
     public double getPower(double targetVelocity, double currVelocity) {
