@@ -26,11 +26,7 @@ public class RobotParameters {
     public static final boolean R_STICK_X_REVERSED = false;
 
     public enum GamepadButtons {
-        A, B, X, Y,
-        DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT,
-        L_BUMPER, R_BUMPER,
-        BACK, START, GUIDE,
-        L_STICK_BUTTON, R_STICK_BUTTON
+        A, B, X, Y, DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT, L_BUMPER, R_BUMPER, BACK, START, GUIDE, L_STICK_BUTTON, R_STICK_BUTTON
     }
 
     public enum GamepadTriggers {
@@ -54,10 +50,11 @@ public class RobotParameters {
     public static final boolean FRONT_RIGHT_REVERSED = false;
     public static final boolean BACK_LEFT_REVERSED = false;
     public static final boolean BACK_RIGHT_REVERSED = true;
+    public static final double WHEEL_DIAMETER_MM = 99;
     public static final double WHEEL_PPR = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
     public static final int WHEEL_RPM = 312;
     public static final double WHEEL_RPS = (double) WHEEL_RPM / 60;
-    public static final double WHEEL_DEGREES_PER_SECOND = WHEEL_RPS * 360;
+    public final static double WHEEL_DEGREES_PER_SECOND = WHEEL_RPS * 360;
     public static final double WHEEL_PPM = WHEEL_PPR * WHEEL_RPM;
     public static final double WHEEL_PPS = WHEEL_PPM * 60;
     public static final double ROTATION_POWER_MULTIPLIER = (double) 2 / 5;
@@ -79,9 +76,7 @@ public class RobotParameters {
     public static final int ARM_LOAD_POS = -1900;
     public static final int ARM_REST_POS = 0;
     public static final int ARM_SCORE_POS = -1100;
-    public static final int[] ArmPositions = new int[]{
-            ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS
-    };
+    public static final int[] ArmPositions = new int[]{ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS};
     public static final int ARM_POSITION_TOLERANCE = 2;
 
     //
@@ -94,7 +89,7 @@ public class RobotParameters {
     public static final int LIFT_UP_POSITION = 2500;
     public static final int LIFT_HANGING_POSITION = 5;
 
-    public static enum LiftPositions {
+    public enum LiftPositions {
         UP, HANG
     }
 
@@ -183,7 +178,7 @@ public class RobotParameters {
     //
     public static double POSITION_TOLERANCE = 0.1;
 
-    public static enum Alliance {
+    public enum Alliance {
         RED_ALLIANCE, BLUE_ALLIANCE
     }
 
@@ -200,7 +195,6 @@ public class RobotParameters {
             new Position2D(0, 79.68, 90.0)   // TagId 10
     };
 
-
     //
     // Camera
     //
@@ -210,7 +204,7 @@ public class RobotParameters {
     public static final boolean USE_WEBCAM = true;
     public static final boolean ENABLE_LIVE_VIEW = true;
 
-    public static enum TeamPropPosition {
+    public enum TeamPropPosition {
         LEFT, CENTER, RIGHT
     }
 
