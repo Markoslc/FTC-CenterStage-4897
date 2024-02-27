@@ -73,6 +73,15 @@ public class Robot {
     private final IMU    imu;
     private       double currImuTargetAngle;
 
+    /**
+     * Constructor for Robot. It initializes the following systems:
+     * Wheels, Arm, Lift, Claws, Plane-launcher, IMU
+     *
+     * @param drivePeriod   The period of the drive (Driver, Autonomous, Test)
+     * @param resetIMUYaw   Whether the IMU yaw should be reset or not
+     * @param wheelPower    The power of the wheels (ranges from 0 to 1 and determines how fast the robot moves during autonomous period)
+     * @param opMode        The LinearOpMode TODO: test if it works with OpMode as well.
+     */
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, LinearOpMode opMode) {
         //
         // Robot
@@ -222,18 +231,26 @@ public class Robot {
         if (resetIMUYaw) imu.resetYaw();
     }
 
-    //
-    // Robot
-    //
+    /**
+     * Starts the robot and activates the arm and lift
+     */
     public void start(){
         arm.setPower(DEFAULT_ARM_POWER);
         leftLift.setPower(1);
         rightLift.setPower(1);
     }
+
+    /**
+     * sets/changes the drive mode
+     * @param driveMode the desired drive mode (Robot or Field)
+     */
     public void setDriveMode(DriveMode driveMode) {
         this.driveMode = driveMode;
     }
 
+    /**
+     * swiches the drive mode (when robot is in robot mode it switches to field mode and vice versa)
+     */
     public void switchDriveMode() {
         switch (driveMode) {
             case ROBOT:
@@ -315,6 +332,14 @@ public class Robot {
     //
     // Wheels
     //
+
+    /**
+     * moves the wheels to a certain position
+     * @param frontLRot the rotation of the front left wheel
+     * @param frontRRot the rotation of the front right wheel
+     * @param backLRot the rotation of the back left wheel
+     * @param backRRot the rotation of the back right wheel
+     */
     public void positionDrive(int frontLRot, int frontRRot, int backLRot, int backRRot) {
         int frontLTargetPos = frontL.getCurrentPosition() + frontLRot;
         int frontRTargetPos = frontR.getCurrentPosition() + frontRRot;
@@ -418,6 +443,11 @@ public class Robot {
         backR.setPower(backRPower * wheelPower);
     }
 
+    /**
+     * moves the wheels forward to a certain position and waits for them to finish
+     * @param rotation the rotation of the wheels
+     * @param individualWait whether to wait until all wheels finished or not
+     */
     public void moveForward(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
@@ -434,6 +464,11 @@ public class Robot {
         }
     }
 
+    /**
+     * moves the wheels backward to a certain position and waits for them to finish
+     * @param rotation the rotation of the wheels
+     * @param individualWait whether to wait until all wheels finished or not
+     */
     public void moveBackward(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
@@ -450,6 +485,11 @@ public class Robot {
         }
     }
 
+    /**
+     * crab walk left to a certain position and waits for the wheels to finish
+     * @param rotation the rotation of the wheels
+     * @param individualWait whether to wait until all wheels finished or not
+     */
     public void moveLeft(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
@@ -466,6 +506,11 @@ public class Robot {
         }
     }
 
+    /**
+     * crab walk right to a certain position and waits for the wheels to finish
+     * @param rotation the rotation of the wheels
+     * @param individualWait whether to wait until all wheels finished or not
+     */
     public void moveRight(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
@@ -482,6 +527,11 @@ public class Robot {
         }
     }
 
+    /**
+     * turns the robot left by a certain rotation (of the wheels) and waits for the wheels to finish
+     * @param rotation the rotation of the wheels
+     * @param individualWait whether to wait until all wheels finished or not
+     */
     public void turnLeft(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() - rotation;
         int frontRTargetPos = frontR.getCurrentPosition() + rotation;
@@ -498,6 +548,11 @@ public class Robot {
         }
     }
 
+    /**
+     * turns the robot right by a certain rotation (of the wheels) and waits for the wheels to finish
+     * @param rotation the rotation of the wheels
+     * @param individualWait whether to wait until all wheels finished or not
+     */
     public void turnRight(int rotation, @Nullable boolean... individualWait) {
         int frontLTargetPos = frontL.getCurrentPosition() + rotation;
         int frontRTargetPos = frontR.getCurrentPosition() - rotation;
@@ -514,6 +569,10 @@ public class Robot {
         }
     }
 
+    /**
+     * turns the robot left by a certain angle using the IMU and waits for the wheels to finish
+     * @param angle the angle to turn the robot negative degrees mean the right and positive ones mean left. (but it will always turn the left direction)
+     */
     public void turnAngleLeft(double angle) {
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
@@ -536,6 +595,10 @@ public class Robot {
         }
     }
 
+    /**
+     * turns the robot right by a certain angle using the IMU and waits for the wheels to finish
+     * @param angle the angle to turn the robot negative degrees mean the right and positive ones mean left. (but it will always turn the right direction)
+     */
     public void turnAngleRight(double angle) {
         double imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
 
@@ -558,6 +621,11 @@ public class Robot {
         }
     }
 
+    /**
+     * moves the robot in a certain direction for a certain amount of time, while also using the IMU to keep the robot looking in the same direction
+     * @param angle the angle to move the robot
+     * @param time the time to move the robot
+     */
     public void moveDirection(double angle, int time) {
         ElapsedTime timer     = new ElapsedTime();
         double      startTime = timer.seconds();
@@ -584,6 +652,10 @@ public class Robot {
         }
     }
 
+    /**
+     * sets the power of the wheels
+     * @param wheelPower the power of the wheels
+     */
     public void setWheelPower(double wheelPower) {
         this.wheelPower = wheelPower;
 
@@ -595,6 +667,9 @@ public class Robot {
         }
     }
 
+    /**
+     * stops the wheels when in MoveToPosition mode
+     */
     public void stopWheels() {
         frontL.setTargetPosition(frontL.getCurrentPosition());
         frontR.setTargetPosition(frontR.getCurrentPosition());
@@ -602,6 +677,9 @@ public class Robot {
         backR.setTargetPosition(backR.getCurrentPosition());
     }
 
+    /**
+     * waits for the wheels to finish
+     */
     public void waitForWheels() {
         while (frontL.isBusy() || frontR.isBusy() || backL.isBusy() || backR.isBusy()) {
             opMode.sleep(1);
@@ -631,6 +709,12 @@ public class Robot {
     //
     // Arm
     //
+
+    /**
+     * moves the arm to a certain position and waits for it to finish
+     * @param targetPos the position to move the arm to
+     * @param individualWait whether to wait until the arm finished or not
+     */
     public void moveArm(int targetPos, @Nullable boolean... individualWait) {
         arm.setTargetPosition(targetPos);
 
@@ -639,6 +723,9 @@ public class Robot {
         }
     }
 
+    /**
+     * moves the arm to the next preset position if there is one. If there isn't it will stay in the same position
+     */
     public void nextArmPos() {
         armPosIndex++;
 
@@ -647,6 +734,9 @@ public class Robot {
         moveArm(ArmPositions[armPosIndex]);
     }
 
+    /**
+     * moves the arm to the previous preset position if there is one. If there isn't it will stay in the same position
+     */
     public void prevArmPos() {
         armPosIndex--;
 
@@ -655,6 +745,9 @@ public class Robot {
         moveArm(ArmPositions[armPosIndex]);
     }
 
+    /**
+     * waits for the arm to finish
+     */
     public void waitForArm() {
         while (arm.isBusy()) {
             opMode.sleep(1);
@@ -664,6 +757,10 @@ public class Robot {
     //
     // Lift
     //
+
+    /**
+     * moves the lift to one of two preset positions
+     */
     public void moveLift() {
         switch (currLiftPosition) {
             case UP:
@@ -677,6 +774,9 @@ public class Robot {
         }
     }
 
+    /**
+     * switches the lift position (from up to hang and vice versa) but doesn't move the lift (use moveLift() for that)
+     */
     public void switchLiftPosition() {
         switch (currLiftPosition) {
             case UP:
@@ -688,6 +788,9 @@ public class Robot {
         }
     }
 
+    /**
+     * waits for the lift to finish
+     */
     public void waitForLift() {
         while (leftLift.isBusy() || rightLift.isBusy()) {
             opMode.sleep(1);
@@ -697,6 +800,14 @@ public class Robot {
     //
     // Claws
     //
+
+    /**
+     * moves the claws to a certain position and waits for them to finish
+     * @param moveLeft whether to move the left claw or not
+     * @param moveRight whether to move the right claw or not
+     * @param clawPos the position to move the claws to (closed, open, or fall)
+     * @param individualWait whether to wait until the claws finished or not
+     */
     public void moveClaws(boolean moveLeft, boolean moveRight, ClawPositions clawPos, @Nullable boolean... individualWait) {
         if (moveLeft) leftClawTargetPos = ClawPositions.leftClaw(clawPos);
         if (moveRight) rightClawTargetPos = ClawPositions.rightClaw(clawPos);
@@ -709,6 +820,9 @@ public class Robot {
         }
     }
 
+    /**
+     * waits for the claws to finish
+     */
     public void waitForClaws() {
         try {
             sleep(500);
@@ -720,6 +834,10 @@ public class Robot {
     //
     // Plane
     //
+
+    /**
+     * launches the plane, by setting the servo to a preset position
+     */
     public void launchPlane() {
         plane.setPosition(PLANE_LAUNCH_POS);
     }
@@ -727,10 +845,12 @@ public class Robot {
     //
     // Systems
     //
-    /*
-    private void waitForImu() {
-    }*/
 
+    /**
+     * waits until all desired systems finish
+     * @param extraTime the extra time to wait after all systems finished
+     * @param systems the systems to wait for
+     */
     public void waitForSystem(int extraTime, Systems... systems) {
         for (Systems system : systems) {
             switch (system) {
@@ -745,10 +865,7 @@ public class Robot {
                     break;
                 case CLAWS:
                     waitForClaws();
-                    break;/*
-                case IMU:
-                    waitForImu();
-                    break;*/
+                    break;
                 default:
                     waitForSystem(50, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS);
             }

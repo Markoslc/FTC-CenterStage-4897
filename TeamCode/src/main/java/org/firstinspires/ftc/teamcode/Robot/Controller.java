@@ -32,7 +32,11 @@ public class Controller {
     public Trigger[] triggers;
     public Stick[]   sticks;
 
-
+    /**
+     * Constructor for the class Controller that initializes the buttons, triggers, and sticks.
+     *
+     * @param gamepad the gamepad that the controller is associated with
+     */
     public Controller(Gamepad gamepad) {
         a = new Button(GamepadButtons.A, gamepad);
         b = new Button(GamepadButtons.B, gamepad);
@@ -62,6 +66,9 @@ public class Controller {
         sticks = new Stick[]{leftStick, rightStick};
     }
 
+    /**
+     * Updates the inputs of the controller
+     */
     public void updateInputs() {
         for (Button button : buttons) button.updateButton();
         for (Trigger trigger : triggers) trigger.updateTrigger();
@@ -74,6 +81,12 @@ public class Controller {
         boolean        wasPressed;
         boolean        pressed;
 
+        /**
+         * Constructor for the class Button that initializes the button and gamepad.
+         *
+         * @param button  the button that the class is associated with
+         * @param gamepad the gamepad that the button is associated with
+         */
         public Button(GamepadButtons button, Gamepad gamepad) {
             this.button = button;
             this.gamepad = gamepad;
@@ -81,6 +94,9 @@ public class Controller {
             pressed = false;
         }
 
+        /**
+         * Updates the button
+         */
         private void updateButton() {
             wasPressed = pressed;
 
@@ -133,14 +149,29 @@ public class Controller {
             }
         }
 
+        /**
+         * Returns whether the button is pressed
+         *
+         * @return A boolean
+         */
         public boolean pressed() {
             return pressed;
         }
 
+        /**
+         * Returns whether the button was single pressed
+         *
+         * @return A boolean
+         */
         public boolean singlePress() {
             return !wasPressed && pressed;
         }
 
+        /**
+         * Returns whether the button was released
+         *
+         * @return A boolean
+         */
         public boolean onRelease() {
             return wasPressed && !pressed;
         }
@@ -153,6 +184,12 @@ public class Controller {
         private       boolean         wasPressed;
         private       boolean         pressed;
 
+        /**
+         * Constructor for the class Trigger that initializes the trigger and gamepad.
+         *
+         * @param trigger the trigger that the class is associated with
+         * @param gamepad the gamepad that the trigger is associated with
+         */
         public Trigger(GamepadTriggers trigger, Gamepad gamepad) {
             this.trigger = trigger;
             this.gamepad = gamepad;
@@ -161,6 +198,9 @@ public class Controller {
             pressed = false;
         }
 
+        /**
+         * Updates the trigger
+         */
         private void updateTrigger() {
             wasPressed = pressed;
             switch (trigger) {
@@ -175,18 +215,37 @@ public class Controller {
             }
         }
 
+        /**
+         * Returns whether the trigger is pressed
+         *
+         * @return A boolean
+         */
         public boolean pressed() {
             return pressed;
         }
 
+        /**
+         * Returns whether the trigger was single pressed
+         *
+         * @return A boolean
+         */
         public boolean singlePress() {
             return !wasPressed && pressed;
         }
 
+        /**
+         * Returns whether the trigger was released
+         *
+         * @return A boolean
+         */
         public boolean onRelease() {
             return wasPressed && !pressed;
         }
 
+        /**
+         * On a scale of 0 to 1, returns how much the trigger is pressed
+         * @return A double from 0 to 1
+         */
         public double getPress() {
             return triggerPress;
         }
@@ -198,6 +257,12 @@ public class Controller {
         private       double        x;
         private       double        y;
 
+        /**
+         * Constructor for the class Stick that initializes the stick and gamepad.
+         *
+         * @param stick   the stick that the class is associated with
+         * @param gamepad the gamepad that the stick is associated with
+         */
         public Stick(GamepadSticks stick, Gamepad gamepad) {
             this.stick = stick;
             this.gamepad = gamepad;
@@ -205,6 +270,9 @@ public class Controller {
             y = 0;
         }
 
+        /**
+         * Updates the stick
+         */
         private void stickUpdate() {
             switch (stick) {
                 case L_STICK:
@@ -217,6 +285,11 @@ public class Controller {
             }
         }
 
+        /**
+         * On a scale of -1 to 1, returns the x value of the stick
+         *
+         * @return A double from -1 to 1
+         */
         public double getX() {
             switch (stick) {
                 case L_STICK:
@@ -228,6 +301,11 @@ public class Controller {
             }
         }
 
+        /**
+         * On a scale of -1 to 1, returns the y value of the stick
+         *
+         * @return A double from -1 to 1
+         */
         public double getY() {
             switch (stick) {
                 case L_STICK:

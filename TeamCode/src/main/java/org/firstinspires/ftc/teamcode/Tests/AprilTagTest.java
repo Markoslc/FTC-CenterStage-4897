@@ -97,18 +97,27 @@ public class AprilTagTest extends LinearOpMode {
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-            Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
-            if (detection.metadata != null) {
+            Position2D aprilTagPose;
+            try {
+                aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
+            }catch (ArrayIndexOutOfBoundsException e){
+                aprilTagPose = null;
+                telemetry.addLine("there was a massive error...");
+            }
+
+            if (detection.metadata != null && aprilTagPose != null) {
                 double angle = detection.ftcPose.bearing - detection.ftcPose.yaw;
+                double y_offset = Math.cos(Math.toRadians(angle+aprilTagPose.angle))*detection.ftcPose.range;
+                double x_offset = Math.sin(Math.toRadians(angle+aprilTagPose.angle))*detection.ftcPose.range;
                 telemetry.addLine(String.format(Locale.US, "\n==== (ID %d) %s", detection.id, detection.metadata.name));
                 telemetry.addLine(String.format(Locale.US, "XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format(Locale.US, "PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format(Locale.US, "RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
                 telemetry.addLine("");
-                telemetry.addLine("A buch of tests:");
+                telemetry.addLine("A bunch of tests:");
                 telemetry.addLine(String.format(Locale.US, "Berring - yaw: %6.1f", detection.ftcPose.bearing - detection.ftcPose.yaw));
-                telemetry.addLine(String.format(Locale.US, "cos(angle+aprilAngle)*dist: %6.1f", Math.cos(angle+aprilTagPose.angle)*detection.ftcPose.range));
-                telemetry.addLine(String.format(Locale.US, "sin(angle+aprilAngle)*dist: %6.1f", Math.sin(angle+aprilTagPose.angle)*detection.ftcPose.range));
+                telemetry.addLine(String.format(Locale.US, "Tag_y_pos + y_offset: %6.1f", aprilTagPose.y + y_offset));
+                telemetry.addLine(String.format(Locale.US, "Tag_x_pos + x_offset: %6.1f", aprilTagPose.x + y_offset));
             } else {
                 telemetry.addLine(String.format(Locale.US, "\n==== (ID %d) Unknown", detection.id));
                 telemetry.addLine(String.format(Locale.US, "Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));

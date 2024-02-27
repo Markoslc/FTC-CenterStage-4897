@@ -19,6 +19,7 @@ import java.util.List;
 public class AprilTagRecognition {
     private       AprilTagProcessor aprilTag;
     public static LinearOpMode      currOpMode;
+    private VisionPortal visionPortal;
 
 
     public AprilTagRecognition(LinearOpMode opMode) {
@@ -26,7 +27,9 @@ public class AprilTagRecognition {
         initAprilTag();
     }
 
-
+    /**
+     * Initializes the AprilTag recognition system.
+     */
     private void initAprilTag() {
         if (VERBOSE >= 4) currOpMode.telemetry.addLine("start initializing AprilTagRecognition");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -68,72 +71,66 @@ public class AprilTagRecognition {
     }   // end method initAprilTag()
 
     /**
+     * stops the camera stream
+     */
+    public void stopStreaming() {
+        visionPortal.stopStreaming();
+    }
+
+    /**
+     * resumes the camera stream
+     */
+    public void resumeStreaming() {
+        visionPortal.resumeStreaming();
+    }
+
+    /**
+     * closes the vision portal
+     */
+    public void close_visionPortal() {
+        visionPortal.close();
+    }
+
+    /**
      * this should return the 2D position of the robot in relation to the april tag (in cm and degrees)
      *
      * @return A Position2D representing the position of the robot.
      */
     public Position2D getRobotPosition() {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        int                     count             = currentDetections.size();
+        int count = currentDetections.size();
         if (VERBOSE >= 4)
             currOpMode.telemetry.addLine(String.format(Locale.US, "found %d aprilTags", count));
         if (count == 0) return null;
 
         double sumX = 0, sumY = 0, sumAngle = 0;
         for (AprilTagDetection detection : currentDetections) {
-            Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
+            Position2D aprilTagPose;
+            try {
+                aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                aprilTagPose = null;
+                if (VERBOSE >= 2) {
+                    currOpMode.telemetry.addLine("we recognized an april tag that we don't have in our list. this is a problem.");
+                }
+            }
+            if (detection.metadata != null && aprilTagPose != null) {
+                double angle = detection.ftcPose.bearing - detection.ftcPose.yaw + aprilTagPose.angle;
+                double y_offset = Math.cos(Math.toRadians(angle)) * detection.ftcPose.range;
+                double x_offset = Math.sin(Math.toRadians(angle)) * detection.ftcPose.range;
 
-            //double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
-            //double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
-
-            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
-            double robotY = aprilTagPose.y + inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.bearing + aprilTagPose.angle + detection.ftcPose.yaw));
-            double angle  = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
-
-            sumX += robotX;
-            sumY += robotY;
-            sumAngle += angle;
-            if (VERBOSE >= 4)
-                currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", robotX, robotY, angle));
-
+                sumX += x_offset + aprilTagPose.x;
+                sumY += y_offset + aprilTagPose.y;
+                sumAngle += angle;
+                if (VERBOSE >= 4)
+                    currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", x_offset, y_offset, angle));
+            }
         }
-        double averageX     = sumX / count;
-        double averageY     = sumY / count;
-        double averageAngle = sumAngle / count; //TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
-        return new Position2D(averageX, averageY, averageAngle);
-    }
-
-    public Position2D getOtherRobotPosition() {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        int                     count             = currentDetections.size();
-        if (VERBOSE >= 4)
-            currOpMode.telemetry.addLine(String.format(Locale.US, "found %d aprilTags", count));
-        if (count == 0) return null;
-
-        double sumX = 0, sumY = 0, sumAngle = 0;
-        for (AprilTagDetection detection : currentDetections) {
-            Position2D aprilTagPose = APRIL_TAG_POSES[detection.id - 1];
-
-
-            double robotX = aprilTagPose.x + inchToCentimeter(detection.ftcPose.range) * Math.cos(Math.toRadians(detection.ftcPose.yaw - detection.ftcPose.bearing + aprilTagPose.angle));
-            double robotY = aprilTagPose.y - inchToCentimeter(detection.ftcPose.range) * Math.sin(Math.toRadians(detection.ftcPose.yaw - detection.ftcPose.bearing + aprilTagPose.angle));
-            double angle  = (aprilTagPose.angle + detection.ftcPose.yaw + 180) % 360;
-
-            sumX += robotX;
-            sumY += robotY;
-            sumAngle += angle;
+            double averageX = sumX / count;
+            double averageY = sumY / count;
+            double averageAngle = sumAngle / count; //TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
             if (VERBOSE >= 4)
-                currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", robotX, robotY, angle));
-
+                currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", averageX, averageY, averageAngle));
+            return new Position2D(averageX, averageY, averageAngle);
         }
-        double averageX     = sumX / count;
-        double averageY     = sumY / count;
-        double averageAngle = sumAngle / count; // TODO: add measures to reassure that all positions are valid. if something is more that 10% or so different from the other april tags, leave it out.
-        return new Position2D(averageX, averageY, averageAngle);
-    }
-
-
-    public static double inchToCentimeter(double inch) {
-        return 2.54 * inch;
-    }
 }

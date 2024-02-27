@@ -13,6 +13,11 @@ public class TeamPropRecognition {
     private static OpenCvCamera       camera;
     private static AutonomousPipeline pipeline;
 
+    /**
+     * Constructor for the class TeamPropRecognition that initializes the camera and the pipeline.
+     * @param opMode the LinearOpMode that is running the program TODO: testing if it also works with OpMode
+     * @param alliance the alliance that the robot is on (Red or Blue)
+     */
     public TeamPropRecognition(LinearOpMode opMode, Alliance alliance) {
         pipeline = new AutonomousPipeline();
 
@@ -38,10 +43,16 @@ public class TeamPropRecognition {
         });
     }
 
+    /**
+     * @return the position of the team prop
+     */
     public TeamPropPosition getTeamPropPosition() {
         return pipeline.getTeamPropPosition();
     }
 
+    /**
+     * Stops the camera stream.
+     */
     public void stopCameraStream() {
         camera.stopStreaming();
     }

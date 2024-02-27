@@ -10,6 +10,12 @@ public class PIDController {
     private static double      errorSum;
     private final  ElapsedTime timer = new ElapsedTime();
 
+    /**
+     * Constructor for PIDController
+     * @param kp Proportional coefficient
+     * @param ki Integral coefficient
+     * @param kd Derivative coefficient
+     */
     public PIDController(double kp, double ki, double kd) {
         this.kp = kp;
         this.ki = ki;
@@ -19,12 +25,24 @@ public class PIDController {
         errorSum = 0;
     }
 
+    /**
+     * Updates the coefficients of the PID controller
+     * @param kp Proportional coefficient
+     * @param ki Integral coefficient
+     * @param kd Derivative coefficient
+     */
     public void updateCoefficients(double kp, double ki, double kd){
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
     }
 
+    /**
+     * Returns the power output of the PID controller
+     * @param targetVelocity The desired velocity
+     * @param currVelocity The current velocity
+     * @return The power output of the PID controller
+     */
     public double getPowerPID(double targetVelocity, double currVelocity) {
         double time = timer.seconds();
         timer.reset();

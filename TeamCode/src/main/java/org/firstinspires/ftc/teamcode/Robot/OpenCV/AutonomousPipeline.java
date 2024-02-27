@@ -41,16 +41,29 @@ public class AutonomousPipeline extends OpenCvPipeline {
     private static final Mat Cb    = new Mat();
     private static final Mat Cr    = new Mat();
 
+    /**
+     * Constructor for the AutonomousPipeline
+     *
+     * @param alliance The alliance of the robot (Blue or Red)
+     */
     public void setAlliance(Alliance alliance) {
         AutonomousPipeline.alliance = alliance;
     }
 
+    /**
+     * converts the input to the YCrCb color space and extracts the Cr and Cb channels
+     * @param input the input image in mat format
+     */
     public void inputToCb(Mat input) {
         Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
         Core.extractChannel(YCrCb, Cr, 1);
         Core.extractChannel(YCrCb, Cb, 2);
     }
 
+    /**
+     * Initializes the AutonomousPipeline
+     * @param firstFrame the first frame of the camera
+     */
     @Override
     public void init(Mat firstFrame) {
         inputToCb(firstFrame);
@@ -64,6 +77,11 @@ public class AutonomousPipeline extends OpenCvPipeline {
         region3Cb = Cb.submat(region3);
     }
 
+    /**
+     * processes the frame by drawing rectangles around the regions and finding the average of the Cr and Cb channels (only for the visuals)
+     * @param input the input image in mat format
+     * @return the input image with the rectangles drawn around the regions
+     */
     @Override
     public Mat processFrame(Mat input) {
 
@@ -121,6 +139,10 @@ public class AutonomousPipeline extends OpenCvPipeline {
         return input;
     }
 
+    /**
+     * Gets the position of the team prop
+     * @return the position of the team prop (Left, Center, or Right)
+     */
     public TeamPropPosition getTeamPropPosition() {
         return teamPropPosition;
     }
