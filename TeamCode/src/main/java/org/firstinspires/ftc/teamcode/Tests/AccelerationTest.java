@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Robot.Controller;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 import java.util.Timer;
@@ -29,8 +30,9 @@ public class AccelerationTest extends OpMode {
 
     final double timeInterval = 0.02; // Time in seconds
     /* Declare OpMode members. */
-    Robot           robot = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
-    java.util.Timer time  = new Timer();
+    Robot           robot            = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
+    Controller      driverController = new Controller(gamepad1);
+    java.util.Timer time             = new Timer();
 
     double lastLeftVel = 0, lastRightVel = 0;
     int lastLeftPosition, lastRightPosition;
@@ -111,27 +113,14 @@ public class AccelerationTest extends OpMode {
         // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
         // This way it's also easy to just drive straight, or just turn.
 
-        drive = -gamepad1.left_stick_y;
-        turn = gamepad1.right_stick_x;
+        driverController.updateInputs();
 
-        // Combine drive and turn for blended motion.
-        left = drive + turn;
-        right = drive - turn;
-
-        // Normalize the values so neither exceed +/- 1.0
-        max = Math.max(Math.abs(left), Math.abs(right));
-        if (max > 1.0) {
-            left /= max;
-            right /= max;
-        }
-
-        // Output the safe vales to the motor drives.
-        robot.frontL.setPower(left);
-        robot.frontR.setPower(right);
+        double forwardPower  = driverController.leftStick.getY();
+        double sidePower     = driverController.leftStick.getX();
+        double rotationPower = driverController.rightStick.getX();
+        robot.drive(forwardPower, sidePower, rotationPower);
 
         // Send telemetry message to signify robot running
-        telemetry.addData("left", "%.2f", left);
-        telemetry.addData("right", "%.2f", right);
 
         telemetry.addData("Left Position", currLeftPosition);
         telemetry.addData("Right Position", currRightPosition);
