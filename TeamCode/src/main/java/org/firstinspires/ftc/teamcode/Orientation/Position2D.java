@@ -23,6 +23,30 @@ public class Position2D {
         this.angle = angle;
     }   //Position2D
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    public void update(double x, double y, double angle) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+    }
+
+    public void update(Position2D position) {
+        this.x = position.x;
+        this.y = position.y;
+        this.angle = position.angle;
+    }
+
     /**
      * @return A Position2D string
      */

@@ -21,7 +21,10 @@ public class AprilTagRecognition {
     public static LinearOpMode      currOpMode;
     private VisionPortal visionPortal;
 
-
+    /**
+     * Constructor for AprilTagRecognition
+     * @param opMode The LinearOpMode that the robot is running TODO: test if it works with OpMode as well
+     */
     public AprilTagRecognition(LinearOpMode opMode) {
         currOpMode = opMode;
         initAprilTag();
