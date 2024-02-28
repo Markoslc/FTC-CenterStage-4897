@@ -25,7 +25,6 @@ import java.util.TimerTask;
  */
 
 @TeleOp(name = "Acceleration Test")
-@Disabled
 public class AccelerationTest extends OpMode {
 
     final double timeInterval = 0.02; // Time in seconds

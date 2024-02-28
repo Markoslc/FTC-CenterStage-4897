@@ -1,49 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_POSITION_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ArmPositions;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_ARM_POWER;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_DRIVE_MODE;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KD;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KI;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KP;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DriveMode;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_DEFAULT_PARAMS;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_TOLERANCE_DEGREES;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_CLAW_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_CLAW_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_LIFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_LIFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LIFT_HANGING_POSITION;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LIFT_UP_POSITION;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LiftPositions;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.MAX_WHEEL_ACCELERATION;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.MAX_WHEEL_VELOCITY;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_LAUNCH_POS;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REST_POS;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_CLAW_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_CLAW_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_LIFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_LIFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ROTATION_POWER_MULTIPLIER;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.SIDE_POWER_PERFECTION_MULTIPLIER;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.WHEELS_POSITION_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 import androidx.annotation.Nullable;
 
@@ -87,13 +44,19 @@ public class Robot {
     //
     // Lift
     //
+    /*
     private final  DcMotorEx     leftLift;
     private final  DcMotorEx     rightLift;
+
+     */
     //
     // Claws
     //
+    /*
     private final  Servo         leftClaw;
     private final  Servo         rightClaw;
+
+     */
     //
     // Systems
     //
@@ -218,6 +181,7 @@ public class Robot {
         //
         // Lift
         //
+        /*
         leftLift = opMode.hardwareMap.get(DcMotorEx.class, LEFT_LIFT_STR);
         rightLift = opMode.hardwareMap.get(DcMotorEx.class, RIGHT_LIFT_STR);
 
@@ -239,9 +203,12 @@ public class Robot {
         leftLift.setPower(0);
         rightLift.setPower(0);
 
+         */
+
         //
         // Claws
         //
+        /*
         leftClaw = opMode.hardwareMap.get(Servo.class, LEFT_CLAW_STR);
         rightClaw = opMode.hardwareMap.get(Servo.class, RIGHT_CLAW_STR);
 
@@ -250,6 +217,7 @@ public class Robot {
 
         moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
 
+         */
         //
         // Plane
         //
@@ -282,8 +250,11 @@ public class Robot {
 
         arm.setPower(DEFAULT_ARM_POWER);
 
+        /*
         leftLift.setPower(1);
         rightLift.setPower(1);
+
+         */
     }
 
     public void sleep(long milliseconds) {
@@ -357,6 +328,7 @@ public class Robot {
                         }
                         break;
                     case LIFT:
+                        /*
                         opMode.telemetry.addData("L Lift busy:", leftLift.isBusy());
                         opMode.telemetry.addData("R Lift busy:", rightLift.isBusy());
                         opMode.telemetry.addData("L Lift power:", leftLift.getPower());
@@ -369,10 +341,12 @@ public class Robot {
                                 opMode.telemetry.addLine("Lift direction: Hang");
                                 break;
                         }
+
+                         */
                         break;
                     case CLAWS:
-                        opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
-                        opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
+                        //opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
+                        //opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
                         break;
                     case IMU:
                         opMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
@@ -823,12 +797,12 @@ public class Robot {
     public void moveLift() {
         switch (currLiftPosition) {
             case UP:
-                leftLift.setTargetPosition(LIFT_UP_POSITION);
-                rightLift.setTargetPosition(LIFT_UP_POSITION);
+                //leftLift.setTargetPosition(LIFT_UP_POSITION);
+                //rightLift.setTargetPosition(LIFT_UP_POSITION);
                 break;
             case HANG:
-                leftLift.setTargetPosition(LIFT_HANGING_POSITION);
-                rightLift.setTargetPosition(LIFT_HANGING_POSITION);
+                //leftLift.setTargetPosition(LIFT_HANGING_POSITION);
+                //rightLift.setTargetPosition(LIFT_HANGING_POSITION);
                 break;
         }
     }
@@ -850,10 +824,11 @@ public class Robot {
     /**
      * waits for the lift to finish
      */
-    public void waitForLift() {
+    public void waitForLift() {/*
         while (leftLift.isBusy() || rightLift.isBusy()) {
             sleep(1);
         }
+        */
     }
 
     //
@@ -872,8 +847,8 @@ public class Robot {
         if (moveLeft) leftClawTargetPos = ClawPositions.leftClaw(clawPos);
         if (moveRight) rightClawTargetPos = ClawPositions.rightClaw(clawPos);
 
-        leftClaw.setPosition(leftClawTargetPos);
-        rightClaw.setPosition(rightClawTargetPos);
+        //leftClaw.setPosition(leftClawTargetPos);
+        //rightClaw.setPosition(rightClawTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
             waitForSystem(50, Systems.CLAWS);
