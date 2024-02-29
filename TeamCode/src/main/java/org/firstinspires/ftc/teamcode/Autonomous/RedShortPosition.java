@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REST_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_SCORE_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

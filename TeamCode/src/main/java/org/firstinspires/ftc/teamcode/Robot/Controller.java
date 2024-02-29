@@ -1,10 +1,16 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.GamepadButtons;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.GamepadSticks;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.GamepadTriggers;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.L_STICK_X_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.L_STICK_Y_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.R_STICK_X_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.R_STICK_Y_REVERSED;
 
 import androidx.annotation.Nullable;
+
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
@@ -244,6 +250,7 @@ public class Controller {
 
         /**
          * On a scale of 0 to 1, returns how much the trigger is pressed
+         *
          * @return A double from 0 to 1
          */
         public double getPress() {

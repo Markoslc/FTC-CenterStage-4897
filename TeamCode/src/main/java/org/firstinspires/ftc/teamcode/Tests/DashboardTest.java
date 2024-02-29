@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
 import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -28,12 +27,12 @@ public class DashboardTest extends LinearOpMode {
             double forwardPower;
             double sidePower;
 
-            if(driverController.y.pressed()) forwardPower = 1;
-            else if(driverController.a.pressed()) forwardPower = 1;
+            if (driverController.y.pressed()) forwardPower = 1;
+            else if (driverController.a.pressed()) forwardPower = 1;
             else forwardPower = 0;
 
-            if(driverController.b.pressed()) sidePower = 1;
-            else if(driverController.x.pressed()) sidePower = -1;
+            if (driverController.b.pressed()) sidePower = 1;
+            else if (driverController.x.pressed()) sidePower = -1;
             else sidePower = 0;
 
             robot.drive(forwardPower, sidePower, 0);

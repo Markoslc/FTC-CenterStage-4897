@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
-
-import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.teamcode.Robot.Controller;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 

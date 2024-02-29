@@ -1,5 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_LOAD_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REST_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_SCORE_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
+
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -12,9 +19,6 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
-
 
 import java.util.List;
 

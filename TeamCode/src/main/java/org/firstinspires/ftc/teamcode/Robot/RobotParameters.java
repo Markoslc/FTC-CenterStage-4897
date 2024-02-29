@@ -61,7 +61,7 @@ public class RobotParameters {
     public static final double  SIDE_POWER_PERFECTION_MULTIPLIER = 1.1;
     public static final int     WHEELS_POSITION_TOLERANCE        = 10;
     public static final double  MAX_WHEEL_VELOCITY               = 0.9;
-    public static final double  MAX_WHEEL_ACCELERATION           = 0.9;
+    public static final double  MAX_WHEEL_ACCELERATION           = 40000;
     public static final double  DEFAULT_WHEEL_KP                 = 2;
     public static final double  DEFAULT_WHEEL_KI                 = 0.25;
     public static final double  DEFAULT_WHEEL_KD                 = 0.2;
@@ -182,8 +182,7 @@ public class RobotParameters {
         RED_ALLIANCE, BLUE_ALLIANCE
     }
 
-    public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{
-            new Position2D(132, 29, 270.0),    // TagId 1
+    public static final Position2D[] APRIL_TAG_POSES = new Position2D[]{new Position2D(132, 29, 270.0),    // TagId 1
             new Position2D(132, 35, 270.0),   // TagId 2
             new Position2D(132, 41, 270.0),  // TagId 3
             new Position2D(132, 103, 270.0),  // TagId 4
