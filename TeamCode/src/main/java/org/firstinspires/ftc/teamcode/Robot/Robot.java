@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -79,15 +80,15 @@ public class Robot {
      * @param drivePeriod The period of the drive (Driver, Autonomous, Test)
      * @param resetIMUYaw Whether the IMU yaw should be reset or not
      * @param wheelPower  The power of the wheels (ranges from 0 to 1 and determines how fast the robot moves during autonomous period)
-     * @param opMode      Mode that is currently running
+     * @param currOpMode  Mode that is currently running
      */
-    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, OpMode opMode) {
+    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, OpMode currOpMode) {
         //
         // Robot
         //
         setDriveMode(DEFAULT_DRIVE_MODE);
         this.drivePeriod = drivePeriod;
-        this.opMode = opMode;
+        this.opMode = currOpMode;
 
         //
         // Wheels
@@ -119,6 +120,11 @@ public class Robot {
                 frontR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
                 backL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
                 backR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+                frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
                 frontL.setPower(0);
                 frontR.setPower(0);
@@ -243,10 +249,10 @@ public class Robot {
      * Starts the robot and activates the arm and lift
      */
     public void start() {
-        frontL.setPower(wheelPower);
-        frontR.setPower(wheelPower);
-        backL.setPower(wheelPower);
-        backR.setPower(wheelPower);
+        frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         arm.setPower(DEFAULT_ARM_POWER);
 
@@ -442,6 +448,40 @@ public class Robot {
                 break;
         }
 
+        /*
+        switch (driveMode) {
+            case ROBOT:
+                frontLTargetVelocity = forwardPower + sidePower + rotationPower;
+                frontRTargetVelocity = forwardPower - sidePower - rotationPower;
+                backLTargetVelocity = forwardPower - sidePower + rotationPower;
+                backRTargetVelocity = forwardPower + sidePower - rotationPower;
+
+                frontLPower = frontLTargetVelocity * wheelPower;
+                frontRPower = frontRTargetVelocity * wheelPower;
+                backLPower = backLTargetVelocity * wheelPower;
+                backRPower = backRTargetVelocity * wheelPower;
+
+                break;
+            case FIELD:
+                double robotRotation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+                double forwardField = forwardPower * Math.cos(robotRotation) - sidePower * Math.sin(robotRotation);
+                double sideField = forwardPower * Math.sin(robotRotation) + sidePower * Math.cos(robotRotation);
+                sideField *= SIDE_POWER_PERFECTION_MULTIPLIER;
+
+                frontLTargetVelocity = forwardField + sideField + rotationPower;
+                frontRTargetVelocity = forwardField - sideField - rotationPower;
+                backLTargetVelocity = forwardField - sideField + rotationPower;
+                backRTargetVelocity = forwardField + sideField - rotationPower;
+
+                frontLPower = frontLTargetVelocity * wheelPower;
+                frontRPower = frontRTargetVelocity * wheelPower;
+                backLPower = backLTargetVelocity * wheelPower;
+                backRPower = backRTargetVelocity * wheelPower;
+
+                break;
+        }*/
+
         if (drivePeriod == DrivePeriod.TEST) {
             frontLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
             frontRController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
@@ -467,10 +507,10 @@ public class Robot {
             telemetry.update();
         }
 
-        frontL.setPower(frontLPower * wheelPower);
-        frontR.setPower(frontRPower * wheelPower);
-        backL.setPower(backLPower * wheelPower);
-        backR.setPower(backRPower * wheelPower);
+        frontL.setPower(frontLPower);
+        frontR.setPower(frontRPower);
+        backL.setPower(backLPower);
+        backR.setPower(backRPower);
     }
 
     /**

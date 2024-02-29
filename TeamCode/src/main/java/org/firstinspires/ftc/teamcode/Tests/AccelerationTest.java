@@ -28,10 +28,10 @@ import java.util.TimerTask;
 public class AccelerationTest extends OpMode {
 
     final double timeInterval = 0.02; // Time in seconds
+    Robot           robot;
+    Controller      driverController;
     /* Declare OpMode members. */
-    Robot           robot            = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
-    Controller      driverController = new Controller(gamepad1);
-    java.util.Timer time             = new Timer();
+    java.util.Timer time = new Timer();
 
     double lastLeftVel = 0, lastRightVel = 0;
     int lastLeftPosition, lastRightPosition;
@@ -47,6 +47,8 @@ public class AccelerationTest extends OpMode {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
+        robot = new Robot(DrivePeriod.DRIVER, false, 1, this); // Change imu reset to false
+        driverController = new Controller(gamepad1);
         robot.start();
     }
 
@@ -71,8 +73,8 @@ public class AccelerationTest extends OpMode {
                 currLeftPosition = robot.frontL.getCurrentPosition();
                 currRightPosition = robot.frontR.getCurrentPosition();
 
-                leftVel = rotationToMeasurement(ticksToRotation(currLeftPosition - lastLeftPosition)) / timeInterval;
-                rightVel = rotationToMeasurement(ticksToRotation(currRightPosition - lastRightPosition)) / timeInterval;
+                leftVel = (currLeftPosition - lastLeftPosition) / timeInterval;
+                rightVel = (currRightPosition - lastRightPosition) / timeInterval;
                 avgVel = (leftVel + rightVel) / 2;
 
                 leftAccel = (leftVel - lastLeftVel) / timeInterval;
