@@ -20,52 +20,52 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class Robot {
     private static double        WHEEL_KP;
     private static double        WHEEL_KI;
-    private static double        WHEEL_KD;
+    private static double    WHEEL_KD;
     //
     // Wheels
     //
-    public final   DcMotorEx     frontL;
-    public final   DcMotorEx     frontR;
-    public final   DcMotorEx     backL;
-    public final   DcMotorEx     backR;
-    private final  DrivePeriod   drivePeriod;
-    private final  OpMode        opMode;
-    private final  PIDProfile    frontLController;
-    private final  PIDProfile    frontRController;
-    private final  PIDProfile    backLController;
-    private final  PIDProfile    backRController;
+    public       DcMotorEx frontL;
+    public       DcMotorEx frontR;
+    public  DcMotorEx   backL;
+    public  DcMotorEx   backR;
+    private DrivePeriod drivePeriod;
+    private       OpMode     opMode;
+    private       PIDProfile frontLController;
+    private       PIDProfile frontRController;
+    private       PIDProfile backLController;
+    private       PIDProfile backRController;
     //
     // Arm
     //
-    private final  DcMotorEx     arm;
+    private DcMotorEx arm;
     //
     // Plane
     //
-    private final  Servo         plane;
+    private Servo     plane;
     //
     // Lift
     //
-    /*
-    private final  DcMotorEx     leftLift;
-    private final  DcMotorEx     rightLift;
 
-     */
+    private DcMotorEx leftLift;
+    private DcMotorEx rightLift;
+
+
     //
     // Claws
     //
-    /*
-    private final  Servo         leftClaw;
-    private final  Servo         rightClaw;
 
-     */
+    private Servo leftClaw;
+    private Servo rightClaw;
+
+
     //
     // Systems
     //
-    private final  IMU           imu;
+    private IMU       imu;
     //
     // Robot
     //
-    private        DriveMode     driveMode;
+    private DriveMode driveMode;
     private        double        wheelPower;
     private        int           armPosIndex      = 0;
     private        LiftPositions currLiftPosition = LiftPositions.UP;
@@ -81,164 +81,157 @@ public class Robot {
      * @param resetIMUYaw Whether the IMU yaw should be reset or not
      * @param wheelPower  The power of the wheels (ranges from 0 to 1 and determines how fast the robot moves during autonomous period)
      * @param currOpMode  Mode that is currently running
+     * @param systems a list of systems that should be initialized. if null or empty everything will be initialized.
      */
-    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, OpMode currOpMode) {
-        //
-        // Robot
-        //
-        setDriveMode(DEFAULT_DRIVE_MODE);
-        this.drivePeriod = drivePeriod;
-        this.opMode = currOpMode;
+    public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, OpMode currOpMode, @Nullable Systems... systems) {
+        if (systems == null || systems.length > 0) {
+            systems = new Systems[]{Systems.ROBOT, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.PLANE, Systems.IMU};
+        }
+        for (Systems system : systems) {
+            switch (system) {
+                case ROBOT:
+                    setDriveMode(DEFAULT_DRIVE_MODE);
+                    this.drivePeriod = drivePeriod;
+                    this.opMode = currOpMode;
+                    break;
+                case WHEELS:
+                    frontL = opMode.hardwareMap.get(DcMotorEx.class, FRONT_LEFT_STR);
+                    frontR = opMode.hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_STR);
+                    backL = opMode.hardwareMap.get(DcMotorEx.class, BACK_LEFT_STR);
+                    backR = opMode.hardwareMap.get(DcMotorEx.class, BACK_RIGHT_STR);
 
-        //
-        // Wheels
-        //
-        frontL = opMode.hardwareMap.get(DcMotorEx.class, FRONT_LEFT_STR);
-        frontR = opMode.hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_STR);
-        backL = opMode.hardwareMap.get(DcMotorEx.class, BACK_LEFT_STR);
-        backR = opMode.hardwareMap.get(DcMotorEx.class, BACK_RIGHT_STR);
+                    frontL.setDirection(FRONT_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+                    frontR.setDirection(FRONT_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+                    backR.setDirection(BACK_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+                    backL.setDirection(BACK_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
-        frontL.setDirection(FRONT_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-        frontR.setDirection(FRONT_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-        backR.setDirection(BACK_LEFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-        backL.setDirection(BACK_RIGHT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+                    frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                    frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                    backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                    backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        frontR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                    frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    switch (drivePeriod) {
+                        case DRIVER:
+                        case TEST:
+                            frontL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                            frontR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                            backL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                            backR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        switch (drivePeriod) {
-            case DRIVER:
-            case TEST:
-                frontL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-                frontR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-                backL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-                backR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                            frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                            frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                            backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                            backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-                frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                            frontL.setPower(0);
+                            frontR.setPower(0);
+                            backL.setPower(0);
+                            backR.setPower(0);
+                            break;
+                        case AUTONOMOUS:
+                            frontL.setTargetPosition(0);
+                            frontR.setTargetPosition(0);
+                            backL.setTargetPosition(0);
+                            backR.setTargetPosition(0);
 
-                frontL.setPower(0);
-                frontR.setPower(0);
-                backL.setPower(0);
-                backR.setPower(0);
-                break;
-            case AUTONOMOUS:
-                frontL.setTargetPosition(0);
-                frontR.setTargetPosition(0);
-                backL.setTargetPosition(0);
-                backR.setTargetPosition(0);
+                            frontL.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                            frontR.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                            backL.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                            backR.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
 
-                frontL.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
-                frontR.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
-                backL.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
-                backR.setTargetPositionTolerance(WHEELS_POSITION_TOLERANCE);
+                            frontL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                            frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                            backL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                            backR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-                frontL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                frontR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                backL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                backR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                            frontL.setPower(0);
+                            frontR.setPower(0);
+                            backL.setPower(0);
+                            backR.setPower(0);
+                            break;
+                    }
 
-                frontL.setPower(0);
-                frontR.setPower(0);
-                backL.setPower(0);
-                backR.setPower(0);
+
+                    WHEEL_KP = DEFAULT_WHEEL_KP;
+                    WHEEL_KI = DEFAULT_WHEEL_KI;
+                    WHEEL_KD = DEFAULT_WHEEL_KD;
+
+                    frontLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+                    frontRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+                    backLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+                    backRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+
+                    this.wheelPower = wheelPower;
+                    break;
+                case ARM:
+                    arm = opMode.hardwareMap.get(DcMotorEx.class, ARM_STR);
+
+                    arm.setDirection(ARM_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+
+                    arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+                    arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+                    arm.setTargetPosition(0);
+
+                    arm.setTargetPositionTolerance(ARM_POSITION_TOLERANCE);
+
+                    arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+                    arm.setPower(0);
+                    break;
+                case LIFT:
+                    leftLift = opMode.hardwareMap.get(DcMotorEx.class, LEFT_LIFT_STR);
+                    rightLift = opMode.hardwareMap.get(DcMotorEx.class, RIGHT_LIFT_STR);
+
+                    leftLift.setDirection(LEFT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+                    rightLift.setDirection(RIGHT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+
+                    leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                    rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+                    leftLift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    rightLift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+                    leftLift.setTargetPosition(0);
+                    rightLift.setTargetPosition(0);
+
+                    leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+                    leftLift.setPower(0);
+                    rightLift.setPower(0);
+                    break;
+                case CLAWS:
+                    leftClaw = opMode.hardwareMap.get(Servo.class, LEFT_CLAW_STR);
+                    rightClaw = opMode.hardwareMap.get(Servo.class, RIGHT_CLAW_STR);
+
+                    leftClaw.setDirection(LEFT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
+                    rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
+
+                    moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
+                    break;
+                case PLANE:
+                    plane = opMode.hardwareMap.get(Servo.class, PLANE_STR);
+
+                    plane.setDirection(PLANE_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
+
+                    plane.setPosition(PLANE_REST_POS);
+                    break;
+                case IMU:
+                    imu = opMode.hardwareMap.get(IMU.class, IMU_STR);
+                    imu.initialize(IMU_DEFAULT_PARAMS);
+                    if (resetIMUYaw) imu.resetYaw();
+                    break;
+
+            }
         }
 
-        WHEEL_KP = DEFAULT_WHEEL_KP;
-        WHEEL_KI = DEFAULT_WHEEL_KI;
-        WHEEL_KD = DEFAULT_WHEEL_KD;
-
-        frontLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-        frontRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-        backLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-        backRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-
-        this.wheelPower = wheelPower;
-
-
-        //
-        // Arm
-        //
-        arm = opMode.hardwareMap.get(DcMotorEx.class, ARM_STR);
-
-        arm.setDirection(ARM_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-
-        arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-        arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        arm.setTargetPosition(0);
-
-        arm.setTargetPositionTolerance(ARM_POSITION_TOLERANCE);
-
-        arm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        arm.setPower(0);
-
-        //
-        // Lift
-        //
-        /*
-        leftLift = opMode.hardwareMap.get(DcMotorEx.class, LEFT_LIFT_STR);
-        rightLift = opMode.hardwareMap.get(DcMotorEx.class, RIGHT_LIFT_STR);
-
-        leftLift.setDirection(LEFT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-        rightLift.setDirection(RIGHT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-
-        leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftLift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightLift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        leftLift.setTargetPosition(0);
-        rightLift.setTargetPosition(0);
-
-        leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        leftLift.setPower(0);
-        rightLift.setPower(0);
-
-         */
-
-        //
-        // Claws
-        //
-        /*
-        leftClaw = opMode.hardwareMap.get(Servo.class, LEFT_CLAW_STR);
-        rightClaw = opMode.hardwareMap.get(Servo.class, RIGHT_CLAW_STR);
-
-        leftClaw.setDirection(LEFT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
-        rightClaw.setDirection(RIGHT_CLAW_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
-
-        moveClaws(true, true, ClawPositions.CLAWS_CLOSED);
-
-         */
-        //
-        // Plane
-        //
-        plane = opMode.hardwareMap.get(Servo.class, PLANE_STR);
-
-        plane.setDirection(PLANE_REVERSED ? Servo.Direction.REVERSE : Servo.Direction.FORWARD);
-
-        plane.setPosition(PLANE_REST_POS);
-
-        //
-        // Systems
-        //
-        imu = opMode.hardwareMap.get(IMU.class, IMU_STR);
-        imu.initialize(IMU_DEFAULT_PARAMS);
-        if (resetIMUYaw) imu.resetYaw();
     }
 
     //
