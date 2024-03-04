@@ -15,6 +15,7 @@ public class DashboardTest extends LinearOpMode {
         Robot      robot              = new Robot(DrivePeriod.TEST, false, 1, this); // Change imu reset to false
         Controller driverController   = new Controller(gamepad1);
         Controller operatorController = new Controller(gamepad2);
+        robot.switchDriveMode();
 
         waitForStart();
         while (opModeIsActive()) {
@@ -28,7 +29,7 @@ public class DashboardTest extends LinearOpMode {
             double sidePower;
 
             if (driverController.y.pressed()) forwardPower = 1;
-            else if (driverController.a.pressed()) forwardPower = 1;
+            else if (driverController.a.pressed()) forwardPower = -1;
             else forwardPower = 0;
 
             if (driverController.b.pressed()) sidePower = 1;

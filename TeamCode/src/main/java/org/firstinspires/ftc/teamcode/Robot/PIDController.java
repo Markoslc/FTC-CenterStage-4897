@@ -46,7 +46,7 @@ public class PIDController {
      * @param currVelocity   The current velocity
      * @return The power output of the PID controller
      */
-    public double getPowerPID(double targetVelocity, double currVelocity) {
+    public double getPower(double targetVelocity, double currVelocity) {
         double time = timer.seconds();
         timer.reset();
 

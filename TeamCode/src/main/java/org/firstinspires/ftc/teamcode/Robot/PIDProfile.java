@@ -53,6 +53,6 @@ public class PIDProfile {
 
         currVelocity += acceleration * time;
 
-        return pidController.getPowerPID(targetVelocity, currVelocity);
+        return pidController.getPower(targetVelocity, currVelocity);
     }
 }

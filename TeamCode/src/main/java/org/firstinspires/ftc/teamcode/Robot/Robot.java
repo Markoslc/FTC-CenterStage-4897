@@ -1,6 +1,39 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_POSITION_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ArmPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_ARM_POWER;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_DRIVE_MODE;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KD;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KI;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KP;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DriveMode;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_DEFAULT_PARAMS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_TOLERANCE_DEGREES;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LiftPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.MAX_WHEEL_ACCELERATION;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.MAX_WHEEL_VELOCITY;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_LAUNCH_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REST_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ROTATION_POWER_MULTIPLIER;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.SIDE_POWER_PERFECTION_MULTIPLIER;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.WHEELS_POSITION_TOLERANCE;
 
 import androidx.annotation.Nullable;
 
@@ -18,9 +51,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
 public class Robot {
-    private static double        WHEEL_KP;
-    private static double        WHEEL_KI;
-    private static double        WHEEL_KD;
     //
     // Wheels
     //
@@ -30,10 +60,18 @@ public class Robot {
     public final   DcMotorEx     backR;
     private final  DrivePeriod   drivePeriod;
     private final  OpMode        opMode;
+    private static double        WHEEL_KP;
+    private static double        WHEEL_KI;
+    private static double        WHEEL_KD;/*
     private final  PIDProfile    frontLController;
     private final  PIDProfile    frontRController;
     private final  PIDProfile    backLController;
     private final  PIDProfile    backRController;
+    */
+    private final  PIDController frontLController;
+    private final  PIDController frontRController;
+    private final  PIDController backLController;
+    private final  PIDController backRController;
     //
     // Arm
     //
@@ -157,10 +195,17 @@ public class Robot {
         WHEEL_KI = DEFAULT_WHEEL_KI;
         WHEEL_KD = DEFAULT_WHEEL_KD;
 
+        /*
         frontLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
         frontRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
         backLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
         backRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+
+         */
+        frontLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        frontRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        backLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+        backRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
 
         this.wheelPower = wheelPower;
 
@@ -417,15 +462,15 @@ public class Robot {
 
         switch (driveMode) {
             case ROBOT:
-                frontLTargetVelocity = forwardPower + sidePower + rotationPower;
-                frontRTargetVelocity = forwardPower + sidePower + rotationPower;
-                backLTargetVelocity = forwardPower + sidePower + rotationPower;
-                backRTargetVelocity = forwardPower + sidePower + rotationPower;
+                frontLTargetVelocity = (forwardPower + sidePower + rotationPower) * MAX_WHEEL_VELOCITY;
+                frontRTargetVelocity = (forwardPower - sidePower - rotationPower) * MAX_WHEEL_VELOCITY;
+                backLTargetVelocity = (forwardPower - sidePower + rotationPower) * MAX_WHEEL_VELOCITY;
+                backRTargetVelocity = (forwardPower + sidePower - rotationPower) * MAX_WHEEL_VELOCITY;
 
-                frontLPower = frontLController.getPower(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
-                frontRPower = frontRController.getPower(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
-                backLPower = backLController.getPower(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
-                backRPower = backRController.getPower(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
+                frontLPower = frontLController.getPower(frontLTargetVelocity, frontL.getVelocity());
+                frontRPower = frontRController.getPower(frontRTargetVelocity, frontR.getVelocity());
+                backLPower = backLController.getPower(backLTargetVelocity, backL.getVelocity());
+                backRPower = backRController.getPower(backRTargetVelocity, backR.getVelocity());
 
                 break;
             case FIELD:
@@ -435,20 +480,20 @@ public class Robot {
                 double sideField = forwardPower * Math.sin(robotRotation) + sidePower * Math.cos(robotRotation);
                 sideField *= SIDE_POWER_PERFECTION_MULTIPLIER;
 
-                frontLTargetVelocity = forwardField + sideField + rotationPower;
-                frontRTargetVelocity = forwardField + sideField + rotationPower;
-                backLTargetVelocity = forwardField + sideField + rotationPower;
-                backRTargetVelocity = forwardField + sideField + rotationPower;
+                frontLTargetVelocity = (forwardField + sideField + rotationPower) * MAX_WHEEL_VELOCITY;
+                frontRTargetVelocity = (forwardField - sideField - rotationPower) * MAX_WHEEL_VELOCITY;
+                backLTargetVelocity = (forwardField - sideField + rotationPower) * MAX_WHEEL_VELOCITY;
+                backRTargetVelocity = (forwardField + sideField - rotationPower) * MAX_WHEEL_VELOCITY;
 
-                frontLPower = frontLController.getPower(frontLTargetVelocity * MAX_WHEEL_VELOCITY, frontL.getVelocity());
-                frontRPower = frontRController.getPower(frontRTargetVelocity * MAX_WHEEL_VELOCITY, frontR.getVelocity());
-                backLPower = backLController.getPower(backLTargetVelocity * MAX_WHEEL_VELOCITY, backL.getVelocity());
-                backRPower = backRController.getPower(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
+                frontLPower = frontLController.getPower(frontLTargetVelocity, frontL.getVelocity());
+                frontRPower = frontRController.getPower(frontRTargetVelocity, frontR.getVelocity());
+                backLPower = backLController.getPower(backLTargetVelocity, backL.getVelocity());
+                backRPower = backRController.getPower(backRTargetVelocity, backR.getVelocity());
 
                 break;
         }
 
-        /*
+/*
         switch (driveMode) {
             case ROBOT:
                 frontLTargetVelocity = forwardPower + sidePower + rotationPower;
@@ -480,7 +525,9 @@ public class Robot {
                 backRPower = backRTargetVelocity * wheelPower;
 
                 break;
-        }*/
+        }
+
+ */
 
         if (drivePeriod == DrivePeriod.TEST) {
             frontLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
@@ -493,15 +540,11 @@ public class Robot {
 
             telemetry.addData("FrontL target velocity", frontLTargetVelocity);
             telemetry.addData("FrontL current velocity", frontL.getVelocity());
-            telemetry.addData("FrontL current velocity", frontL.getVelocity());
             telemetry.addData("FrontR target velocity", frontRTargetVelocity);
-            telemetry.addData("FrontR current velocity", frontR.getVelocity());
             telemetry.addData("FrontR current velocity", frontR.getVelocity());
             telemetry.addData("backL target velocity", backLTargetVelocity);
             telemetry.addData("BackL current velocity", backL.getVelocity());
-            telemetry.addData("BackL current velocity", backL.getVelocity());
             telemetry.addData("BackR target velocity", backRTargetVelocity);
-            telemetry.addData("BackR current velocity", backR.getVelocity());
             telemetry.addData("BackR current velocity", backR.getVelocity());
 
             telemetry.update();
