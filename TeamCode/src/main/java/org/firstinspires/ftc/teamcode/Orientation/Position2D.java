@@ -42,9 +42,11 @@ public class Position2D {
     }
 
     public void update(Position2D position) {
-        this.x = position.x;
-        this.y = position.y;
-        this.angle = position.angle;
+        if (position != null) {
+            this.x = position.x;
+            this.y = position.y;
+            this.angle = position.angle;
+        }
     }
 
     /**

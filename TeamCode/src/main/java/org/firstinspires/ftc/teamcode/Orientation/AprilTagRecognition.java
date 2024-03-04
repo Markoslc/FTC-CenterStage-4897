@@ -100,7 +100,8 @@ public class AprilTagRecognition {
     }
 
     /**
-     * this should return the 2D position of the robot in relation to the april tag (in cm and degrees)
+     * this should return the 2D position of the robot by using its distance, angle and bering to the april tag (in inches and degrees)
+     * If no april tag is found, it returns null.
      *
      * @return A Position2D representing the position of the robot.
      */

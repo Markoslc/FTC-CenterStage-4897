@@ -72,6 +72,7 @@ public class Robot {
     private        double        leftClawTargetPos;
     private        double        rightClawTargetPos;
     private        double        currImuTargetAngle;
+    private Systems[] systems;
 
     /**
      * Constructor for Robot. It initializes the following systems:
@@ -84,9 +85,10 @@ public class Robot {
      * @param systems a list of systems that should be initialized. if null or empty everything will be initialized.
      */
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, OpMode currOpMode, @Nullable Systems... systems) {
-        if (systems == null || systems.length > 0) {
+        if (systems == null || systems.length == 0) {
             systems = new Systems[]{Systems.ROBOT, Systems.WHEELS, Systems.ARM, Systems.LIFT, Systems.CLAWS, Systems.PLANE, Systems.IMU};
         }
+        this.systems = systems;
         for (Systems system : systems) {
             switch (system) {
                 case ROBOT:
@@ -110,10 +112,10 @@ public class Robot {
                     backL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
                     backR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-                    frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-                    frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-                    backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-                    backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+                    frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+                    backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+                    backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
                     switch (drivePeriod) {
                         case DRIVER:
@@ -242,12 +244,21 @@ public class Robot {
      * Starts the robot and activates the arm and lift
      */
     public void start() {
-        frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        for (Systems system : systems){
+            switch (system) {
+                case WHEELS:
+                    frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    break;
+                case ARM:
+                    arm.setPower(DEFAULT_ARM_POWER);
+                    break;
+            }
+        }
 
-        arm.setPower(DEFAULT_ARM_POWER);
+
 
         /*
         leftLift.setPower(1);
@@ -406,7 +417,7 @@ public class Robot {
         double backLTargetVelocity  = 0;
         double backRTargetVelocity  = 0;
 
-        rotationPower *= ROTATION_POWER_MULTIPLIER;
+        rotationPower *= ROTATION_POWER_MULTIPLIER;/*
 
         switch (driveMode) {
             case ROBOT:
@@ -439,9 +450,9 @@ public class Robot {
                 backRPower = backRController.getPower(backRTargetVelocity * MAX_WHEEL_VELOCITY, backR.getVelocity());
 
                 break;
-        }
+        }*/
 
-        /*
+
         switch (driveMode) {
             case ROBOT:
                 frontLTargetVelocity = forwardPower + sidePower + rotationPower;
@@ -473,7 +484,7 @@ public class Robot {
                 backRPower = backRTargetVelocity * wheelPower;
 
                 break;
-        }*/
+        }
 
         if (drivePeriod == DrivePeriod.TEST) {
             frontLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
