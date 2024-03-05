@@ -1,6 +1,46 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_POSITION_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ArmPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_ARM_POWER;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_DRIVE_MODE;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KD;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KI;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KP;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DriveMode;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_DEFAULT_PARAMS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_TOLERANCE_DEGREES;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_CLAW_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_CLAW_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_LIFT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_LIFT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LiftPositions;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.MAX_WHEEL_VELOCITY;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_LAUNCH_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REST_POS;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_CLAW_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_CLAW_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_LIFT_REVERSED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_LIFT_STR;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ROTATION_POWER_MULTIPLIER;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.SIDE_POWER_PERFECTION_MULTIPLIER;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.WHEELS_POSITION_TOLERANCE;
 
 import androidx.annotation.Nullable;
 
@@ -21,12 +61,12 @@ public class Robot {
     //
     // Wheels
     //
-    public    DcMotorEx     frontL;
-    public    DcMotorEx     frontR;
-    public    DcMotorEx     backL;
-    public    DcMotorEx     backR;
-    private   DrivePeriod   drivePeriod;
-    private   OpMode        opMode;
+    public         DcMotorEx     frontL;
+    public         DcMotorEx     frontR;
+    public         DcMotorEx     backL;
+    public         DcMotorEx     backR;
+    private        DrivePeriod   drivePeriod;
+    private        OpMode        opMode;
     private static double        WHEEL_KP;
     private static double        WHEEL_KI;
     private static double        WHEEL_KD;/*
@@ -35,18 +75,18 @@ public class Robot {
     private final  PIDProfile    backLController;
     private final  PIDProfile    backRController;
     */
-    private final  PIDController frontLController;
-    private final  PIDController frontRController;
-    private final  PIDController backLController;
-    private final  PIDController backRController;
+    private        PIDController frontLController;
+    private        PIDController frontRController;
+    private        PIDController backLController;
+    private        PIDController backRController;
     //
     // Arm
     //
-    private DcMotorEx arm;
+    private        DcMotorEx     arm;
     //
     // Plane
     //
-    private Servo     plane;
+    private        Servo         plane;
     //
     // Lift
     //
@@ -66,18 +106,18 @@ public class Robot {
     //
     // Systems
     //
-    private IMU       imu;
+    private IMU           imu;
     //
     // Robot
     //
-    private DriveMode driveMode;
-    private        double        wheelPower;
-    private        int           armPosIndex      = 0;
-    private        LiftPositions currLiftPosition = LiftPositions.UP;
-    private        double        leftClawTargetPos;
-    private        double        rightClawTargetPos;
-    private        double        currImuTargetAngle;
-    private Systems[] systems;
+    private DriveMode     driveMode;
+    private double        wheelPower;
+    private int           armPosIndex      = 0;
+    private LiftPositions currLiftPosition = LiftPositions.UP;
+    private double        leftClawTargetPos;
+    private double        rightClawTargetPos;
+    private double        currImuTargetAngle;
+    private Systems[]     systems;
 
     /**
      * Constructor for Robot. It initializes the following systems:
@@ -87,7 +127,7 @@ public class Robot {
      * @param resetIMUYaw Whether the IMU yaw should be reset or not
      * @param wheelPower  The power of the wheels (ranges from 0 to 1 and determines how fast the robot moves during autonomous period)
      * @param currOpMode  Mode that is currently running
-     * @param systems a list of systems that should be initialized. if null or empty everything will be initialized.
+     * @param systems     a list of systems that should be initialized. if null or empty everything will be initialized.
      */
     public Robot(DrivePeriod drivePeriod, boolean resetIMUYaw, double wheelPower, OpMode currOpMode, @Nullable Systems... systems) {
         if (systems == null || systems.length == 0) {
@@ -168,10 +208,10 @@ public class Robot {
                     WHEEL_KI = DEFAULT_WHEEL_KI;
                     WHEEL_KD = DEFAULT_WHEEL_KD;
 
-                    frontLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-                    frontRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-                    backLController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
-                    backRController = new PIDProfile(WHEEL_KP, WHEEL_KI, WHEEL_KD, MAX_WHEEL_ACCELERATION);
+                    frontLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+                    frontRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+                    backLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+                    backRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
 
                     this.wheelPower = wheelPower;
                     break;
@@ -249,7 +289,7 @@ public class Robot {
      * Starts the robot and activates the arm and lift
      */
     public void start() {
-        for (Systems system : systems){
+        for (Systems system : systems) {
             switch (system) {
                 case WHEELS:
                     frontL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
