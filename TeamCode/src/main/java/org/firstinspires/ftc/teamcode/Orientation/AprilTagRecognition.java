@@ -42,37 +42,34 @@ public class AprilTagRecognition {
         if (VERBOSE >= 4) currOpMode.telemetry.addLine("start initializing AprilTagRecognition");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
-        VisionPortal.Builder builder = new VisionPortal.Builder();
+        //VisionPortal.Builder builder = new VisionPortal.Builder();
 
         if (USE_WEBCAM) {
-            builder.setCamera(currOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"));
+            visionPortal = VisionPortal.easyCreateWithDefaults(
+                    currOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+            //builder.setCamera(currOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"));
         } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
+            //builder.setCamera(BuiltinCameraDirection.BACK);
         }
 
-        builder.setCameraResolution(new Size(CAMERA_WIDTH, CAMERA_HEIGHT));
+        //builder.setCameraResolution(new Size(CAMERA_WIDTH, CAMERA_HEIGHT));
 
-        if (ENABLE_LIVE_VIEW) {
-            builder.enableLiveView(true);
+        //if (ENABLE_LIVE_VIEW) {
+            //builder.enableLiveView(true);
 
 
             // Set the stream format; MJPEG uses less bandwidth than default YUY2.
-            builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+            //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
 
             // Choose whether or not LiveView stops if no processors are enabled.
             // If set "true", monitor shows solid orange screen if no processors enabled.
             // If set "false", monitor shows camera view without annotations.
-            builder.setAutoStopLiveView(true);
-        }
+          //  builder.setAutoStopLiveView(true);
+        //}
         // Set and enable the processor.
-        builder.addProcessor(aprilTag);
-
-        // Build the Vision Portal, using the above settings.
-        VisionPortal visionPortal = builder.build();
-
-
-        // Disable or re-enable the processor at any time.
-        visionPortal.setProcessorEnabled(aprilTag, true);
+        //builder.addProcessor(aprilTag);
+        //visionPortal = builder.build();
+        //visionPortal.setProcessorEnabled(aprilTag, true);
         if (VERBOSE >= 4) currOpMode.telemetry.addLine("AprilTagRecognition initialized");
 
 
@@ -128,12 +125,13 @@ public class AprilTagRecognition {
                 double y_offset = Math.cos(Math.toRadians(angle)) * detection.ftcPose.range;
                 double x_offset = Math.sin(Math.toRadians(angle)) * detection.ftcPose.range;
 
+
                 sumX += x_offset + aprilTagPose.x;
                 sumY += y_offset + aprilTagPose.y;
                 sumAngle += angle;
                 if (VERBOSE >= 4)
-                    currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos: X:%6.2f, Y:%6.2f, rot:%6.2f", x_offset, y_offset, angle));
-            }
+                    currOpMode.telemetry.addLine(String.format(Locale.US, "Bot-Pos-to-tag: X:%6.2f, Y:%6.2f, rot:%6.2f", x_offset, y_offset, angle));
+            }       currOpMode.telemetry.addLine(String.format(Locale.US, "baring: %6.2f, yaw: %6.2f, range: %6.2f", detection.ftcPose.bearing, detection.ftcPose.yaw, detection.ftcPose.range));
         }
         double averageX     = sumX / count;
         double averageY     = sumY / count;

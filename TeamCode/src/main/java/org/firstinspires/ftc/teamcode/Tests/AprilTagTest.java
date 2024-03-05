@@ -12,7 +12,7 @@ public class AprilTagTest extends LinearOpMode{
     @Override
     public void runOpMode() {
         Robot robot = new Robot(DrivePeriod.DRIVER, true, 0.5, this, Systems.ROBOT, Systems.WHEELS, Systems.IMU);
-        AprilTagRecognition tags             = new AprilTagRecognition(this);
+        AprilTagRecognition tags = new AprilTagRecognition(this);
         Controller  driverController = new Controller(gamepad1);
         Position2D botPosition = new Position2D(0, 0, 0);
         try {
