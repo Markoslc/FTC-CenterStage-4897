@@ -121,7 +121,7 @@ public class AprilTagRecognition {
                 }
             }
             if (detection.metadata != null && aprilTagPose != null) {
-                double angle    = detection.ftcPose.bearing - detection.ftcPose.yaw + aprilTagPose.angle;
+                double angle    = detection.ftcPose.yaw;  //detection.ftcPose.bearing - detection.ftcPose.yaw + aprilTagPose.angle;
                 double y_offset = Math.cos(Math.toRadians(angle)) * detection.ftcPose.range;
                 double x_offset = Math.sin(Math.toRadians(angle)) * detection.ftcPose.range;
 

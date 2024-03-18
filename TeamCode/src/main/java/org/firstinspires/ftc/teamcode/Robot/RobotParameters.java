@@ -46,10 +46,10 @@ public class RobotParameters {
     public static final String FRONT_RIGHT_STR = "frontRight";
     public static final String BACK_LEFT_STR = "backLeft";
     public static final String BACK_RIGHT_STR = "backRight";
-    public static final boolean FRONT_LEFT_REVERSED = true;
-    public static final boolean FRONT_RIGHT_REVERSED = false;
-    public static final boolean BACK_LEFT_REVERSED = false;
-    public static final boolean BACK_RIGHT_REVERSED = true;
+    public static final boolean FRONT_LEFT_REVERSED = false;
+    public static final boolean FRONT_RIGHT_REVERSED = true;
+    public static final boolean BACK_LEFT_REVERSED = true;
+    public static final boolean BACK_RIGHT_REVERSED = false;
     public static final double WHEEL_DIAMETER_MM = 99;
     public static final double WHEEL_PPR = ((1 + ((double) 46 / 17))) * (1 + ((double) 46 / 11)) * 28;
     public static final int WHEEL_RPM = 312;
@@ -82,15 +82,14 @@ public class RobotParameters {
     //
     // Lift
     //
-    public static final String LEFT_LIFT_STR = "leftLift";
-    public static final String RIGHT_LIFT_STR = "rightLift";
-    public static final boolean LEFT_LIFT_REVERSED = true;
-    public static final boolean RIGHT_LIFT_REVERSED = true;
-    public static final int LIFT_UP_POSITION = 2500;
-    public static final int LIFT_HANGING_POSITION = 5;
+    public static final String LIFT_STR = "lift";
+    public static final boolean LIFT_REVERSED = false;
+    public static final int LIFT_UP_POSITION = 1600;
+    public static final int LIFT_HANGING_POSITION = 900;
+    public static final int LIFT_REST_POSITION = 5;
 
     public enum LiftPositions {
-        UP, HANG
+        UP, HANG, REST
     }
 
     //

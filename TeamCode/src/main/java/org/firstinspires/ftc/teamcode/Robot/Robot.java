@@ -1,46 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_POSITION_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ARM_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ArmPositions;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_LEFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.BACK_RIGHT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ClawPositions;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_ARM_POWER;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_DRIVE_MODE;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KD;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KI;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DEFAULT_WHEEL_KP;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DriveMode;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.DrivePeriod;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_LEFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.FRONT_RIGHT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_DEFAULT_PARAMS;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.IMU_TOLERANCE_DEGREES;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_CLAW_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_CLAW_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_LIFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LEFT_LIFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.LiftPositions;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.MAX_WHEEL_VELOCITY;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_LAUNCH_POS;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REST_POS;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.PLANE_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_CLAW_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_CLAW_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_LIFT_REVERSED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.RIGHT_LIFT_STR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.ROTATION_POWER_MULTIPLIER;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.SIDE_POWER_PERFECTION_MULTIPLIER;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.Systems;
-import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.WHEELS_POSITION_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.Robot.RobotParameters.*;
 
 import androidx.annotation.Nullable;
 
@@ -74,11 +34,11 @@ public class Robot {
     private final  PIDProfile    frontRController;
     private final  PIDProfile    backLController;
     private final  PIDProfile    backRController;
-    */
+
     private        PIDController frontLController;
     private        PIDController frontRController;
     private        PIDController backLController;
-    private        PIDController backRController;
+    private        PIDController backRController;*/
     //
     // Arm
     //
@@ -91,9 +51,7 @@ public class Robot {
     // Lift
     //
 
-    private DcMotorEx leftLift;
-    private DcMotorEx rightLift;
-
+    private DcMotorEx lift;
 
     //
     // Claws
@@ -206,12 +164,12 @@ public class Robot {
 
                     WHEEL_KP = DEFAULT_WHEEL_KP;
                     WHEEL_KI = DEFAULT_WHEEL_KI;
-                    WHEEL_KD = DEFAULT_WHEEL_KD;
+                    WHEEL_KD = DEFAULT_WHEEL_KD;/*
 
                     frontLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
                     frontRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
                     backLController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-                    backRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+                    backRController = new PIDController(WHEEL_KP, WHEEL_KI, WHEEL_KD);*/
 
                     this.wheelPower = wheelPower;
                     break;
@@ -222,7 +180,7 @@ public class Robot {
 
                     arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-                    arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
                     arm.setTargetPosition(0);
 
@@ -233,26 +191,19 @@ public class Robot {
                     arm.setPower(0);
                     break;
                 case LIFT:
-                    leftLift = opMode.hardwareMap.get(DcMotorEx.class, LEFT_LIFT_STR);
-                    rightLift = opMode.hardwareMap.get(DcMotorEx.class, RIGHT_LIFT_STR);
+                    lift = opMode.hardwareMap.get(DcMotorEx.class, LIFT_STR);
 
-                    leftLift.setDirection(LEFT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
-                    rightLift.setDirection(RIGHT_LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
+                    lift.setDirection(LIFT_REVERSED ? DcMotorEx.Direction.REVERSE : DcMotorEx.Direction.FORWARD);
 
-                    leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-                    rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                    lift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-                    leftLift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-                    rightLift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    lift.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
-                    leftLift.setTargetPosition(0);
-                    rightLift.setTargetPosition(0);
+                    lift.setTargetPosition(0);
 
-                    leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                    rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-                    leftLift.setPower(0);
-                    rightLift.setPower(0);
+                    lift.setPower(0);
                     break;
                 case CLAWS:
                     leftClaw = opMode.hardwareMap.get(Servo.class, LEFT_CLAW_STR);
@@ -299,17 +250,13 @@ public class Robot {
                     break;
                 case ARM:
                     arm.setPower(DEFAULT_ARM_POWER);
+                    arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     break;
+                case LIFT:
+                    lift.setPower(1);
+                    lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
-
-
-
-        /*
-        leftLift.setPower(1);
-        rightLift.setPower(1);
-
-         */
     }
 
     public void sleep(long milliseconds) {
@@ -383,11 +330,9 @@ public class Robot {
                         }
                         break;
                     case LIFT:
-                        /*
-                        opMode.telemetry.addData("L Lift busy:", leftLift.isBusy());
-                        opMode.telemetry.addData("R Lift busy:", rightLift.isBusy());
-                        opMode.telemetry.addData("L Lift power:", leftLift.getPower());
-                        opMode.telemetry.addData("R Lift power:", rightLift.getPower());
+                        opMode.telemetry.addData("Lift busy:", lift.isBusy());
+                        opMode.telemetry.addData("Lift power:", lift.getPower());
+                        opMode.telemetry.addData("Lift position:", lift.getCurrentPosition());
                         switch (currLiftPosition) {
                             case UP:
                                 opMode.telemetry.addLine("Lift direction: Up");
@@ -396,12 +341,10 @@ public class Robot {
                                 opMode.telemetry.addLine("Lift direction: Hang");
                                 break;
                         }
-
-                         */
                         break;
                     case CLAWS:
-                        //opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
-                        //opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
+                        opMode.telemetry.addData("LeftClaw Position:", leftClaw.getPosition());
+                        opMode.telemetry.addData("RightClaw Position:", rightClaw.getPosition());
                         break;
                     case IMU:
                         opMode.telemetry.addData("IMU angle:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
@@ -462,7 +405,7 @@ public class Robot {
         double backLTargetVelocity  = 0;
         double backRTargetVelocity  = 0;
 
-        rotationPower *= ROTATION_POWER_MULTIPLIER;
+        rotationPower *= ROTATION_POWER_MULTIPLIER;/*
 
         switch (driveMode) {
             case ROBOT:
@@ -495,9 +438,9 @@ public class Robot {
                 backRPower = backRController.getPower(backRTargetVelocity, backR.getVelocity());
 
                 break;
-        }
+        }*/
 
-/*
+
         switch (driveMode) {
             case ROBOT:
                 frontLTargetVelocity = forwardPower + sidePower + rotationPower;
@@ -531,13 +474,13 @@ public class Robot {
                 break;
         }
 
- */
 
-        if (drivePeriod == DrivePeriod.TEST) {
+
+        if (drivePeriod == DrivePeriod.TEST) {/*
             frontLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
             frontRController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
             backLController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
-            backRController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);
+            backRController.updateCoefficients(WHEEL_KP, WHEEL_KI, WHEEL_KD);*/
 
             FtcDashboard dashboard = FtcDashboard.getInstance();
             Telemetry    telemetry = dashboard.getTelemetry();
@@ -884,12 +827,10 @@ public class Robot {
     public void moveLift() {
         switch (currLiftPosition) {
             case UP:
-                //leftLift.setTargetPosition(LIFT_UP_POSITION);
-                //rightLift.setTargetPosition(LIFT_UP_POSITION);
+                lift.setTargetPosition(LIFT_UP_POSITION);
                 break;
             case HANG:
-                //leftLift.setTargetPosition(LIFT_HANGING_POSITION);
-                //rightLift.setTargetPosition(LIFT_HANGING_POSITION);
+                lift.setTargetPosition(LIFT_HANGING_POSITION);
                 break;
         }
     }
@@ -908,14 +849,18 @@ public class Robot {
         }
     }
 
+    public void setLiftRestPosition(){
+        lift.setTargetPosition(LIFT_REST_POSITION);
+    }
+
     /**
      * waits for the lift to finish
      */
-    public void waitForLift() {/*
-        while (leftLift.isBusy() || rightLift.isBusy()) {
+    public void waitForLift() {
+        while (lift.isBusy()) {
             sleep(1);
         }
-        */
+
     }
 
     //
@@ -934,8 +879,8 @@ public class Robot {
         if (moveLeft) leftClawTargetPos = ClawPositions.leftClaw(clawPos);
         if (moveRight) rightClawTargetPos = ClawPositions.rightClaw(clawPos);
 
-        //leftClaw.setPosition(leftClawTargetPos);
-        //rightClaw.setPosition(rightClawTargetPos);
+        leftClaw.setPosition(leftClawTargetPos);
+        rightClaw.setPosition(rightClawTargetPos);
 
         if (individualWait != null && individualWait.length > 0 && individualWait[0]) {
             waitForSystem(50, Systems.CLAWS);

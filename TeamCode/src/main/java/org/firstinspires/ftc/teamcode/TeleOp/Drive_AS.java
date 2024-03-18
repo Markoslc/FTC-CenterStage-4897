@@ -17,7 +17,7 @@ public class Drive_AS extends LinearOpMode {
         Controller driverController   = new Controller(gamepad1);
         Controller operatorController = new Controller(gamepad2);
 
-        waitForStart();
+        while(!isStarted()) robot.update();
 
         robot.start();
 
@@ -60,6 +60,8 @@ public class Drive_AS extends LinearOpMode {
                 robot.setWheelPower(0.6);
             if (operatorController.b.onRelease())
                 robot.setWheelPower(1);
+
+            if (operatorController.y.singlePress()) robot.setLiftRestPosition();
 
             if (operatorController.leftBumper.pressed() && operatorController.rightBumper.pressed())
                 robot.launchPlane();
