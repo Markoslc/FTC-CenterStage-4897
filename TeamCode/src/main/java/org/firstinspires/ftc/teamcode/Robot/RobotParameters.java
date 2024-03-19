@@ -72,10 +72,10 @@ public class RobotParameters {
     //
     public static final String ARM_STR = "arm";
     public static final boolean ARM_REVERSED = true;
-    public static final double DEFAULT_ARM_POWER = 0.4;
-    public static final int ARM_LOAD_POS = -1900;
+    public static final double DEFAULT_ARM_POWER = 0.35;
+    public static final int ARM_LOAD_POS = 1850;
     public static final int ARM_REST_POS = 0;
-    public static final int ARM_SCORE_POS = -1100;
+    public static final int ARM_SCORE_POS = 1100;
     public static final int[] ArmPositions = new int[]{ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS};
     public static final int ARM_POSITION_TOLERANCE = 2;
 
@@ -103,7 +103,7 @@ public class RobotParameters {
     private static final double LEFT_CLAW_OPEN_POS = 0.5;
     private static final double LEFT_CLAW_FALL_POS = 0.1;
     private static final double RIGHT_CLAW_CLOSED_POS = 0.705;
-    private static final double RIGHT_CLAW_OPEN_POS = 0.5;
+    private static final double RIGHT_CLAW_OPEN_POS = 0.4;
     private static final double RIGHT_CLAW_FALL_POS = 0.1;
 
     public enum ClawPositions {
