@@ -21,7 +21,13 @@ public class BlueLongTeamProp extends LinearOpMode {
     public void runOpMode() {
         Robot               robot               = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
         TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.BLUE_ALLIANCE);
-        waitForStart();
+
+        while(!isStarted()){
+            telemetry.addData("Team prop position:", teamPropRecognition.getTeamPropPosition());
+            telemetry.update();
+        }
+
+        robot.start();
 
         TeamPropPosition teamPropPosition = teamPropRecognition.getTeamPropPosition();
 
@@ -70,15 +76,15 @@ public class BlueLongTeamProp extends LinearOpMode {
                 telemetry.addLine("Mode: LeftMode");
                 telemetry.update();
 
-                robot.moveForward(600, true);
+                robot.moveForward(650, true);
 
-                robot.turnAngleLeft(30);
+                robot.turnAngleLeft(50);
 
-                robot.moveBackward(300, true);
+                robot.moveBackward(500, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(300, true);
+                robot.moveForward(350, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 

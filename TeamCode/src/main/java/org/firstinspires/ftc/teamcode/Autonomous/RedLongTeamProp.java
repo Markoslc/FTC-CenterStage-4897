@@ -22,7 +22,12 @@ public class RedLongTeamProp extends LinearOpMode {
         Robot               robot               = new Robot(DrivePeriod.AUTONOMOUS, true, 0.6, this);
         TeamPropRecognition teamPropRecognition = new TeamPropRecognition(this, Alliance.RED_ALLIANCE);
 
-        waitForStart();
+        while(!isStarted()){
+            telemetry.addData("Team prop position:", teamPropRecognition.getTeamPropPosition());
+            telemetry.update();
+        }
+
+        robot.start();
 
         TeamPropPosition teamPropPosition = teamPropRecognition.getTeamPropPosition();
 
@@ -34,18 +39,18 @@ public class RedLongTeamProp extends LinearOpMode {
                 telemetry.update();
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(725, true);
+                robot.moveForward(700, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
-                robot.moveBackward(500, true);
+                robot.moveBackward(475, true);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(false, true, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(50, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
 
                 robot.turnAngleRight(-90);
 
-                robot.moveRight(250, true);
+                robot.moveRight(225, true);
 
                 robot.moveForward(3000, true);
 
@@ -89,7 +94,7 @@ public class RedLongTeamProp extends LinearOpMode {
 
                 robot.turnAngleRight(-90);
 
-                robot.moveRight(350, true);
+                robot.moveRight(300, true);
 
                 robot.moveForward(3000, true);
 
@@ -114,15 +119,15 @@ public class RedLongTeamProp extends LinearOpMode {
                 telemetry.addLine("Mode: RightMode");
                 telemetry.update();
 
-                robot.moveForward(550, true);
+                robot.moveForward(650, true);
 
-                robot.turnAngleRight(-30);
+                robot.turnAngleRight(-50);
 
-                robot.moveBackward(300, true);
+                robot.moveBackward(500, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(400, true);
+                robot.moveForward(350, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 

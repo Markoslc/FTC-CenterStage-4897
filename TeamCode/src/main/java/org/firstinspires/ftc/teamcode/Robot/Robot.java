@@ -247,6 +247,13 @@ public class Robot {
                     frontR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
                     backL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
                     backR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+                if(drivePeriod == DrivePeriod.AUTONOMOUS){
+                    frontL.setPower(wheelPower);
+                    frontR.setPower(wheelPower);
+                    backL.setPower(wheelPower);
+                    backR.setPower(wheelPower);
+                }
                     break;
                 case ARM:
                     arm.setPower(DEFAULT_ARM_POWER);

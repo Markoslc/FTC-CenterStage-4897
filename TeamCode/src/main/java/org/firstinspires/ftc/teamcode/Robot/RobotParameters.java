@@ -73,9 +73,9 @@ public class RobotParameters {
     public static final String ARM_STR = "arm";
     public static final boolean ARM_REVERSED = true;
     public static final double DEFAULT_ARM_POWER = 0.35;
-    public static final int ARM_LOAD_POS = 1850;
+    public static final int ARM_LOAD_POS = 1900;
     public static final int ARM_REST_POS = 0;
-    public static final int ARM_SCORE_POS = 1100;
+    public static final int ARM_SCORE_POS = 1250;
     public static final int[] ArmPositions = new int[]{ARM_REST_POS, ARM_SCORE_POS, ARM_LOAD_POS};
     public static final int ARM_POSITION_TOLERANCE = 2;
 
@@ -147,8 +147,8 @@ public class RobotParameters {
     //
     public static final String PLANE_STR = "plane";
     public static final boolean PLANE_REVERSED = false;
-    public static final double PLANE_REST_POS = 0.2;
-    public static final double PLANE_LAUNCH_POS = 0.6;
+    public static final double PLANE_REST_POS = 0.5;
+    public static final double PLANE_LAUNCH_POS = 0;
 
     //
     // Systems

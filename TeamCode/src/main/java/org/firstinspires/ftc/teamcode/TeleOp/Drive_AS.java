@@ -63,9 +63,11 @@ public class Drive_AS extends LinearOpMode {
 
             if (operatorController.y.singlePress()) robot.setLiftRestPosition();
 
-            if (operatorController.leftBumper.pressed() && operatorController.rightBumper.pressed())
+            if (operatorController.leftBumper.pressed() && operatorController.rightBumper.pressed()) {
+                telemetry.addLine("Plane launched");
+                telemetry.update();
                 robot.launchPlane();
-
+            }
             robot.update();
         }
     }
