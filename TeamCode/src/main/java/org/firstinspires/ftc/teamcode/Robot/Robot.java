@@ -655,7 +655,7 @@ public class Robot {
         } else currImuTargetAngle = angle;
 
         while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            turnLeft(50);
+            turnLeft(40);
 
             imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
@@ -678,7 +678,7 @@ public class Robot {
         } else currImuTargetAngle = angle;
 
         while (imuAngle > currImuTargetAngle + IMU_TOLERANCE_DEGREES || imuAngle < currImuTargetAngle - IMU_TOLERANCE_DEGREES) {
-            turnRight(50);
+            turnRight(40);
 
             imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }

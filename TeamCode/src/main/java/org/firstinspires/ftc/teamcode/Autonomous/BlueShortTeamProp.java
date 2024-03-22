@@ -39,7 +39,7 @@ public class BlueShortTeamProp extends LinearOpMode {
                 telemetry.update();
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(675, true);
+                robot.moveForward(700, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -52,9 +52,9 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.turnAngleLeft(90);
 
-                robot.moveRight(1050, true);
+                robot.moveRight(1100, true);
 
-                robot.moveForward(1200, true);
+                robot.moveForward(1050, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -62,7 +62,7 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.moveBackward(300, true);
 
-                robot.moveRight(1000, true);
+                robot.moveRight(1050, true);
 
                 robot.moveForward(600);
                 robot.moveArm(ARM_REST_POS);
@@ -77,11 +77,11 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.turnAngleLeft(25);
 
-                robot.moveBackward(300, true);
+                robot.moveBackward(250, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(400, true);
+                robot.moveForward(350, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -93,9 +93,9 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.moveForward(1300, true);
 
-                robot.moveRight(1200, true);
+                robot.moveRight(1175, true);
 
-                robot.moveForward(225, true);
+                robot.moveForward(275, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -105,7 +105,7 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.moveRight(1150, true);
 
-                robot.moveForward(500, true);
+                robot.moveForward(500);
                 robot.moveArm(ARM_REST_POS);
                 robot.moveClaws(true, false, ClawPositions.CLAWS_CLOSED);
                 robot.waitForSystem(20, Systems.CLAWS, Systems.WHEELS, Systems.ARM);
@@ -116,13 +116,13 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.moveForward(650, true);
 
-                robot.turnAngleRight(-50);
+                robot.turnAngleRight(-45);
 
                 robot.moveBackward(500, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(325, true);
+                robot.moveForward(300, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -133,7 +133,7 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.turnAngleLeft(90);
 
-                robot.moveForward(1300, true);
+                robot.moveForward(1075, true);
 
                 robot.moveRight(1000, true);
 
@@ -145,7 +145,7 @@ public class BlueShortTeamProp extends LinearOpMode {
 
                 robot.moveBackward(200, true);
 
-                robot.moveRight(1400, true);
+                robot.moveRight(1375, true);
 
                 robot.moveForward(400);
                 robot.moveArm(ARM_REST_POS);

@@ -82,7 +82,7 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(325, true);
+                robot.moveForward(300, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
@@ -97,7 +97,7 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveLeft(1050, true);
 
-                robot.moveForward(425, true);
+                robot.moveForward(300, true);
 
                 robot.moveArm(ARM_SCORE_POS, true);
 
@@ -118,13 +118,13 @@ public class RedShortTeamProp extends LinearOpMode {
 
                 robot.moveForward(350, true);
 
-                robot.turnAngleRight(-30);
+                robot.turnAngleRight(-25);
 
                 robot.moveBackward(200, true);
 
                 robot.moveArm(ARM_LOAD_POS, true);
 
-                robot.moveForward(325, true);
+                robot.moveForward(275, true);
 
                 robot.moveClaws(false, true, ClawPositions.CLAWS_FALL, true);
 
